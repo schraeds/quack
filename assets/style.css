@@ -33,10 +33,10 @@ img {
 	
 #sendinfo {
 	float: right;
-	margin: 30px 30px 0 0px;
+	margin: 27px 30px 0 0px;
 	height: 100%;
 	font-size: 28px;
-	line-height: 36px;
+	line-height: 38px;
 	color: white;
 	text-align: center;
 	}
@@ -45,6 +45,8 @@ img {
 	font-weight: bold;
 }
 
-number {
+#number {
 	font-weight: normal;
+	font-size: 32px;
+
 }
