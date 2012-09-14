@@ -1,0 +1,416 @@
+/*
+	Refined Pixel CSS
+	Copyright (c) 2009 Refined Pixel, Inc.  All rights reserved.
+	Layout Version 1.46
+*/
+
+/*	General Styling	*/
+
+body {
+	background: white;
+	font-family: "Trebuchet MS", verdana, sans-serif;
+	font-size: 14px;
+	line-height: 18px;
+	margin: 0;
+	padding: 0;
+}
+
+a:link {
+	color: #0E2C8E;
+}
+
+a:hover {
+	background: #baeb71;
+}
+
+a:visited {
+	color: #0E2C8E;
+}
+
+h1 {
+	color: #0E2C8E;
+	font-family: "Trebuchet MS", arial, verdana, sans-serif;
+	font-size: 18px;
+	margin: 20px 0 5px 0;
+	padding: 0;
+}
+
+h2 {
+	color: #0E2C8E;
+	font-family: "Trebuchet MS", arial, verdana, sans-serif;
+	font-size: 14px;
+	margin: 20px 0 5px 0;
+	padding: 0;
+}
+
+img {
+	border: none;
+}
+
+/*	Header & Navigation	*/
+
+#header {
+	margin: 0 auto;
+	background: url(images/header.png) top left repeat-x;
+	height: 137px;
+	width: 100%;
+}
+
+#header img {
+}
+
+#navigation {
+	position: relative;
+	width: 840px;
+	height: 40px;
+	padding: 0;
+	margin: 0 auto;
+	background: #00619c;
+}
+
+/*	Homepage	*/
+
+#home_showcase {
+	position: relative;
+	width: 820px;
+	height: 310px;
+	padding: 0;
+	margin: 0 auto;
+	background: #ffffff;
+}
+
+#websites_for_business {
+	position: relative;
+	width: 391px;
+	height: 179px;
+	padding-top: 25px;
+	padding-left: 40px;
+	float: left;
+}
+
+#imac {
+	position: relative;
+	width: 260px;
+	height: 261px;
+	padding-top: 15px;
+	padding-left: 89px;
+	float: left;
+}
+
+#home_separator	{
+	margin: 0 auto;
+	background: url(img/separator.gif) no-repeat center;
+	width: 740px;
+	height: 5px;
+	clear: left;
+	padding-top: 54px;
+}
+
+#home_wrapper {
+	position: relative;
+	width: 820px;
+	height: 280px;
+	padding: 0;
+	margin: 0 auto;
+	background: #ffffff;
+}
+
+#home_left_info {
+	text-align: justify;
+	position: relative;
+	width: 380px;
+	height: 215px;
+	padding-left: 40px;
+	padding-top: 10px;
+	margin: 0;
+	float: left;
+}
+	
+#home_right_info {
+	text-align: justify;
+	position: relative;
+	width: 260px;
+	height: 215px;
+	padding-right: 40px;
+	padding-top: 10px;
+	margin: 0;
+	float: right;
+}
+
+/*	Services Page	*/
+
+#services_showcase {
+	position: relative;
+	width: 820px;
+	padding: 0;
+	margin: 0 auto 30px auto;
+	background: #ffffff;
+}
+
+#left_containter {
+	position: relative;
+	width: 408px;
+	padding-top: 25px;
+	padding-left: 40px;
+	margin-bottom: 30px;
+	float: left;
+}
+
+#fusion_marketing {
+	text-align: justify;
+	position: relative;
+	width: 408px;
+	margin: 0;
+}
+
+#services_we_offer {
+	text-align: justify;
+	position: relative;
+	width: 408px;
+	padding-top: 23px;
+	margin: 0 0 20px 0;
+}
+
+#services_we_offer li {
+	margin: 2px 0 2px 0;
+}
+
+#services_separator	{
+	margin-top: 15px;
+	margin-left: 60px;
+	margin-right: 0;
+	margin-bottom: 30px;
+	background: #1ab800;
+	width: 1px;
+	height: 1290px;
+	float: left;
+}
+
+#what_you_get {
+	position: relative;
+	width: 260px;
+	margin: 0 0 40px 0;
+	padding-top: 25px;
+	padding-left: 20px;
+	float: left;
+}
+
+#what_you_get ul {
+	list-style-type: none;
+	padding: 0px;
+	margin-left: 2px;
+}
+
+#what_you_get li {
+	padding: 0px;
+	margin-top: -7px;
+	margin-bottom: 25px;
+	color: #0E2C8E;
+	font-style: italic;
+}
+
+/*	Portfolio Page	*/
+
+#portfolio_showcase {
+	background: url(/img/screenshot.gif) no-repeat center;
+	position: relative;
+	width: 820px;
+	height: 570px;
+	padding: 0;
+	margin: 0 auto;
+}
+
+#portfolio_text {
+	text-align: justify;
+	position: relative;
+	width: 425px;
+	padding-top: 171px;
+	margin-left: 182px;
+}
+
+/*	Contact Us Page	*/
+/*	ALSO SEE "/contact-us/dd-formmailer.css" file	*/
+
+#contact_us_showcase {
+	position: relative;
+	width: 820px;
+	height: 560px;
+	padding: 0;
+	margin: 0 auto;
+	background: #ffffff;
+}
+
+#contact_left {
+	position: relative;
+	width: 408px;
+	padding-top: 25px;
+	padding-left: 40px;
+	float: left;
+}
+
+#contact_us {
+	position: relative;
+	width: 408px;
+	margin: 0;
+}
+
+#contact_form {
+	position: relative;
+	width: 450px;
+	height: 430px;
+	margin-top: 0px;
+	margin-left: -60px;
+}
+
+#contact_form_wu {
+	position: relative;
+	width: 440px;
+	margin-top: : 10px;
+	margin-left: 0px;
+}
+
+#contact_separator	{
+	margin-top: 15px;
+	margin-left: 60px;
+	margin-right: 0;
+	margin-bottom: 0;
+	background: #1ab800;
+	width: 1px;
+	height: 550px;
+	float: left;
+}
+
+#contact_info {
+	text-align: justify;
+	position: relative;
+	width: 255px;
+	height: 350px;
+	padding-top: 25px;
+	padding-left: 20px;
+	float: left;
+}
+
+/*	Terms of Use Page	*/
+
+#terms_wrapper {
+	position: relative;
+	width: 820px;
+	padding: 0;
+	margin: 0 auto;
+}
+
+#terms {
+	text-align: justify;
+	position: relative;
+	width: 740px;
+	height: 660px;
+	padding-top: 12px;
+	padding-left: 40px;
+}
+
+/*	Admin Page	*/
+
+#admin_showcase {
+	position: relative;
+	width: 820px;
+	height: 520px;
+	margin: 0 auto;
+	background: #ffffff;
+}
+
+#admin {
+	position: relative;
+	width: 400px;
+	padding-top: 25px;
+	padding-left: 40px;
+	float: left;
+}
+
+#admin a {
+	text-decoration: none;
+	text-align: left;
+	font-size: 22px;
+	line-height: 30px;
+	margin-left: 10px;
+	vertical-align: top;
+}
+
+#admin a:hover {
+	background: #baeb71;
+}
+
+#admin_separator {
+	margin-top: 15px;
+	margin-left: 60px;
+	background: #1ab800;
+	width: 1px;
+	height: 470px;
+	float: left;
+}
+
+#admin_info {
+	text-align: justify;
+	position: relative;
+	width: 275px;
+	height: 350px;
+	padding-top: 25px;
+	padding-left: 20px;
+	float: left;
+}
+
+.location {
+	font-style:italic;
+	margin: 0 0 0 10px;
+}
+
+.phone {
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.fax {
+	font-size: 16px;
+	font-weight: bold;
+}
+
+/*	Footer	*/
+
+#footer {
+	position: relative;
+	margin: 0 auto;
+	background: #00619c;
+	height: 40px;
+	width: 840px;
+	text-align: left;
+	clear: left;
+}
+
+#footer-icon {
+	position: relative;
+	width: 30px;
+	height: 30px;
+	padding-left: 35px;
+	padding-top: 5px;
+	margin: 0;
+	float: left;
+}
+
+#footer-text {
+	position: relative;
+	padding-left: 35px;
+	padding-top: 11px;
+	margin: 0;
+	float: left;
+	color: #ffffff;
+}
+
+#footer-text a {
+color: #b5b5b5;
+}	
+
+#footer-shader {
+	margin: 0 auto;
+	background: url(img/shader.gif) no-repeat center;
+	height: 15px;
+	width: 840px;
+}
