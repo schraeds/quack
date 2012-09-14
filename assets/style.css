@@ -1,19 +1,19 @@
-/*	General Styling	*/
+/*	General	*/
 
 body {
 	background: white;
 	font-family: 'Open Sans', 'Carme', "Trebuchet MS", verdana, sans-serif;
-	font-size: 14px;
+	font-size: 48px;
 	line-height: 18px;
 	margin: 0;
 	padding: 0;
-}
+	}
 
 img {
 	border: none;
-}
+	}
 
-/*	Header & Navigation	*/
+/*	Header */
 
 #header {
 	margin: 0 auto;
@@ -25,7 +25,7 @@ img {
 #eventname {
 	position: absolute;
 	vertical-align: top;
-	margin: 57px 0 0 20px;
+	margin: 42px 0 0 20px;
 	font-size: 48px;
 	color: white;
 	}
@@ -33,26 +33,33 @@ img {
 #eventsub {
 	position: absolute;
 	vertical-align: top;
-	font-size: 24px;
+	margin: 96px 0 0 25px;
+	font-size: 28px;
 	color: white;
 	}
 	
 #sendinfo {
 	float: right;
-	margin: 27px 30px 0 0px;
+	margin: 34px 30px 0 0px;
 	height: 100%;
-	font-size: 28px;
-	line-height: 38px;
+	font-size: 32px;
+	line-height: 47px;
 	color: white;
 	text-align: center;
 	}
 	
 #prompt {
 	font-weight: bold;
-}
+	}
 
 #number {
 	font-weight: normal;
 	font-size: 32px;
-
-}
+	}
+	
+#main {
+	width: 1000px;
+	margin: 100px auto 0 auto;
+	text-align: center;
+	
+	}
