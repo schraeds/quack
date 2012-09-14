@@ -9,11 +9,13 @@
 	<meta name="author" content="Richard Garris and Sean Schraeder" />
 	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
 	<link rel="stylesheet" href="assets/style.css"/>
+	<link href='http://fonts.googleapis.com/css?family=Carme' rel='stylesheet' type='text/css'>
 </head>
 <body>
 
 <div id="header">
 	<img src="assets/logo.png"/>
+	<span id="eventname">Event Alpha</span>
 </div>
 
 <div id="main">
