@@ -2,7 +2,7 @@
 
 body {
 	background: white;
-	font-family: 'Carme', "Trebuchet MS", verdana, sans-serif;
+	font-family: 'Open Sans', 'Carme', "Trebuchet MS", verdana, sans-serif;
 	font-size: 14px;
 	line-height: 18px;
 	margin: 0;
@@ -30,3 +30,21 @@ img {
 	font-size: 48px;
 	color: white;
 	}
+	
+#sendinfo {
+	float: right;
+	margin: 30px 30px 0 0px;
+	height: 100%;
+	font-size: 28px;
+	line-height: 36px;
+	color: white;
+	text-align: center;
+	}
+	
+#prompt {
+	font-weight: bold;
+}
+
+number {
+	font-weight: normal;
+}

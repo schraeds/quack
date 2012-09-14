@@ -10,12 +10,14 @@
 	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
 	<link rel="stylesheet" href="assets/style.css"/>
 	<link href='http://fonts.googleapis.com/css?family=Carme' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
 </head>
 <body>
 
 <div id="header">
 	<img src="assets/logo.png"/>
 	<span id="eventname">Event Alpha</span>
+	<div id="sendinfo"><span id="prompt">Panel Questions? Text:</span><br/><span id="number">650.308.8522</span></div>
 </div>
 
 <div id="main">
