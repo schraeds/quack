@@ -1,10 +1,12 @@
 /*	General	*/
 
+html, body, #container { height: 100%; }
+body > #container { height: auto; min-height: 100%; }
+
 body {
 	background: white;
 	font-family: 'Open Sans', 'Carme', "Trebuchet MS", verdana, sans-serif;
 	font-size: 48px;
-	line-height: 18px;
 	margin: 0;
 	padding: 0;
 	}
@@ -13,7 +15,7 @@ img {
 	border: none;
 	}
 
-/*	Header */
+/*	Body */
 
 #header {
 	margin: 0 auto;
@@ -25,7 +27,7 @@ img {
 #eventname {
 	position: absolute;
 	vertical-align: top;
-	margin: 42px 0 0 20px;
+	margin: 18px 0 0 20px;
 	font-size: 48px;
 	color: white;
 	}
@@ -33,7 +35,7 @@ img {
 #eventsub {
 	position: absolute;
 	vertical-align: top;
-	margin: 96px 0 0 25px;
+	margin: 86px 0 0 25px;
 	font-size: 28px;
 	color: white;
 	}
@@ -43,7 +45,7 @@ img {
 	margin: 34px 30px 0 0px;
 	height: 100%;
 	font-size: 32px;
-	line-height: 47px;
+	line-height: 46px;
 	color: white;
 	text-align: center;
 	}
@@ -58,8 +60,36 @@ img {
 	}
 	
 #main {
-	width: 1000px;
+	width: 100%;
+	height: 100%;
 	margin: 100px auto 0 auto;
 	text-align: center;
+	font-size: 48px;
+	line-height: 80px;
+	padding-bottom: 12px;
+	}
 	
+#item1 {
+	opacity: 1.0;	
+	}
+
+#item2 {
+	opacity: .4;	
+	}
+
+#item3 {
+	opacity: .25;	
+	}
+	
+#item4 {
+	opacity: .15;	
+	}
+
+#footer {
+	background: url(footer.png) bottom left repeat-x;
+	clear: both;
+	position: relative;
+	z-index: 10;
+	height: 12px;
+	margin-top: -12px;
 	}
