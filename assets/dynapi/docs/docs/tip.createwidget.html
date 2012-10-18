@@ -1,0 +1,499 @@
+<!doctype html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title> DynAPI Documentation </title>
+<link rel="stylesheet" type="text/css" href="../include/dynapi.css">
+</head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" width="100%">
+  <tr>
+    <td width="38%"><img border="0" src="../images/dynapi.gif"></td>
+    <td width="62%" align="right">
+      <p align="right"><a href="../index.html" style="text-decoration:none"><img border="0" src="../images/home.gif" align="absmiddle" width="22" height="19">&nbsp;Home</a>
+    </td>
+  </tr>
+  <tr>
+    <td width="100%" colspan="2" align="left">
+<hr size="1" color="#C0C0C0">
+    </td>
+  </tr>
+</table>
+<h1>How to create Widgets</h1>
+<p>
+&nbsp;
+</p>
+<h3>
+Introduction&nbsp;
+</h3>
+<p>There's no standard widget model as yet, but the model use in this tutorial will be close to the final solution. For those of you who have no idea what I'm talking about (widgets? what's that!?): Widgets can also be referred to as components, some examples of widgets are buttons, toolbars, checkboxes, labels, etc. Basically a widget is a small component that can be used in a website or web application for a specific task (usually based on, but not limited to, some sort of navigation).
+</p>
+<p>
+In this part of the tutorial we'll create a "simple" button widget using almost everything we learned: creating layers, child layers, and eventlisteners.
+</p>
+<h3>
+A clean cut widget
+</h3>
+<p>
+First thing I'll show you how the widget model looks, create a new blank Javascript file (no html tags or script tags required):
+</p>
+<pre>
+	function WidgetName(html,x,y,w,h) {
+		this.DynLayer = DynLayer;
+		this.DynLayer(html,x,y,w,h);</pre>
+<pre>	}
+	var p = dynapi.setPrototype('DynLayer','WigdetName');
+</pre>
+<p>
+The above code is the code needed to create a widget object. If you copy and paste this code simply do a search on
+WidgetName and replace it with the name of your new widget.
+</p>
+<p>
+As you can see we use the standard Javascript way of creating a new Object using the function() method. The first three lines create a new instance of the DynLayer, in older widget specs this wasn't done and could cause problems when using multiple widgets of the same type.
+</p>
+<p>
+The line:
+</p>
+<pre>
+	var p = dynapi.setPrototype('WigdetName','DynLayer');
+</pre>
+<p>
+is very important; this line makes our widget a child-class of the DynLayer, or in other words our widget is an advanced DynLayer. The fact that our widget is an advanced DynLayer means that our widget will contain all methods of the DynLayer (e.g.:
+setLocation(), setSize(), ect).
+</p>
+<h3>
+The Button
+</h3>
+<p>
+Now that we've been introduced to the widget model, let's make our first widget. For now I'll skip the events so that we can concentrate on the appearance of the button. Our button will be a standard windows like gray-button with highlighted borders to give it a 3D look. When creating the button the user can specify a set of default parameters for the
+x,y position, width, height and the caption of the button:
+</p>
+<pre>function Button(x,y,w,h,caption) {
+	this.Dynlayer=DynLayer;
+	this.Dynlayer(null,x,y,w,h);
+
+	this.caption=caption||'';
+	this.onPreCreate(Button.PreCreate);
+
+	this.onCreate(function() { this.addEventListener(Button.listener); });
+}
+var p = dynapi.setPrototype('Button','DynLayer');
+</pre>
+<p>
+As you can see, the parameters that are supplied to the button are directly passed onto the DynLayer, this way we don't have to do extra settings or checks because the DynLayer will take care of it.&nbsp;
+</p>
+<p>
+<img border="0" src="../images/tip.gif" width="16" height="16"> <b>Tip:</b> You
+should always try to avoid passing to many arguments inside the constructor as
+this makes it difficult for programmers to remember the arguments:
+</p>
+<p>
+For example: Button(x,y,w,h,caption,image,tip,bgcolor,font,fontcolor) is much
+more complicated than say Button(x,y,w,h,caption).
+</p>
+<p>
+Another thing to note is the arrangement of your arguments. It's best to place
+the most frequently used arguments to the left and the less frequently used ones
+to the right. In this way a user can easily by-pass the optional arguments.
+</p>
+<p>
+For example If the caption argument is the most frequently used argument then we
+could rearrange the Button widget to read Button(caption,x,y,w,h):
+</p>
+<pre>// using Button(caption,x,y,w,h)
+var btn = new Button('Hello',10,10); //  this is much easier to write
+
+// using Button(x,y,w,h,caption)
+var btn = new Button(10,10,null,null,'Hello');</pre>
+<p>&nbsp;
+</p>
+<h3>
+Precreation time
+</h3>
+<p>
+The above code is only the constructor of our object, it specified size, position and other values. The main part of our widget will be done at precreation time. Since our widget is a child-class of the DynLayer object, there will always be an
+<em>PreCreate()</em> function triggered just before the widget is finalised (e.g.: <em>document.addChild(widget)</em> will call
+the PreCreate() before the layer is really generated) this is where we'll do the widget building.
+</p>
+<p>
+We'll add a precreate function to the widget object that will take care of the onPreCreate
+calls.&nbsp;
+</p>
+<pre>Button.PreCreate = function() {
+	this.setBgColor('#c0c0c0')	// make the widget look gray
+
+	// create child layer for caption
+	this.addChild(new DynLayer(null,1,1,this.w-2,this.h-2),'dyncaption');
+	this.dyncaption.setHTML('&lt;center&gt;'+this.caption+'&lt;/center&gt;');
+
+	// add 3D looking borders at the edges of the widget
+
+	this.BorderL=new DynLayer(null,0,0,1,this.h,'#f0f0f0');
+	this.BorderT=new DynLayer(null,0,0,this.w,1,'#f0f0f0');
+	this.BorderR=new DynLayer(null,this.w-1,1,1,this.h-1,'#808080');
+	this.BorderB=new DynLayer(null,1,this.h-1,this.w-1,1,'#808080');
+
+	this.addChild(this.BorderL);
+	this.addChild(this.BorderT);
+	this.addChild(this.BorderR);
+	this.addChild(this.BorderB);
+
+	this.setVisible(true); // make sure the widget is visible
+}
+</pre>
+<p>
+WOW, that's alot! Don't worry, if you look at the code you'll see it's not really that interesting. We create
+a PreCreate() function and we add it to the widget using the onPreCreate function. The first
+few lines in our PreCreate function are used to create the layer's appearance:
+</p>
+<pre>
+	this.setBgColor('#c0c0c0');
+</pre>
+<p>
+Then we add a child layer called dyncaption
+</p>
+<pre>
+	this.addChild(new DynLayer(null,1,1,this.w-2,this.h-2),'dyncaption');
+</pre>
+<p>
+and we set the caption of the button in it using the setHTML code:
+</p>
+<pre>
+	this.dyncaption.setHTML('&lt;center&gt;'+this.caption+'&lt;/center&gt;')
+</pre>
+<p>
+Finally to make the button look 3D we add 4 edge layers, first the left layer, then the top layer, and finally the right and bottom layers.
+</p>
+<p>
+Note that the PreCreate function is not part of the prototype, but part of the object. This is to insure that sub-classes don't overwrite or use the same
+function.
+</p>
+<p>
+One important thing is to add this function to the object. This is done in the constructor:
+</p>
+<pre>
+	this.onPreCreate(Button.onPreCreate)
+</pre>
+<h3>
+Creation time
+</h3>
+<p>
+When our widget is created there will be an onCreate() function triggered. At this time the button event listener <i>Button.listener</i> is added. This is accomplished by the last line of constructor code:
+</p>
+<pre>
+        this.onCreate(function() { this.addEventListener(Button.listener); });
+</pre>
+<p>
+Event listener code for the button is defined later in this tutorial.
+</p>
+<h3>
+Let me see it!
+</h3>
+<p>
+You won't believe it, but we just created a widget! It is a very useless widget, because there are no events yet.
+</p>
+<p>
+Let's use the following example to show our widget:
+</p>
+<pre>&lt;html&gt;
+&lt;head&gt;&lt;title&gt;DynAPI Tutor - Button widget&lt;/title&gt;
+&lt;script language=&quot;Javascript&quot; src=&quot;../src/dynapi.js&quot;&gt;&lt;/script&gt;
+&lt;script language=&quot;Javascript&quot;&gt;
+	dynapi.library.setPath('../src/');
+	dynapi.library.include('dynapi.api');
+&lt;/script&gt;
+&lt;script language=&quot;Javascript&quot;&gt;</pre>
+<pre>	//The widget (later we include it as a .js file)
+	function Button(x,y,w,h,caption) {
+		this.Dynlayer=DynLayer;
+		this.Dynlayer(null,x,y,w,h);
+
+		this.caption=caption||'';
+		this.OnPreCreate(Button.PreCreate);
+
+        	//this.onCreate(function() { this.addEventListener(Button.listener); });
+	}
+	var p = dynapi.setPrototype('Button','DynLayer');
+	Button.PreCreate = function() {
+		this.setBgColor('#c0c0c0')	// make the widget look gray
+
+		// create child layer for caption
+		this.addChild(new DynLayer(null,1,1,this.w-2,this.h-2),'dyncaption');
+		this.dyncaption.setHTML('&lt;center&gt;'+this.caption+'&lt;/center&gt;');
+
+		// add 3D looking borders at the edges of the widget
+
+		this.BorderL=new DynLayer(null,0,0,1,this.h,'#f0f0f0');
+		this.BorderT=new DynLayer(null,0,0,this.w,1,'#f0f0f0');
+		this.BorderR=new DynLayer(null,this.w-1,1,1,this.h-1,'#808080');
+		this.BorderB=new DynLayer(null,1,this.h-1,this.w-1,1,'#808080');
+
+		this.addChild(this.BorderL);
+		this.addChild(this.BorderT);
+		this.addChild(this.BorderR);
+		this.addChild(this.BorderB);
+
+		this.setVisible(true); // make sure the widget is visible
+	}
+	
+	myButton=new Button(100,100,80,23,'Ok')
+	dynapi.document.addChild(myButton);
+</pre>
+<pre>&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+<h3>
+Adding events
+</h3>
+<p>
+As you can see from the example this button is not really active. The next thing we need to do is make it an interactive button, to do this we add an <a href="http://dynapi.sourceforge.net/doccenter/index.php?EventListener">EventListener</a> to the button that will listen for mouse events. The following code is a rewrite of our
+PreCreate code:
+</p>
+<pre>Button.PreCreate = function() {
+	this.setBgColor('#c0c0c0')	// make the widget look gray
+
+	// create child layer for caption
+	this.addChild(new DynLayer(null,1,1,this.w-2,this.h-2),'dyncaption');
+	this.dyncaption.setHTML('&lt;center&gt;'+this.caption+'&lt;/center&gt;');
+
+	// add 3D looking borders at the edges of the widget
+
+	this.BorderL=new DynLayer(null,0,0,1,this.h,'#f0f0f0');
+	this.BorderT=new DynLayer(null,0,0,this.w,1,'#f0f0f0');
+	this.BorderR=new DynLayer(null,this.w-1,1,1,this.h-1,'#808080');
+	this.BorderB=new DynLayer(null,1,this.h-1,this.w-1,1,'#808080');
+
+	this.addChild(this.BorderL);
+	this.addChild(this.BorderT);
+	this.addChild(this.BorderR);
+	this.addChild(this.BorderB);
+
+	this.setVisible(true); // make sure the widget is visible
+
+	// add layer for event handling
+	this.dynevents = new DynLayer(null,0,0,o.w,o.h); 
+	this.addChild(this.dynevents);
+}
+</pre>
+<p>
+Now add the following code to define our listener :
+</p>
+<pre>Button.listener = {
+	onmousedown : function(e) { // add onmousedown handler
+		var o=e.getSource()
+		// switch colors to make the button look pressed
+		o.BorderL.setBgColor('#808080')
+		o.BorderR.setBgColor('#f0f0f0')
+		o.BorderT.setBgColor('#808080')
+		o.BorderB.setBgColor('#f0f0f0')
+	},
+	onmouseup : function(e) {
+		var o=e.getSource()
+		// switch colors to make the button look normal
+		o.BorderL.setBgColor('#f0f0f0')
+		o.BorderR.setBgColor('#808080')
+		o.BorderT.setBgColor('#f0f0f0')
+		o.BorderB.setBgColor('#808080')
+	}
+}</pre>
+<p>
+I'll probably have to explain some of the code. First the changes in the PreCreate
+function consist of adding a new child layer to take care of a text-selection bug, this is because we have a caption layer that contains text. Without this cover layer the user is capable of selecting the text on the button. That's not desired as it won't look like a "real" button.
+</p>
+<p>
+The next part we just added were some new events.
+</p>
+<p>
+In the <em>onmousedown</em> handler we do a little trick with the border edges, we change the colors of the edges so that the button looks pressed, and in the <em>onmouseup</em> handler we restore the original colors again. So now we have a working button that can be clicked on.
+</p>
+<h3>
+Invoking events
+</h3>
+<p>
+So now we have a nice looking button, but when the user clicks the button it's probably very important to do something. There are two ways of implementing this. All my "old" widgets use simple functions to handle the events, but seeing that all other Dynlayers and DynAPI objects use event listeners, I guess we should use it as well. Overwrite the <em>onmouseup</em> handler with the following code:
+</p>
+<pre>onmouseup  : function(e) {
+	var o=e.getSource()
+	// switch colors to make the button look normal
+	o.BorderL.setBgColor('#f0f0f0')
+	o.BorderR.setBgColor('#808080')
+	o.BorderT.setBgColor('#f0f0f0')
+	o.BorderB.setBgColor('#808080')
+
+	o.invokeEvent(&quot;pressed&quot;) // new line to invoke the onpressed() event
+}
+</pre>
+<p>
+That tiny little line we just added will make it possible to write an event handler for the button and do stuff when the <em>onpressed</em> event is triggered. One question you might have is why in the <em>onmouseup</em>? Well let's think about it, when you press a button in windows95 (or another GUI operating system), is it doing anything? No, it will only execute code when you release your mouse button, so that's why we have to invoke the onpressed after the mouse button is released. There are a few other reasons as well, like alert messages and other mouse events that can cause troubles, but I won't go into them here.. Just trust me on this one :)
+</p>
+<p>
+Addition: The invoking is of course not really needed, we could easily add another listener to the button that simply listens to the <em>onmouseup</em> event. But this example should show you that you could make more powerful widgets by invoking your own events that are needed by your widgets (i.e.: <em>onrepaint</em>,
+<em>onfocus</em>, etc..).
+</p>
+<h3>
+<a name="fullcode">Full code</a>
+</h3>
+<p>
+Here's the full button code which is also a new <a href="../../examples/tip.createwidget.button.html">example</a> showing two buttons with event listeners:
+</p>
+<pre>&lt;html&gt;
+&lt;head&gt;&lt;title&gt;DynAPI tutor - button widget&lt;/title&gt;
+&lt;Script language=&quot;Javascript&quot; src=&quot;../src/dynapi.js&quot;&gt;&lt;/script&gt;
+&lt;script language=&quot;Javascript&quot;&gt;
+	dynapi.library.setPath('../src/');
+	dynapi.library.include('dynapi.api');
+&lt;/script&gt;
+&lt;script language=&quot;Javascript&quot;&gt;
+</pre>
+<pre>	// The widget (later we include it as a .js file)
+	function Button(x,y,w,h,caption) {
+		this.Dynlayer=DynLayer;
+		this.Dynlayer(null,x,y,w,h);
+
+		this.caption=caption||'';
+		this.onPreCreate(Button.PreCreate);
+
+		this.onCreate(function() { this.addEventListener(Button.listener); });
+	}
+	var p = dynapi.setPrototype('Button','DynLayer');
+	Button.PreCreate = function() {
+		this.setBgColor('#c0c0c0')	// make the widget look gray
+
+		// create child layer for caption
+		this.addChild(new DynLayer(null,1,1,this.w-2,this.h-2),'dyncaption');
+		this.dyncaption.setHTML('&lt;center&gt;'+this.caption+'&lt;/center&gt;');
+
+		// add 3D looking borders at the edges of the widget
+
+		this.BorderL=new DynLayer(null,0,0,1,this.h,'#f0f0f0');
+		this.BorderT=new DynLayer(null,0,0,this.w,1,'#f0f0f0');
+		this.BorderR=new DynLayer(null,this.w-1,1,1,this.h-1,'#808080');
+		this.BorderB=new DynLayer(null,1,this.h-1,this.w-1,1,'#808080');
+
+		this.addChild(this.BorderL);
+		this.addChild(this.BorderT);
+		this.addChild(this.BorderR);
+		this.addChild(this.BorderB);
+
+		this.setVisible(true); // make sure the widget is visible
+
+		// add layer for event handling
+		this.dynevents = new DynLayer(null,0,0,this.w,this.h); 
+		this.addChild(this.dynevents);
+
+	};
+	Button.listener = {
+		onmousedown : function(e) { // add onmousedown handler
+			var o=e.getSource();
+			// switch colors to make the button look pressed
+			o.BorderL.setBgColor('#808080');
+			o.BorderR.setBgColor('#f0f0f0');
+			o.BorderT.setBgColor('#808080');
+			o.BorderB.setBgColor('#f0f0f0');
+		},
+		onmouseup : function(e) {
+			var o=e.getSource();
+			// switch colors to make the button look normal
+			o.BorderL.setBgColor('#f0f0f0');
+			o.BorderR.setBgColor('#808080');
+			o.BorderT.setBgColor('#f0f0f0');
+			o.BorderB.setBgColor('#808080');
+	
+			o.invokeEvent(&quot;pressed&quot;); // new line to invoke the onpressed() event
+		}
+	}
+
+	myListener = {
+		onpressed : function(e) {
+			var o=e.getSource();
+			alert('You hit '+o.caption+'!')
+		}
+	}
+
+	myButton = new Button(100,100,80,23,'Ok');
+	myButton.addEventListener(myListener);
+
+	myButton2 = new Button(180,100,80,23,'Cancel');
+	myButton2.addEventListener(myListener);
+
+	dynapi.document.addChild(myButton);
+	dynapi.document.addChild(myButton2);</pre>
+<pre>&lt;/script&gt;
+&lt;/head&gt;
+&lt;body bgcolor=#d0d0d0&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+<h3>
+External .js file
+</h3>
+<p>
+Once we have our widget working, we want to save it in an external .js file.
+Firstly we create a new folder for our own widgets, here:
+</p>
+<pre>
+	../src/ownwidgets
+</pre>
+<p>
+and save our new widget file there, called button.js
+</p>
+<p>
+Note that this is the same level as the "dynapi" folder.
+Then we add a new package to the library:
+</p>
+<pre>var p = dynapi.libary.path;
+dynapi.library.addPackage('dynapi.ownwidgets',p);
+dynapi.library.add('dynapi.ownwidgets.Button','button.js','DynLayer');</pre>
+<pre>// note the above codes could be added to the ext/packages.js file
+</pre>
+<p>
+To include this file in our document, the first part of our file will look like this:
+</p>
+<pre>&lt;html&gt;
+&lt;head&gt;&lt;title&gt;DynAPI  Tutor - Button Widget&lt;/title&gt;
+&lt;Script language=&quot;Javascript&quot; src=&quot;../src/dynapi.js&quot;&gt;&lt;/script&gt;
+&lt;Script language=&quot;Javascript&quot;&gt;
+	dynapi.library.setPath('../src/');
+	dynapi.include('dynapi.api');
+	dynapi.include('dynapi.ownwidgets.Button');
+&lt;/script&gt;
+
+</pre>
+<h3>
+Overwriting methods
+</h3>
+<p>
+One of the things you might encounter when creating widgets is the problem of having to rewrite a method like <em>setSize()</em> or
+<em>setLocation()</em>. The problem you'll be facing is that you can't call the DynLayer's original code from your widget. The solution I present here is probably the shortest. When overwriting a method, just make a new method that references the old one like this:
+</p>
+<pre>myWidget.prototype.myWidgetsetSize = DynLayer.prototype.setSize;
+myWidget.prototype.setSize = function(w,h) {
+	// do some checking or things
+	this.myWidgetsetSize(w,h)
+}
+</pre>
+<p>
+As you can see I first create a new method called <em>myWidgetsetSize()</em> which references the original DynLayer's <em>setSize()</em>. Then I can always call that method to make the original setSize code work. One thing you should make sure about is the naming scheme of the method. Make sure to put the widget's name into the method name, so that you won't have any conflicts with other widgets (or sub-classes).
+</p>
+<p>
+There are other ways of overwriting this, there's a <em>SuperClass()</em> object created by Brandon Myers that can be used in a Java-like way to reference the parent, but I believe this is the simplest way of doing it without using extra code.
+</p>
+<h3>
+Last words
+</h3>
+<p>
+I know this part probably needs reading a few more times, but if you understand the things explained in the previous parts, there's not much new stuff here. Try playing with the button widget, maybe add some <em>onfocus</em> event to it when the mouse is over it, and add a "flat" style to it, so that when the mouse is not over it, the borders do not show.
+</p>
+<p>
+Once you understand the basics of widgets, there's a lot you can do with them.&nbsp;
+</p>
+<p>
+Original Author: <a href="http://dynapi.sourceforge.net/doccenter/index.php?Pascal%20Bestebroer">Pascal Bestebroer</a>
+</p>
+<p>Modified By: Raymond Irving
+</p>
+</body>
+</html>

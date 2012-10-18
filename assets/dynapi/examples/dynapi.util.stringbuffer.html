@@ -1,0 +1,53 @@
+<html>
+<head>
+<title>DynAPI Examples - String Buffer</title>
+<script src="../src/dynapi.js" language="javascript"></script>
+<script>
+<!--
+	dynapi.library.setPath('../src/');
+	dynapi.library.include('StringBuffer');
+//-->
+</script>
+<script>
+<!--
+	function noStringBuff(){
+		var src='',din=new Date();
+		for (var i=0;i<2000;i++){
+			d=" svcsvadvnvdv gdg rgr gr gr grgrg <br>";
+			src+=d;
+		}
+		var dout=new Date();
+		document.forms['frm'].txtno.value=(dout-din);
+	};
+	function stringBuff(){
+		var src='',din=new Date();
+		hs=new StringBuffer();
+		for (var i=0;i<2000;i++){
+			d="svcsvadvnvdv gdg rgr gr gr grgrg <br>";
+			hs.add(d);
+		}
+		src=hs.toString();
+		var dout=new Date();
+		document.forms['frm'].txthyp.value=(dout-din);
+	};
+//-->
+</script>
+</head>
+<body>
+<form name=frm>
+<font face=arial size=3><b>String Buffer</b> - Try this test page in NS4 to see some real results</font>
+<hr>
+<font face=arial size=3>
+WITHOUT String Buffer (2000 loops @ 37 chars/loop = 74,000 chars):<br>
+Time:<input type=text size=10 name=txtno> milli-seconds<br>
+<input type=button onclick="noStringBuff()" value="Start">
+<p>&nbsp;</p>
+WITH String Buffer (2000 loops @ 37 chars/loop = 74,000 chars):<br>
+Time:<input type=text size=10 name=txthyp> milli-seconds<br>
+<input type=button onclick="stringBuff()" value="Start">
+</font>
+</form>
+</body>
+</html>
+
+

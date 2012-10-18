@@ -1,0 +1,36 @@
+<html>
+<head>
+<title>DynAPI Examples - HTML TextBox</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.api');
+dynapi.library.include('TemplateManager');
+dynapi.library.include('HTMLTextBox');
+</script>
+<script language="Javascript">
+
+var tp = new Template('This is the Template:<center><form><table border="1" width="150"><tr><td align="center">User Name<br>{@fld} Password<br>{@fld1}</td></tr></table></form></center>',100,100,250,200,'#EEEEEE');
+var t1 = new HTMLTextBox(null,'Mary Brown');
+var t2 = new HTMLTextBox(null,'password',20,10,true);
+t1.setReadOnly(true);
+t1.addEventListener({
+	onkeyup:function(e){
+		var o=e.getSource();
+		status='User entered:'+o.getText();
+	}
+});
+
+
+tp.addChild(t1,'fld');
+tp.addChild(t2,'fld1');
+dynapi.document.addChild(tp);
+
+</script>
+</head>
+<body>
+<script>
+	dynapi.document.insertAllChildren();
+</script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<html>
+<head>
+<title>DynAPI Examples - DataSource Basics</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.api');
+dynapi.library.include('dynapi.functions');
+dynapi.library.include('dynapi.util.IOElement');
+dynapi.library.include('dynapi.util.DataSource');
+</script>
+<script language="Javascript">
+var ds= new DataSource();
+ds.setSource('dynapi.util.datasource-testfile.html','GET');
+ds.connect(OnDSConnect);
+ds.addEventListener({
+	onalert: function(e,errMsg){
+		var o=e.getSource();
+		if(errMsg.indexOf('DataSource: Server Timeout')>=0) {
+			var c,t;
+
+			// IE only - used to display page content of a failed response.
+			var elm=o.ioelement.getScope();
+			if (!(dynapi.ua.ie && elm.document && !elm.document._tranState)) t='';
+			else t='------\n'+elm.document.body.innerText;
+
+			c=confirm(errMsg+'\n\nWould you like to retry the operation?\n\n'+t);
+			if(c) o.retry();
+		}
+	}
+});
+
+function OnDSConnect(ds,s,errMsg){
+	if(s!=true) {
+		var c,t;
+
+		// IE only - used to display page content of a failed response.
+		var elm=ds.ioelement.getScope();
+		if (!(dynapi.ua.ie && elm.document && !elm.document._tranState)) t='';
+		else t='------\n'+elm.document.body.innerText;
+
+		c=confirm(errMsg+'\n\nWould you like to retry the operation?\n\n'+t);
+		if(c) ds.retry();
+		return;
+	}
+	ds.moveFirst();
+};
+
+var lyr,lid,lname;
+
+lyr = new DynLayer(null,10,50,18,25,'#eeeeee');
+lid = new DynLayer(null,30,50,180,25,'#eeeeee');
+lname = new DynLayer(null,30,77,180,25,'#eeeeee');
+
+
+// bound layer to the user_id field
+lid.setDataSource(ds,'user_id');
+
+// bound layer to the full_name field
+lname.setDataSource(ds,'full_name');
+
+// bound layer to the dataRowIndex field
+lyr.setDataSource(ds,'dataRowIndex');
+// overwrite _setDSValue
+lyr._setDSValue=function(d){
+	this.setHTML((d+1)+'');
+}
+
+dynapi.document.addChild(lid);
+dynapi.document.addChild(lname);
+dynapi.document.addChild(lyr);
+
+</script>
+</head>
+
+<body>
+<font face="arial" size="2">
+<a href="javascript:void(null)" onclick="ds.moveFirst()">&lt;&lt; First</a>&nbsp;|&nbsp;
+<a href="javascript:void(null)" onclick="ds.movePrev()">&lt; Prev</a>&nbsp;|&nbsp;<b>[</b>&nbsp;
+<a href="javascript:void(null)" onclick="ds.addRecord()">Add</a>&nbsp;|&nbsp;
+<a href="javascript:void(null)" onclick="ds.submit()">Submit</a>&nbsp;<b>]</b>&nbsp;
+<a href="javascript:void(null)" onclick="ds.moveNext()">Next &gt;</a>&nbsp;|&nbsp;
+<a href="javascript:void(null)" onclick="ds.moveLast()">Last &gt;&gt;</a>
+</font>
+<script>
+	dynapi.document.insertAllChildren();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!doctype html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>DynAPI - Quick Reference</title>
+<link rel="stylesheet" type="text/css" href="../include/dynapi.css">
+</head>
+
+<body bgcolor="#FFFFFF">
+
+<table border="0" width="100%">
+  <tr>
+    <td width="38%"><img border="0" src="../images/dynapi.gif"></td>
+    <td width="62%" align="right">
+      <p align="right"><a href="../index.html" style="text-decoration:none"><img border="0" src="../images/home.gif" align="absmiddle" width="22" height="19">&nbsp;Home</a> | <a href="quickref.html" style="text-decoration:none">Quick Reference</a>
+    </td>
+  </tr>
+  <tr>
+    <td width="100%" colspan="2" align="left">
+<hr size="1" color="#C0C0C0">
+    </td>
+  </tr>
+  <tr>
+    <td width="100%" colspan="2" align="left">
+
+<h1><font color="#800000">dynapi.gui.GroupManager - </font>Quick Reference</h1>
+    </td>
+  </tr>
+</table>
+
+<table border="0" width="100%">
+  <tr>
+    <td width="100%"><p align="right"><font color="#008000"><b><i>Requires: </i> </b></font><i><a href="quickref.dynlayer.html">DynLayer</a></i><i>,<b><font color="#008000">
+      Inherit: </font> </b></i><i><a href="quickref.eventobject.html">EventObject</a>&nbsp;</i></p>
+    </td>
+  </tr>
+  <tr>
+    <td width="100%">
+      <hr size="1" color="#C0C0C0">
+    </td>
+  </tr>
+</table>
+<h2>Constructor</h2>
+<p><b>GroupManager</b>() - Used to group layers or widgets&nbsp;</p>
+<hr>
+<h2>Events</h2>
+<p>[none]</p>
+<hr>
+<h2>Public Methods</h2>
+<p><b>add</b>(dlyr[,unlockX,unlockY]) - Adds a layer,&nbsp; widget or an existing group to the
+selected group. Indicate if the X or Y axis are locked for this layer,
+defaults to locked.</p>
+<p>example:</p>
+<pre>var gm = new GroupManager();
+var lyr = dynapi.document.addChild(new DynLayer(null,100,100,100,100,'red'))
+gm.add(lyr);
+</pre>
+<p><b>changeLocationBy</b>(byX,byY)&nbsp; - Moves the group by X or Y pixels on
+the screen.</p>
+<p><b>remove</b>(dlyr) - Removes a layer, widget or an existing group to the
+selected group.</p>
+<p><b>sendMessage</b>(msg,a1,a2,a3,a4,a5,a6,a7) - Sends a message to all objects
+within the group.</p>
+<p>example:</p>
+<pre>gm.sendMessage('setBgColor','#FFCC00');
+gm.sendMessage('setHTML','Hello!');</pre>
+<p><b>setBoundary</b>(t,r,b,l) - Sets the a boundary for grouped objects.</p>
+<pre>t - Top
+r - right  (width)
+b - Bottom (height)
+l - left</pre>
+<p>example:</p>
+<pre>gm.setBoundary(0,600,200,0);</pre>
+<p>Note: Calling setBoundary(null) will remove the boundary settings from the
+group</p>
+
+<p><b>unlockX</b>(boolean[,layer]) - unlock the X axis for all layers
+or the optional specified layer.</p>
+<p><b>unlockY</b>(boolean[,layer]) - unlock the Y axis for all layers
+or the optional specified layer.</p>
+<p><b>unlockXY</b>(boolean[,layer]) - unlock the X & Y axies for all
+layers or the optionally specified layer.</p>
+<p><b>getUnlockX</b>([layer]) - Return the unlock state for the X axis
+for either the specified layer or all layers. If the state is
+consistent across all layers, a simple true or false is returned. If
+there is a mixture, an array of the states is returned.</p>
+<p><b>getUnlockY</b>([layer]) - Return the unlock state for the Y axis
+for either the specified layer or all layers. If the state is
+consistent across all layers, a simple true or false is returned. If
+there is a mixture, an array of the states is returned.</p>
+<p><b>setUnlockXState</b>(values) - Given the results of getUnlockX,
+apply the returned state to all of the children.</p>
+<p><b>setUnlockYState</b>(values) - Given the results of getUnlockY,
+apply the returned state to all of the children.</p>
+
+<p><b>setLocation</b>(x,y) - Sets the location of the group.</p>
+<hr>
+<h2>Private Methods</h2>
+<p><b>_setSize(dlyr)</b></p>
+<p><b>_resetSize()</b></p>
+<hr>
+<h2>Static Methods</h2>
+<p><b>GroupManager._NewSetLocation(x,y)</b></p>
+</body>
+</html>

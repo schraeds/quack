@@ -1,0 +1,39 @@
+<html>
+<head>
+<title>DynAPI Examples - HTML File</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.api');
+dynapi.library.include('TemplateManager');
+dynapi.library.include('HTMLButton');
+dynapi.library.include('HTMLFile');
+</script>
+<script language="Javascript">
+
+var t  = 'This is the Template:<center><form><table border="1" width="150"><tr><td align="center">{@file}{@btnfile}<br><br>{@btnsend}</td></tr></table></form></center>';
+var tp = new Template(t,100,100,350,200,'#EEEEEE');
+
+// it seems that only IE supports the hidden mode
+tp.addChild(new HTMLFile(null,((dynapi.ua.ie)? true:false),20),'file');
+tp.addChild(new HTMLButton(null,'Upload'),'btnsend');
+tp.btnsend.onclick = function(e){
+	alert('About to upload file "'+tp.file.getFileName()+'"');
+};
+
+if(dynapi.ua.ie) {
+	tp.addChild(new HTMLButton(null,'Select a file'),'btnfile');
+	tp.btnfile.addEventListener({
+		onclick:function(e){ tp.file.browse() }
+	});
+};
+dynapi.document.addChild(tp);
+
+</script>
+</head>
+<body>
+<script>
+	dynapi.document.insertAllChildren();
+</script>
+</body>
+</html>

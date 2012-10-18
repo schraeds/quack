@@ -1,0 +1,36 @@
+<html>
+<head>
+<title>DynAPI Examples - RadioButton</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+	dynapi.library.setPath('../src/');
+	dynapi.library.include('dynapi.api');
+	dynapi.library.include('RadioButton');
+</script>
+<script language="Javascript">
+
+	rad0=new RadioButton('Red',100,100,100,16,null,true)
+	rad1=new RadioButton('Yellow',100,115,100,16)
+	rad2=new RadioButton('Blue',100,130,100,16)
+	rad3=new RadioButton('Female',0,0,100,16)
+	rad4=new RadioButton('Male',0,15,100,16)
+
+	mylayer=new DynLayer(null,200,200,100,50)
+
+	dynapi.document.addChild(rad0)
+	dynapi.document.addChild(rad1)
+	dynapi.document.addChild(rad2)
+
+	DynAPI.document.addChild(mylayer)
+
+	mylayer.addChild(rad3)
+	mylayer.addChild(rad4)
+
+</script>
+</head>
+<body bgcolor="#ffffff">
+<script>
+	dynapi.document.insertAllChildren();
+</script>
+</body>
+</html>

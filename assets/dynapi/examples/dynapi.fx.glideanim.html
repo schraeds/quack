@@ -1,0 +1,67 @@
+<html>
+<head>
+<title>DynAPI Examples - Glide Animation (Path Animation)</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.api');
+dynapi.library.include('dynapi.debug');
+dynapi.library.include('PathAnimation');
+dynapi.library.include('GlideAnimation');
+</script>
+<script language="Javascript">
+
+DynAPI.onLoad(init);
+function init() {
+	block = new DynLayer();
+	block.setSize(20,20);
+	block.setLocation(200,100);
+	block.setBgColor("red");
+
+	squarePath = new PathAnimation(block);
+	squarePath.sleep(20);
+	var p = GlideAnimation(200,100,400,100,7,'slow','slow');
+	p = p.concat( GlideAnimation(400,100,400,200,7,'slow','slow') );
+	p = p.concat( GlideAnimation(400,200,200,200,7,'slow','slow') );
+	p = p.concat( GlideAnimation(200,200,200,100,7,'slow','slow') );
+	squarePath.add(p,true);
+
+	var listener = {}
+	listener.onpathstart = function(e) {
+		DynAPI.debug.print("start");
+	}
+	listener.onpathrun = function(e) {
+		var o = e.getSource();
+		DynAPI.debug.print("play "+o.x+" "+o.y);
+	}
+	listener.onpathfinish = function(e) {
+		var o = e.getSource();
+		DynAPI.debug.print("stop "+o.x+" "+o.y);
+	}
+	block.addEventListener(listener);
+
+	dynapi.document.addChild(block);
+}
+
+//-->
+</script>
+</head>
+
+<body bgcolor="#999999">
+
+<p>Square Slide:
+<br><a href="javascript://" onclick="squarePath.playAnimation(); return false;">start</a>
+<br><a href="javascript://" onclick="squarePath.stopAnimation(); return false;">pause</a>
+
+<p>SlideTo:
+<br>(<a href="javascript://" onclick="block.glideTo(200,100); return false;">200,100</a>) slow,slow
+<br>(<a href="javascript://" onclick="block.glideTo(400,100); return false;">400,100</a>) slow,slow
+<br>(<a href="javascript://" onclick="block.glideTo(400,200); return false;">400,200</a>) slow,slow
+<br>(<a href="javascript://" onclick="block.glideTo(200,200); return false;">200,200</a>) slow,slow
+
+<p>(<a href="javascript://" onclick="block.glideTo(100,100,5,20,'fast','slow'); return false;">100,100</a>) fast,slow
+<br>(<a href="javascript://" onclick="block.glideTo(50,400,5,20,'slow','fast'); return false;">50,400</a>) slow,fast
+<br>(<a href="javascript://" onclick="block.glideTo(0,0,5,20,'fast','fast'); return false;">0,0</a>) fast fast
+
+</body>
+</html>

@@ -1,0 +1,38 @@
+<html>
+<head>
+<title>DynAPI Examples - Blackboard</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/');
+dynapi.library.include('DynLayer');
+</script>
+<script language="Javascript">
+
+var cnt=0;
+var lyr=new DynLayer(null,100,100,200,200,'yellow');
+lyr.addChild(new DynLayer({x:10,y:10,html:'child layer',color:'lime'}));
+lyr.enableBlackboard();
+dynapi.document.addChild(lyr);
+
+function change(w,h){
+	var h;
+	w=w||100;
+	h=h||100;
+	cnt++;
+	h='<table width="'+w+'" height="'+h+'" border="1"><tr><td bgcolor="#e0e0e0" align="center">Some Text Here'
+	+'</td></tr></table>';
+	lyr.setHTML(h);
+}
+
+change();
+
+</script>
+</head>
+<body>
+<script>
+	dynapi.document.insertAllChildren();
+</script>
+<a href="javascript:;" onclick="change(150,150)">Set Table Size 150,150</a><br>
+<a href="javascript:;" onclick="change(200,200)">Set HTML 200,200</a>
+</body>
+</html>

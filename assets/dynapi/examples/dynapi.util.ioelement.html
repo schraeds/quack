@@ -1,0 +1,65 @@
+<html>
+<head>
+<title>DynAPI Examples - I/O Element</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.debug');
+dynapi.library.include('dynapi.api');
+dynapi.library.include('IOElement');
+</script>
+<script language="Javascript">
+
+var d = dynapi.document.addChild(new DynLayer('',150,90,400,300,'white'));
+
+// create a hidden IOElement
+// you do not have to add the IOElement to dynapi.document manually
+// it is done automatically when "true" is passed to the constructor
+hidden_io = new IOElement(true);
+
+// create a visible IOElement
+// shows a layer/iframe element inside the dynlayer
+yellow_io = new IOElement();
+yellow_io.setLocation(50,50);
+yellow_io.setSize(300,200);
+yellow_io.setBgColor('yellow');
+
+dynapi.onLoad(init);
+function init() {
+	// works better in IE if created on the fly
+	// a later version may only be created this way
+	d.addChild(yellow_io);
+}
+
+function loadtest(ioelement) {
+	var fn = function(e, success) {
+		if (success) {
+			var o = e.getSource();
+			var boolValue = o.getVariable('boolValue');
+			var randValue = o.getVariable('randValue');
+			var myValue = o.getVariable('myValue');
+			alert('IOElement load handler found these values:\nboolValue = ' + boolValue+'\n'+
+			'randValue = ' + randValue+'\n'+
+			'myValue = ' + myValue);
+		}
+	}
+	var data = {
+		myvalue : "my Name, is 'IOElement'"
+	}
+	ioelement.get("dynapi.util.ioelement-testfile.html",data,fn);
+}
+
+</script>
+</head>
+<body bgcolor="#999999">
+
+Load "dynapi.util.ioelement-testfile.html" into:<br>
+<a href="javascript:loadtest(hidden_io)">hidden IOElement</a><br>
+<a href="javascript:loadtest(yellow_io)">visible IOElement (yellow)</a>
+
+<script>
+dynapi.document.insertAllChildren();
+</script>
+
+</body>
+</html>

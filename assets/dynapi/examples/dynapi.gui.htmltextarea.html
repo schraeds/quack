@@ -1,0 +1,33 @@
+<html>
+<head>
+<title>DynAPI Examples - HTML TextArea</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.api');
+dynapi.library.include('TemplateManager');
+dynapi.library.include('HTMLTextArea');
+dynapi.library.include('FlashSound');
+</script>
+<script language="Javascript">
+
+fs = new FlashSound();
+fs.setSWF("images/sndfx.swf");
+HTMLComponent.setFlashSound(fs); // Set FlashSound object for all HCs
+
+var t='Some text text here and here';
+var tp = new Template('This is the Template:<center><form><table border="1" width="150"><tr><td align="center">Enter Some Text:<br>{@fld}</td></tr></table></form></center>',100,100,250,200,'#EEEEEE');
+tp.addChild(new HTMLTextArea(null,t),'fld');
+tp.fld.sndOnKeypress = '/type@start';
+tp.fld.setWrap(true);
+
+dynapi.document.addChild(tp);
+
+</script>
+</head>
+<body>
+<script>
+	dynapi.document.insertAllChildren();
+</script>
+</body>
+</html>

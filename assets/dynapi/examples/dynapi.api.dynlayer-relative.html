@@ -1,0 +1,24 @@
+<html>
+<head>
+<title>DynLayer Examples - Relative DynLayers</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.api.DynLayer');
+</script>
+<script language="Javascript">
+
+var lyr1=dynapi.document.addChild(new DynLayer('Hello',0,0,100,30,'yellow'))
+var lyr2=dynapi.document.addChild(new DynLayer('Everyone',0,0,100,30,'lime'))
+
+</script>
+</head>
+
+<body>
+<p>Some html here, some more html here some html here, some more html here. some more html here some  html here, some more html here. Some more html here some html here, some more html here. some more html here some html here, some more html here. some more html here some html here, some more html here.</p>
+<script>dynapi.document.insertChild(lyr1,'relative');</script>
+<p>Some html here, some more html here some html here, some more html here. some more html here some  html here, some more html here. Some more html here some html here, some more html here. some more html here some html here, some more html here. some more html here some html here, some more html here.</p>
+<script>dynapi.document.insertChild(lyr2,'relative');</script>
+</body>
+</html>
+

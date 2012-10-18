@@ -1,0 +1,26 @@
+<html>
+<head>
+<title>getContentWidth speed test</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.api');
+</script>
+<script>
+var doc=dynapi.document;
+for(var i=0;i<200;i++) doc.addChild(new DynLayer(null,100,100,100,100,'yellow'),'lyr'+i);
+dynapi.onLoad(function() {
+  var d1=new Date(),w;
+  for(var i=0;i<200;i++) doc['lyr'+i].getContentWidth();
+  var d2=new Date();
+  document.frm.txt.value=i+' getContentWidth() in '+(d2-d1)+' ms';
+});
+</script>
+</head>
+<body>
+<form name="frm">Speed:<input size="50" name="txt" value="loading..."></form>
+<script>
+	dynapi.document.insertAllChildren();
+</script>
+</body>
+</html>

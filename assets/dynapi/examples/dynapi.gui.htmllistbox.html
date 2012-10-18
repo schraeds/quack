@@ -1,0 +1,78 @@
+<html>
+<head>
+<title>DynAPI Examples - HTML Listbox</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.api');
+dynapi.library.include('TemplateManager');
+dynapi.library.include('HTMLListbox');
+dynapi.library.include('HTMLButton');
+</script>
+<script language="Javascript">
+
+var o={
+	mng:'Mangos',
+	car:'Carrots',
+	plu:'Plums',
+	apl:'Apples',
+	prs:'Pears',
+	org:'Oranges',
+	grp:'Grapes',
+	pep:'Pepper'
+};
+
+var t = 'This is the Template:<center><form><table border="0" width="250"><tr><td colspan="3">Select fruits or vegetables:</td></tr><tr><td align="center">{@lst1}</td><td align="center"	>{@btn1}<br>{@btn2}</td><td align="right">{@lst2}&nbsp;</td></tr><tr><td align="right" colspan="3">{@btn3}&nbsp;</td></tr></table></form></center>';
+var tp = new Template(t,100,100,300,200,'#EEEEEE');
+tp.addChild(new HTMLListbox(null,o),'lst1');
+tp.lst1.setMultiSelect(true);
+tp.lst1.addEventListener({
+	onchange:function(e){
+		var o=e.getSource();
+		status = o.getSelected();
+	}
+});
+
+tp.addChild(new HTMLListbox(null),'lst2');
+tp.lst2.addItem('Melons','mel');
+
+tp.addChild(new HTMLButton(null,' > '),'btn1');
+tp.addChild(new HTMLButton(null,' < '),'btn2'); //'
+tp.addChild(new HTMLButton(null,'Sort List'),'btn3');
+
+tp.btn1.lstSrc = tp.lst1;
+tp.btn1.lstTar = tp.lst2;
+tp.btn2.lstSrc = tp.lst2;
+tp.btn2.lstTar = tp.lst1;
+
+var evt = {
+	onclick:function(e){
+		var itm,o=e.getSource();
+		var v=o.lstSrc.getSelected();
+		if(v) {
+			if(typeof(v)=='string') v=[v];
+			for(var i=0;i<v.length;i++){
+				itm = o.lstSrc.getItem(v[i]);
+				if(itm) o.lstTar.addItem(itm.text,itm.value);
+				o.lstSrc.removeItem(v[i]);
+			}
+		}
+	}
+}
+
+tp.btn1.addEventListener(evt);
+tp.btn2.addEventListener(evt);
+tp.btn3.onclick=function(e){
+	tp.lst2.sortBy('text',false);
+};
+
+dynapi.document.addChild(tp);
+
+</script>
+</head>
+<body>
+<script>
+	dynapi.document.insertAllChildren();
+</script>
+</body>
+</html>

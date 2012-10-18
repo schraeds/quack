@@ -1,0 +1,27 @@
+<html>
+<head>
+<title>DynAPI Examples - HTML Container</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.api');
+dynapi.library.include('TemplateManager');
+dynapi.library.include('HTMLContainer');
+</script>
+<script language="Javascript">
+
+var tp = new Template('This is the Template:<center><table border="1"><tr><td>Some text {@fld} More text</td></tr></table></center>',100,100,250,200,'lime');
+var hc = new HTMLContainer(null,'<font face="arial" size="4">Hello World</font>',180,50)
+tp.addChild(hc,'fld');
+dynapi.document.addChild(tp);
+
+setTimeout(tp.fld+'.setHTML("<font face=arial size=4>Hello World From <br><font color=blue><b>HTMLContainer</b></font></font>")',1200);
+
+</script>
+</head>
+<body>
+<script>
+	dynapi.document.insertAllChildren();
+</script>
+</body>
+</html>

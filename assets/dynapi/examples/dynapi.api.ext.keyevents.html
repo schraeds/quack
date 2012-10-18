@@ -1,0 +1,51 @@
+<html>
+<head>
+<title>DynAPI Examples - Key Events</title>
+<script language="Javascript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.api');
+dynapi.library.include('dynapi.api.ext.DynKeyEvent');
+</script>
+<script language="Javascript">
+<!--
+
+	var x=10,y=80;
+
+	myLayer = new DynLayer()
+
+	myLayer.setSize(400,80)
+	myLayer.setBgColor('#c0c0c0')
+	myLayer.setLocation(10,80)
+	myLayer.setHTML("Press any alphabetic keys to see it's keycode. <br>\n Press \'CTRL\' to move me.<br>And try and find the secret key ;).")
+
+
+	myListener = {
+
+		onkeyup : function(e) {
+			if (e.charKey=='s') alert('You\'ve found the secret key')
+			if ((e.charKey>='a')&&(e.charKey<='z')) alert('You pressed the key  \''+e.charKey+'\'.')
+		},
+
+		onkeydown : function(e) {
+			if (e.which==39) { x+=20;myLayer.setLocation(x,y);return true }
+			if (e.which==37) { x-=20;myLayer.setLocation(x,y);return true }
+			if (e.which==40) { y+=20;myLayer.setLocation(x,y);return true }
+			if (e.which==38) { y-=20;myLayer.setLocation(x,y);return true }
+			if (e.ctrlKey) { x+=20;y+=20;myLayer.setLocation(x,y);return true }
+			if (e.shiftKey) alert('SHIFT!');
+		}
+
+	}
+
+	dynapi.document.addEventListener(myListener);
+	dynapi.document.addChild(myLayer);
+
+//-->
+</script>
+</head>
+
+<body bgcolor="#ffffff">
+
+</body>
+</html>

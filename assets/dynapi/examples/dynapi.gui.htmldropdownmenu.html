@@ -1,0 +1,43 @@
+<html>
+<head>
+<title>DynAPI Examples - HTML Drop Down Menu</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.api');
+dynapi.library.include('TemplateManager');
+dynapi.library.include('HTMLDropDownMenu');
+dynapi.library.include('HTMLButton');
+</script>
+<script language="Javascript">
+
+var o={
+	'http://www.sourceforge.net':'SourceForge.net',
+	'http://dynapi.sourceforge.net':'DynAPI',
+	'http://javascript.internet.com':'JavaScript Source',
+	'http://www.w3c.org':'The World Wide Web Consortium (W3C)',
+	'http://www.linux.org':'The Linux Home Page',
+	'http://www.javascript-games.org/':'Javascript Games!',
+	'http://www.dannyg.com/pubs/jsb/index.html':'JavaScript Bible Series'
+};
+
+var t = 'This is the Template:<center><form><table border="0" width="310"><tr><td colspan="3">Select a website:<br>{@ddm} {@btnGo}</td></tr></table></form></center>';
+var tp = new Template(t,100,100,350,200,'#EEEEEE');
+tp.addChild(new HTMLButton(null,' > ','Click here to view site'),'btnGo');
+tp.addChild(new HTMLDropDownMenu(null,o),'ddm');
+tp.btnGo.addEventListener({
+	onclick:function(e){
+		alert(tp.ddm.getSelected());
+	}
+});
+
+dynapi.document.addChild(tp);
+
+</script>
+</head>
+<body>
+<script>
+	dynapi.document.insertAllChildren();
+</script>
+</body>
+</html>

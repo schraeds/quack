@@ -1,0 +1,63 @@
+<html>
+<head>
+<title>DynAPI Examples - ScrollBar</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+	dynapi.library.setPath('../src/');
+	dynapi.library.include('dynapi.api');
+	dynapi.library.include('ScrollBar');
+	dynapi.library.include('ButtonFlatStyle'); // (optional)
+	dynapi.library.include('ButtonImageStyle'); // (optional)
+</script>
+<script language="Javascript">
+
+	//Styles.addStyle('ScrollBarButton',ButtonFlatStyle);
+
+	vbar=new ScrollBar('vert',100,100,200,0,50)
+	vbar.setSmallChange(1);
+	vbar.setLargeChange(10);
+	vbar.onscroll=function(e){
+		status=vbar.getValue()
+	}
+
+	hbar=new ScrollBar('horz',150,100,100,1,50)
+	hbar.setSmallChange(1);
+	hbar.setLargeChange(5);
+	//hbar.setLocalStyleAttribute('backColor','#C0C0C0');
+	//hbar.btnUp.setStyle('ButtonFlat');
+	hbar.onscroll=function(e){
+		status=hbar.getValue();
+	}
+
+	dynapi.document.addChild(hbar)
+	dynapi.document.addChild(vbar)
+
+	var s = ButtonImageStyle();
+	s.setStyleAttribute('imageOff',dynapi.functions.getImage('images/btn_sbar_off.gif',16,16));
+	s.setStyleAttribute('imageOn',dynapi.functions.getImage('images/btn_sbar_on.gif',16,16));
+	Styles.addStyle('GreenButton',s);
+
+	var xbar = new ScrollBar('vert',120,100,200,0,150)
+	xbar.setLocalStyleAttribute('imageTrack',dynapi.functions.getImage('images/sbarbg.gif',16,16));
+	xbar.btnUp.setStyle('GreenButton');
+	xbar.btnDown.setStyle('GreenButton');
+	xbar.knob.setLocalStyleAttribute('backColor','#269A01');
+	xbar.knob.setLocalStyleAttribute('borderColor','green');
+	xbar.knob.setLocalStyleAttribute('lightColor','#53CE0F');
+	xbar.setSmallChange(1);
+	xbar.setLargeChange(10);
+	xbar.onscroll=function(e){
+		status=xbar.getValue()
+	}
+
+	dynapi.document.addChild(xbar)
+
+</script>
+</head>
+<body bgcolor="#ffffff">
+<a href="#" onclick="hbar.setSize(null,hbar.h+10)">Adjust Vert-bar Height</a>
+<script>
+	dynapi.document.insertAllChildren();
+</script>
+</body>
+</html>

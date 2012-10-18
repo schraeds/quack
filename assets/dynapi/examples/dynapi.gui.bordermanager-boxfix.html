@@ -1,0 +1,31 @@
+<html>
+<head>
+<title>DynAPI Examples - Box Model Fix (BorderManager)</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.api');
+dynapi.library.include('BorderManager');
+</script>
+<script language="Javascript">
+
+var lyr1 = dynapi.document.addChild(new DynLayer('',100,100,100,100,'yellow'));
+var lyr2 = dynapi.document.addChild(new DynLayer('',202,100,100,100,'lime'));
+
+lyr1.setBorder(1,'black','dotted');
+lyr2.setBorder(1,'silver','solid');
+
+// Note: NS4 will default to solid style
+//lyr1.setBorder({top:2,bottom:1},'black',{top:'solid',bottom:'dotted'});
+
+
+</script>
+</head>
+<body>
+<a href="" onclick="lyr2.setSize(lyr2.w+10,lyr2.h+10); return false;">increase</a><br>
+<a href="" onclick="lyr2.setSize(lyr2.w-10,lyr2.h-10); return false;">decrease</a>
+<script>
+	dynapi.document.insertAllChildren();
+</script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<html>
+<head>
+<title>DynAPI Examples - onCreate</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.api');
+</script>
+<script language="JavaScript" src="xlayer.js"></script>
+<script language="Javascript">
+
+var lyr,xlyr;
+var d1=new Date
+for (var i=0;i<100;i++){
+
+	if(!xlyr) lyr=xlyr=new DynLayer(i,10,10,200,200);
+	else xlyr=xlyr.addChild(new DynLayer('c'+i,10,10,200,200));
+
+
+	/*
+	// old way - no longer used
+	xlyr.addEventListener({
+		oncreate:function(e){
+			var o=e.getSource();
+			o.css.border="1 solid #FFFF00";
+		}
+	})
+	*/
+
+	// new way
+	xlyr.onCreate(function(){
+		this.css.border="1 solid #FFFF00";
+	})
+
+}
+
+dynapi.document.addChild(lyr);
+
+dynapi.onLoad(function(){
+	var d2=new Date
+	status=d2-d1
+	alert((d2-d1)+' ms')
+
+})
+
+</script>
+</head>
+<body bgcolor="#FFFFFF">
+
+<script>
+	dynapi.document.insertAllChildren();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,59 @@
+<html>
+<head>
+<title>DynAPI Examples - GroupManager</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+	dynapi.library.setPath('../src/');
+	dynapi.library.include('dynapi.library');
+	dynapi.library.include('dynapi.api');
+	dynapi.library.include('GroupManager');
+	dynapi.library.include('DragEvent');
+	dynapi.library.include('Color');
+</script>
+<script>
+
+	var gm=new GroupManager()
+
+	gm.addMethod("slideTo",DynLayer.prototype.slideTo);
+	gm.addMethod("slideStop",DynLayer.prototype.slideStop);
+	gm.addMethod("_slide",DynLayer.prototype._slide);
+
+	var a = gm.add(dynapi.document.addChild(new DynLayer(null,100,100,50,50,'red')))
+	var b = gm.add(dynapi.document.addChild(new DynLayer(null,210,0,50,50,'green')))
+
+	var e = dynapi.document.addChild(new DynLayer('<br><p align="center">E</p>',400,120,50,50,'#ffcc00'))
+
+	var c = gm.add(dynapi.document.addChild(new DynLayer(null,320,100,50,50,'blue')))
+	var d = gm.add(dynapi.document.addChild(new DynLayer(null,430,0,50,50,'Yellow')))
+
+	gm.setLocation(210,50);
+
+	gm.add(e,true,true)
+
+	DragEvent.enableDragEvents(a,b,c,d,e)
+
+</script>
+</head>
+<body>
+Drag anyone of the colored layers to move the group<br><br>
+Move to:<a href="javascript:gm.setLocation(100,100)">(100,100)</a> | <a href="javascript:gm.setLocation(300,200)">(300,200)</a><br>
+<a href="javascript:gm.slideTo(Math.floor(500*Math.random()),Math.floor(300*Math.random()))">SlideTo</a> | <a href="javascript:gm.sendMessage('slideTo(Math.floor(600*Math.random()),Math.floor(300*Math.random()))')">SlideTo Random</a><br><br>
+<a href="javascript:gm.sendMessage('setBgColor',dynapi.functions.getRandomColor());">Change Color</a><br>
+<a href="javascript:gm.sendMessage('setBgColor(dynapi.functions.getRandomColor())');">Random Colors</a><br><br>
+<a href="javascript:;" onclick="gm.setBoundary(0,dynapi.document.w,dynapi.document.h,0);">Set Boundary On</a><br>
+<a href="javascript:;" onclick="gm.setBoundary(null);">Set Boundary Off</a><br><br>
+<a href="javascript:;" onclick="gm.add(e);return false;">Add Layer E to Group</a><br>
+<a href="javascript:;" onclick="gm.remove(e)">Remove Layer E from Group</a> /
+<a href="javascript:;" onclick="e.setSize(Math.random()*200,Math.random()*200)">Resize E</a><br><br>
+Unlock Layer E Coordunates:<br>
+X Coor: <a href="javascript:;" onclick="gm.unlockX(false,e);return false;">Lock</a> | <a href="javascript:;" onclick="gm.unlockX(true,e);return false;">Unlock</a><br>
+Y Coor: <a href="javascript:;" onclick="gm.unlockY(false,e);return false;">Lock</a> | <a href="javascript:;" onclick="gm.unlockY(true,e);return false;">Unlock</a><br><br>
+Unlock All Layers X & Y Coordunates:<br>
+X Coor: <a href="javascript:;" onclick="gm.unlockX(false);return false;">Lock</a> | <a href="javascript:;" onclick="gm.unlockX(true);return false;">Unlock</a><br>
+Y Coor: <a href="javascript:;" onclick="gm.unlockY(false);return false;">Lock</a> | <a href="javascript:;" onclick="gm.unlockY(true);return false;">Unlock</a><br>
+
+<script>
+	dynapi.document.insertAllChildren();
+</script>
+</body>
+</html>

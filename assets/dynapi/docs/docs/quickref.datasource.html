@@ -1,0 +1,162 @@
+<!doctype html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title> DynAPI - Quick Reference</title>
+<link rel="stylesheet" type="text/css" href="../include/dynapi.css">
+</head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" width="100%">
+  <tr>
+    <td width="38%"><img border="0" src="../images/dynapi.gif"></td>
+    <td width="62%" align="right">
+      <p align="right"><a href="../index.html" style="text-decoration:none"><img border="0" src="../images/home.gif" align="absmiddle" width="22" height="19">&nbsp;Home</a> | <a href="quickref.html" style="text-decoration:none">Quick Reference</a>
+    </td>
+  </tr>
+  <tr>
+    <td width="100%" colspan="2" align="left">
+<hr size="1" color="#C0C0C0">
+    </td>
+  </tr>
+  <tr>
+    <td width="100%" colspan="2" align="left">
+
+<h1> <font color="#800000">dynapi.util.DataSource - </font>Quick Reference</h1>
+    </td>
+  </tr>
+</table>
+
+<table border="0" width="100%">
+  <tr>
+    <td width="100%">
+
+<p align="right"><i><b><font color="#008000">Inherit: </font></b><a href="quickref.eventobject.html">EventObject</a>, <b><font color="#008000">Requirements: </font></b>IOElement,
+IOElementSoda</i></p>
+    </td>
+  </tr>
+  <tr>
+    <td width="100%">
+      <hr size="1" color="#C0C0C0">
+    </td>
+  </tr>
+</table>
+<h2>Constructor</h2>
+<b>DataSource</b>(url, method, ioelement);<pre><u>url</u> 	  – URL of the Data Source;
+<u>method</u>	  – Method used to send data to Data Source. POST is the default
+<u>ioelement</u> - IOElement object used for send data to Data Source.</pre>
+<p>All arguments are optional. If no ioelement object was specified the
+IOElement.getSharedIO() object is used.</p>
+<hr>
+<h2>Events</h2>
+<p><b>onalert</b>(e) - Triggers whenever a warning or error has been
+generated.&nbsp;</p>
+<p><b>onrecordchange</b>(e) - Triggers whenever the record position changes. Do
+NOT call functions (such as moveFirst, moveNext, etc) that will change the
+record position of the database while you're inside this event.</p>
+<b>onresponse</b>(e,s) - Triggers
+      after a&nbsp; server response.
+<pre><u>e</u> - (EventObject)
+<u>s</u> - (Boolean) True is request was successful
+&nbsp;</pre>
+<b>onrequest</b>(e) - Triggers after a
+      request has been sent to the server.
+<pre><u>e</u> - (EventObject)&nbsp;</pre>
+<p>example:</p>
+<pre>var ds = new DataSource();
+ds.setSource('dynapi.util.datasource-paging.asp','GET');
+ds.connect(OnDSConnect,true,false);
+ds.addEventListener({
+	onrequest: function(e){
+		infoLyr.setHTML('Loading records...');
+	},
+	onresponse: function(e){
+		infoLyr.setHTML(' ');
+	}
+});</pre>
+<p><b>onsubmit</b>(e,s) - Triggered after data has been sent to the server. The
+s argument will be true is submitted data was successfully store.&nbsp;&nbsp;</p>
+<p><b>onvalidate</b>(e,data) - Triggered before data is sent&nbsp; to the
+server. The &quot;data&quot; argument contain field names and values to be submitted.
+See the <a href="../../examples/dynapi.util.datasource-forms.html">DataSource
+Forms</a> example for more information</p>
+<hr>
+<h2>Public Methods</h2>
+<p><b>addRecord</b>()&nbsp;</p>
+<p><b>cancelAction</b>(norefresh) - Cancels the
+      specified request.</p>
+<p>
+<b>connect</b>  (fn,useWebService,useSync,uid,pwd)</p>
+<p>
+<b>deleteRecord</b>()</p>
+<p>
+<b>getField</b>()</p>
+<p>
+<b>getAbsolutePage</b>()</p>
+<p>
+<b>getRecordPosition</b>()</p>
+<p>
+<b>getPageCount</b>()</p>
+<p>
+<b>getPageSize</b>()</p>
+<p>
+<b>getPageStart</b>()</p>
+<p>
+<b>getPageEnd</b>()</p>
+<p>
+<b>getRecordCount</b>()</p>
+<p>
+<b>getRecord</b>()</p>
+<p>
+<b>isEditMode</b>()</p>
+<p>
+<b>moveFirst</b>()</p>
+<p>
+<b>moveLast</b>()</p>
+<p>
+<b>moveNext</b>()</p>
+<p>
+<b>movePrev</b>()</p>
+<p>
+<b>refresh</b>(fld)</p>
+<p>
+<b>setAbsolutePage</b>(n)</p>
+<p>
+<b>setField</b>(fld,value)</p>
+<p>
+<b>setPageSize</b>(n)</p>
+<p>
+<b>setRecord</b>(data)</p>
+<p>
+<b>setRecordPosition</b>(n)</p>
+<p>
+<b>setSource</b>(url,method,ioelement)</p>
+<p>
+<b>submit</b>()</p>
+<hr>
+<h2>Private Methods</h2>
+<p>&nbsp;</p>
+<hr>
+<h2>Static Methods</h2>
+<p><b>DataSource.createBoundObject</b>(o,getfn,setfn) - Creates or converts an
+object into data bound object.&nbsp;</p>
+<pre>o	- Object to be converted
+getfn	- Function to be called when data is requested frm the object
+setfn	- Function to be called when data is to be written to the object</pre>
+<p>The setfn and getfn arguments are optional when creating a bound object for
+images or form elements such as input (i.e. text, textarea, etc), select, radio,
+checkbox, image</p>
+<p>example:</p>
+<pre>// convert an image into a data bound image object
+var img=document.images['imgIcon'];
+img=DataSource.createBoundObject(img);
+img.setDataSource(ds,'icon');
+ </pre>
+<p><b>DataSource.boundFormElements</b>(frm,ds) - This will convert form elements
+into data bound objects and assign the specified data source.</p>
+<pre>frm   - Form object
+ds    - DataSource to be assigned to form elements</pre>
+<p>example:</p>
+<pre>DataSource.boundFormElements(document.forms[&quot;myform&quot;],ds);
+</pre>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!doctype html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>DynAPI - Quick Reference</title>
+<link rel="stylesheet" type="text/css" href="../include/quickref.css" media="screen">
+<link rel="stylesheet" type="text/css" href="../include/quickref.css" media="print">
+</head>
+
+<body>
+	<div id="header">
+		<img border="0" src="../images/dynapi.gif" width="200" height="75">
+		<div>
+			<a href="../index.html"><img src="../images/home.gif" width="22" height="19">Home</a> | <a href="quickref.html">Quick Reference</a>
+		</div>
+	</div>
+    <h1><span class="object">dynapi.gui.panelbar</span> - Quick Reference</h1>
+	<div id="inherit"><span>Inherit:</span>  <a href="quickref.dynlayer.html">DynLayer</a></div>
+	<h2>Constructor</h2>
+	<dl>
+        <dt>
+        PanelBar(menulayer,contentlayer,menuheight,x,y,w,h,menuclass,contentclass,minimized)</dt>
+		<dd>menulayer - must be a layer <br>
+        contentlayer - must be a layer<br>
+        menuheight - number of pixels the menu should be (when minimized it will 
+        scrink to this value)<br>
+        menuclass / contentclass - these are the css name<br>
+        minimized - can be set to true/false, if true the PanelBaris created as a 
+        minimized PanelBar<br>
+        <br>
+        The menulayer should contain text or html and if the PanelBar should be 
+        able to minimize by the user (either by clicking on the images or the 
+        text) there should be {@min} somewhere in the html witch is replaced by 
+        the PanelBar to support minimizable functionallity.</dl>
+	<h2>Events</h2>
+	<dl>
+		<dt>&nbsp;</dt>
+		<dd>...</dd>
+
+	</dl>
+	<h2>Public Methods</h2>
+	<dl>
+
+		<dt>minimize()</dt>
+        <dd>...</dd>
+        <dt>maximize()</dt>
+        <dd>...</dd>
+        <dt><b>setClipImage(clipImage, cols, rows)</b></dt>
+		<dd>...</dd>
+
+        <dt>setMinMaxImg(imgmin,imgmax)</dt>
+        <dd>imgmin and imgmax should be dynimages</dd>
+        <dd>...</dd>
+	</dl>
+	<h2>Private Methods</h2>
+	<dl>
+		<dd>...</dd>
+
+	</dl>
+	<h2>Static Methods</h2>
+	<p>[none]</p>
+    <p><b>Example:</b></p>
+    <pre>f=dynapi.functions;
+var imgmin=f.getImage('images/win_min.gif',15,16);
+var imgmax=f.getImage('images/win_max.gif',15,16);
+
+var lyrMenu = new DynLayer('',null,null,null,null,'#30557A');
+lyrMenu.setHTML('&lt;table width=100% border=0 ceppadding=0 cellspacing=0&gt;&lt;tr&gt;&lt;td&gt;My Menu&lt;/td&gt;&lt;td align=right&gt;{@min}&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;')
+var lyrContent = new DynLayer('This PanelBar and the two under are in the stacker, the stacker reacts on sizechanges and moves the layers when the size changes.',null,null,null,null,'#326597');
+var lyrPanelBar = new PanelBar(lyrMenu,lyrContent,20,50,50,200,100,'cssmenu','csscontent',false);
+lyrPanelBar .setMinMaxImg(imgmin,imgmax);
+
+dynapi.document.addChild(lyrPanelBar );</pre>
+</body>
+</html>

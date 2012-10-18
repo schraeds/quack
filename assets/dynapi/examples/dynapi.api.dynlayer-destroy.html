@@ -1,0 +1,56 @@
+<html>
+<head>
+<title>DynAPI - DynLayer Destroy</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.api');
+dynapi.library.include('dynapi.functions');
+</script>
+<script language="Javascript">
+
+dynapi.onLoad(init);
+function init() {
+	document.countform.counttext.value = 0;
+};
+
+var counter = 0;
+function generate(n) {
+	for (var i=0;i<n;i++) {
+		var d = new DynLayer();
+		d.setBgColor(dynapi.functions.getRandomColor());
+		d.setSize(10+80*Math.random(),10+80*Math.random());
+		d.setLocation(130+500*Math.random(),500*Math.random());
+		dynapi.document.addChild(d);
+		counter++;
+		document.countform.counttext.value = counter;
+	}
+}
+
+var timer;
+function start() {
+	timer = setInterval('generate(10)',1);
+}
+function stop() {
+	clearInterval(timer);
+}
+
+function destroyAll() {
+	dynapi.document.destroyAllChildren();
+	document.countform.counttext.value = 0;
+}
+
+</script>
+</head>
+<body bgcolor="#999999">
+
+<p><a href="javascript:start()">Start generation</a><br>
+<a href="javascript:stop()">Stop generation</a><br>
+<a href="javascript:destroyAll()">Destroy all</a><br>
+
+<form name="countform">
+<input type=text name="counttext" size=5>
+</form>
+
+</body>
+</html>

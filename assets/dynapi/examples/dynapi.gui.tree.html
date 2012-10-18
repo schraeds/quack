@@ -1,0 +1,84 @@
+<html>
+<head>
+<title>DynAPI Examples - List</title>
+<script language="Javascript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/')
+dynapi.library.include('dynapi.api')
+dynapi.library.include('dynapi.api.ext.DragEvent')
+dynapi.library.include('dynapi.gui.NodeItem')
+dynapi.library.include('dynapi.gui.Tree')
+</script>
+<script language="Javascript">
+	var file=dynapi.functions.getImage("images/file.gif");
+	var Draglayer = new DynLayer(file.getHTML(),220,20);
+	Draglayer.setHTML("<center>"+file.getHTML()+"<br>D&D Layer</center>");
+	tree = new Tree(true)
+
+	tree.setLocation(350,20);
+	tree.setWidth(250);
+	tree.boldOnSelect(true);
+	tree.itemsResize(false,true);
+	tree.add("root",1,"Content1","value1");
+	tree.add("root",2,"Content2","value2");
+	tree.add("root",3,"Content3","value3");
+		tree.add(3,31,"Content4","value4");
+		tree.add(3,32,"Content5","value5");
+		tree.add(3,33,"Content6","value6");
+		tree.add(3,34,"Content7","value7");
+	tree.add("root",4,"Content8","value8");
+		tree.add(4,41,"Content9","value9");
+			tree.add(41,441,"Content10","value10");
+	tree.add("root",5,"Content8","value11");
+		tree.add(5,51,"Content9","value12");
+			tree.add(51,551,"Content10","value13");
+	Draglayer.setZIndex(100);
+	DragEvent.enableDragEvents(Draglayer);
+	var mylistener={
+	ondrop:function(e)
+		{
+			var o=e.getSource();
+			alert(o.getValue());
+		}
+	}
+	tree.addItemEventListener(mylistener);
+	dynapi.document.addChild(Draglayer);
+	dynapi.document.addChild(tree);
+
+	var icon = new DynLayer('<img src="images/file.gif">',0,0,20,24);
+	icon.setMinimumSize(20,24);
+	icon.setMaximumSize(20,24);
+
+	for(var i in tree.items) {
+		if(i!=tree.root_name)
+		{
+			tree.items[i].node.setDragEnabled(true,null,true);
+			tree.items[i].node.setDragIcon(icon);
+		}
+	}
+</script>
+</head>
+<body bgcolor="#ffffff">
+<script>
+    dynapi.document.insertAllChildren();
+</script>
+<br>Set Width: <a href="#" onClick="tree.setWidth(150)">150</a>, <a href="#" onClick="tree.setWidth(250)">250</a>, <a href="#" onClick="tree.setWidth(350)">350</a>
+
+<br>Set Mode: <a href="#" onClick="tree.setSelectionMode(true)">Multi</a>, <a href="#" onClick="tree.setSelectionMode(false)">Single</a>
+
+<br><a href="#" onClick="tree.removeSelected()">Remove selected item</a>
+<br>Set Borders: <a href="#" onClick="tree.setBorders(0)">0</a>,  <a href="#" onClick="tree.setBorders(1)">1</a>, <a href="#" onClick="tree.setBorders(3)">3</a>
+
+<br>Set Spacing: <a href="#" onClick="tree.setSpacing(0)">0</a>,  <a href="#" onClick="tree.setSpacing(1)">1</a>, <a href="#" onClick="tree.setSpacing(3)">3</a>
+
+<p>Get Selected:
+<br><a href="#" onClick="alert('Selected Index: '+tree.getSelectedIndex())">Index</a>
+<br><a href="#" onClick="alert('Selected Item: '+tree.getSelectedItem())">Item</a>
+<br><a href="#" onClick="alert('Selected Indexes: '+tree.getSelectedIndexes())">Indexes (Multi only)</a>
+</p>
+<br><a href="#" onClick="tree.itemsResize(true,true);">Items auto resize on</a>
+<br><a href="#" onClick="tree.itemsResize(false,true);">Items auto resize off</a>
+
+
+</body>
+</html>

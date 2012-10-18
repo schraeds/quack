@@ -1,0 +1,79 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>DynAPI Examples - Tab Manager 1</title>
+<script language="Javascript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.api.ext.TabManager');
+</script>
+<style type="text/css">
+td { font:10px Helvetica; background-color:#dddddd; }
+.center { text-align:center; }
+</style>
+<script language="Javascript">
+// tab manager listener
+var tmListener={
+  onblur:function(e) {
+    var o=e.getSource();
+    o.setBgColor('#cccccc');
+  },
+  onfocus:function(e) {
+    var o=e.getSource();
+    o.setBgColor('#aaaaaa');
+  },
+  onsubmit:function(e) {
+    var o=e.getSource();
+    o.setBgColor('#eeeeee');
+    o.callSubmitFn();
+  }
+}
+// default tab attributes
+function Tab(html,x,id) {
+  this.base=DynLayer;
+  this.base(html,x,1,50,16,'#cccccc');
+  if(id) this.setID(id)
+  this.setClass('center');
+}
+Tab.prototype=new DynLayer();
+// example 1
+var e1=dynapi.document.addChild(new DynLayer(null,null,null,309,48));
+// menubar 1
+var m1=e1.addChild(new DynLayer(null,1,1,309,19,'#666666'));
+m1.addChild(new Tab('&lt;&lt; First',1),'tab1').addSubmitFn('alert("First")');
+m1.addChild(new Tab('&lt; Prev',52),'tab2').addSubmitFn('alert("Prev")');
+m1.addChild(new Tab('Add',103),'tab3').addSubmitFn('alert("Add")');
+m1.addChild(new Tab('Submit',154),'tab4').addSubmitFn('alert("Submit")');
+m1.addChild(new Tab('Next &gt;',205),'tab5').addSubmitFn('alert("Next")');
+m1.addChild(new Tab('Last &gt;&gt;',256),'tab6').addSubmitFn('alert("Last")');
+m1.createTabManager();
+m1.addTabListeners(tmListener)
+m1.tab1.setBgColor('#aaaaaa');
+var FORM=null;
+var e4=dynapi.document.addChild(new DynLayer(null,null,null,400,150));
+function getForm() {
+  if(FORM) return;
+  FORM=TabManager.getForm(e4);
+  var html4='When using the [Tab] key in Mozilla this text field prevents default tab focus. It may be <a href="" onclick="FORM.setVisible(false);return false;">hidden</a> (unfortunately the cursor is still visible).<br>When using NS4 on Linux with broken key events make sure this text field is <a href="" onclick="FORM.setVisible(true);return false;">visible</a> and click in the field to force focus and allow key input.'
+  e4.addChild(new DynLayer(html4,30,0,350,100));
+}
+</script>
+</head>
+<body bgcolor="#eeeeee">
+<table border=0 cellspacing=4 cellpadding=4>
+<tr><td colspan=2 align="center">Tab Manager Demonstration 1</td></tr>
+<tr>
+<td valign="top">
+<script>dynapi.document.insertChild(e1,'relative');</script>
+</td>
+<td valign="top"><ol>
+<li>In NS4 click in the window and use the numeric keypad (Num Lock) arrow keys to tab around the menus and the space key to select.
+<li>For other browsers use the standard arrow keys to tab around the menus and the enter or space key to select.
+<li>On some browsers it is possible to use the [SHIFT+Tab] and [Tab] keys to move left and right repectively.
+<li>To prevent default tab focus when using the [Tab] key in Mozilla or when trying to use NS4 on Linux with broken key events, click <a href="" onclick="getForm();return false;">here</a>.</ol>
+<script>dynapi.document.insertChild(e4,'relative');</script>
+</td>
+</tr>
+</table>
+</body>
+</html>

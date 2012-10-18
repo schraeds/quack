@@ -1,0 +1,20 @@
+<HTML>
+<HEAD>
+<TITLE>Cross Frame Access test - frame1</TITLE>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1" />
+<SCRIPT ENCTYPE="text/javascript" LANGUAGE="JavaScript">
+
+function see_frame2_test ( )
+{
+    alert( this.parent.frame2.lyr.getHTML() );
+}
+
+</SCRIPT>
+</HEAD>
+<BODY>
+This is frame1.
+<FORM>
+  <INPUT NAME="see_frame2" ONCLICK="see_frame2_test();" TYPE="button" VALUE="See DynLayer in Frame2" />
+</FORM>
+</BODY>
+</HTML>

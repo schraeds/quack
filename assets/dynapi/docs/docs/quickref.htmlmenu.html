@@ -1,0 +1,100 @@
+<!doctype html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>DynAPI - Quick Reference</title>
+<link rel="stylesheet" type="text/css" href="../include/quickref.css" media="screen">
+<link rel="stylesheet" type="text/css" href="../include/quickref.css" media="print">
+</head>
+
+<body>
+	<div id="header">
+		<img border="0" src="../images/dynapi.gif" width="200" height="75">
+		<div>
+			<a href="../index.html"><img src="../images/home.gif" width="22" height="19">Home</a> | <a href="quickref.html">Quick Reference</a>
+		</div>
+	</div>
+    <h1><span class="object">dynapi.gui.HTMLMenu</span>- Quick Reference</h1>
+	<div id="inherit"><span>Inherit:</span>   <a href="quickref.htmlconponent.html">HTMLComponent</a></div>
+	<h2>Constructor</h2>
+	<dl>
+		<dt>HTMLMenu(css,orientation)</dt>
+		<dd>...<br>
+          css&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          - (String) Class name to use on menu<br>
+          orientation&nbsp;&nbsp;&nbsp; - (String) Sets the orientation (horz or
+          vert) of the menu. Defaults to &quot;horz&quot;</dd>
+	</dl>
+	<h2>Events</h2>
+    <dl>
+      <dt>onclick(e)&nbsp;</dt>
+      <dd>...</dd>
+    </dl>
+	<h2>Design Properties</h2>
+    <dl>
+      <dt>selBgCol</dt>
+      <dd>...</dd>
+      <dt>mnuItmWidth</dt>
+      <dd>...</dd>
+      <dt>mnuItmHeight</dt>
+      <dd>...</dd>
+      <dt>mnuArrow</dt>
+      <dd>...</dd>
+      <dt>sndOnMenuopen</dt>
+      <dd>Plays a FlashSound target &amp; frame whenever a menu pops up.</dd>
+    </dl>
+	<h2>Public Methods</h2>
+	<dl>
+        <dt>createMenuBar(id,itmWidth,itmHeight,subMnuOffset)</dt>
+        <dd>...</dd>
+        <dd>example:
+          <pre>var mbar = mnu.createMenuBar('main',40,20);
+mbar.addItem(null,'File','file');
+mbar.addItem(null,'Edit','edit');
+mbar.addItem(null,'View','view');
+mbar.addItem(null,'Tools','tools');
+mbar.addItem(null,'Help','help');</pre>
+          <p><br>
+          Where mbar.addItem() is a reference to HTMLMenu._addItem</dd>
+        <dt>&nbsp;</dt>
+        <dt>getInnerHTML()</dt>
+        <dd>...&nbsp;</dd>
+
+	</dl>
+	<h2>Private Methods</h2>
+    <dl>
+      <dt>_assignElm()</dt>
+      <dd>....</dd>
+      <dt>_buildMenu()</dt>
+      <dd>...</dd>
+      <dt>_changeCol(changeArray, isOver)</dt>
+      <dd>...</dd>
+      <dt>_e(evt,mnuNum,itmNum)</dt>
+      <dd>...</dd>
+      <dt>_getTree(mnuNum,itmNum)</dt>
+      <dd>...</dd>
+      <dt>_showOnly(mnuNum)</dt>
+      <dd>...</dd>
+    </dl>
+	<h2>Static Methods</h2>
+    <dl>
+      <dt>HTMLMenu._addItem(css,text,linkId,callback,length,spacing,backCol,selBgCol,cssText)</dt>
+      <dd>Add an item to a Menu Bar and return the item's id. The menu item id 
+      is a combination of the menu bar's id and the item number.<br>
+      <br>
+      exmaple:</dd>
+      <dd>
+      <pre>var mbar = mnu.createMenuBar('main',40,20);
+var id1 = mbar.addItem(null,'File','file'); // id1 = 'main1'
+var id2 = mbar.addItem(null,'Edit','edit'); // id2 = 'main2'
+
+// to add images use:
+var img = dynapi.functions.getImage('images/menu_settings.gif',16,22,{
+	align:&quot;absmiddle&quot;,
+	oversrc:'images/menu_settings_on.gif'
+});
+var id3 = mbar.addItem(null,{image:img,text:'Exit'}); // id3 = 'main3'
+</pre>
+      </dd>
+    </dl>
+</body>
+</html>

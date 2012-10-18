@@ -1,0 +1,115 @@
+<html>
+<head>
+<title>DynAPI Examples - DynLayer Drag-n-Draw </title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+	dynapi.library.setPath('../src/');
+	dynapi.library.include('dynapi.api');
+	dynapi.library.include('dynapi.api.ext.DragEvent');
+</script>
+<script language="Javascript">
+	var l1 = new Array();
+	var counter = 0;
+	var clicked = false;
+	var color = 'black';
+	var into = false;
+
+	dynapi.document.setTextSelectable(false);
+
+	var docMouseUp = {
+		onmouseup : function(e){
+			clicked = false;
+		}
+	}
+
+	var gridMouseListener =	{
+		onmouseover : function(e) {
+			if(clicked==true) {
+				var s = e.getSource();
+				s.setBgColor(color);
+			}
+		},
+
+		onmouseout : function(e) {
+			into = false;
+		},
+
+		onmousedown : function(e) {
+			var source = e.getSource();
+			source.setBgColor(color);
+			clicked = true;
+		},
+
+		onclick : function(e) {
+			var s = e.getSource();
+			s.setBgColor(color);
+		},
+
+		onmouseup : function(e) {
+			clicked = false;
+		}
+
+	};
+
+	var lines = 0;
+	var constspace = 80;
+	for(counter=0; counter < 200;counter++) {
+		if((counter%20==0) && counter!=0) {
+			lines++;
+		}
+
+		l1[counter] = new DynLayer();
+		l1[counter].setBgColor('gray');
+		l1[counter].setSize(30, 30);
+		l1[counter].setLocation(50+((counter%20)*30), 30*lines+constspace);
+		l1[counter].addEventListener(gridMouseListener);
+		dynapi.document.addChild(l1[counter]);
+	}
+
+	dynapi.document.addEventListener(docMouseUp);
+
+	function setColor(col) {
+		color = col;
+	}
+</script>
+</head>
+<body>
+<script>
+	dynapi.document.insertAllChildren();
+</script>
+<table border="0">
+  <tr>
+    <td bgcolor="#FFFFFF">&nbsp;</td>
+    <td>
+<a href="javascript:setColor('white')">white</a>
+      &nbsp;</td>
+    <td bgcolor="#000000">&nbsp;</td>
+    <td>
+<a href="javascript:setColor('black')">black</a>
+    </td>
+    <td bgcolor="#008000">&nbsp;</td>
+    <td>
+<a href="javascript:setColor('green')">green</a>
+      &nbsp;</td>
+    <td bgcolor="#FFFF00">&nbsp;</td>
+    <td>
+<a href="javascript:setColor('yellow')">yellow</a>
+      &nbsp;</td>
+    <td bgcolor="#0000FF">&nbsp;</td>
+    <td>
+<a href="javascript:setColor('blue')">blue</a>
+      &nbsp;</td>
+    <td bgcolor="#FF0000">&nbsp;</td>
+    <td>
+<a href="javascript:setColor('red')">red</a>
+      &nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="12">Select a color then click and draw inside the gray area</td>
+  </tr>
+</table>
+<p>
+&nbsp;&nbsp;&nbsp;&nbsp;
+</p>
+</body>
+</html>

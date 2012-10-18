@@ -1,0 +1,399 @@
+<!doctype html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>DynAPI - Quick Reference</title>
+<link rel="stylesheet" type="text/css" href="../include/dynapi.css">
+</head>
+
+<body bgcolor="#FFFFFF">
+
+<table border="0" width="100%">
+  <tr>
+    <td width="38%"><img border="0" src="../images/dynapi.gif"></td>
+    <td width="62%" align="right">
+      <p align="right"><a href="../index.html" style="text-decoration:none"><img border="0" src="../images/home.gif" align="absmiddle" width="22" height="19">&nbsp;Home</a> | <a href="quickref.html" style="text-decoration:none">Quick Reference</a>
+    </td>
+  </tr>
+  <tr>
+    <td width="100%" colspan="2" align="left">
+<hr size="1" color="#C0C0C0">
+    </td>
+  </tr>
+  <tr>
+    <td width="100%" colspan="2" align="left">
+
+<h1><font color="#800000">dynapi.functions - </font>Quick Reference</h1>
+    </td>
+  </tr>
+</table>
+
+<table border="0" width="100%">
+  <tr>
+    <td width="100%">
+
+<p align="right"><i><font color="#008000"><b>Requirements:&nbsp;</b></font>
+dynapi&nbsp;</i></p>
+    </td>
+  </tr>
+  <tr>
+    <td width="100%">
+      <hr size="1" color="#C0C0C0">
+    </td>
+  </tr>
+</table>
+<h2>Constructor</h2>
+<p>[none]</p>
+<hr>
+<h2>Events</h2>
+<p>[none]</p>
+<hr>
+<h2>Public Methods</h2>
+The following methods are loaded at startup (dynapi.js) and therefore does not
+require the dynapi.functions library:
+<p><b>Allow</b>() - Enable event bubbling.&nbsp;&nbsp;</p>
+<b>Deny</b>() - Disable event&nbsp; bubbling.
+<p><b>False</b>() - Returns the boolean false.&nbsp;</p>
+<b>True</b>() - Returns the boolean true.&nbsp;
+<p><b>Null</b>() - Returns a null value.&nbsp;</p>
+<b>Zero</b>() - Returns the value 0.<p><b>getImage</b>(src,w,h) - Loads and returns
+a Basic XImage object. An
+XImage object is an Image object with a few extensions. See Image Functions for
+more advanced features</p>
+<pre>src - image source file
+w - width of image
+h - height of image
+</pre>
+<p>example:</p>
+<pre>var img=dynapi.functions.getImage('images/src.gif',95,15,params)
+document.write('My Image: '+img.getHTML());
+
+&nbsp;</pre>
+<b>getURLArguments</b>(o) - Returns an array containing the arguments passed to
+an html document. The parameter &quot;o&quot; can be a string, frame or layer.
+<p>example:</p>
+<pre>var t='myhtml.html?name=value';
+var args=dynapi.functions.getURLArguments(t);
+// args['name'] = 'value';
+&nbsp;</pre>
+<b>getAnchorLocation</b>(a,lyr) - Returns an object containing the x and y
+coordinated of the anchor. The lyr argument can be either a frame or DynLayer
+object. If specified anchor is not found a null value is returned.<br>
+      <br>
+example:
+<pre>var o=dynapi.functions.getAnchorLocation('myanc');
+alert(o.x+' / '+o.y);
+/*
+   o.x - x coor;
+   o.y - y coor;
+   o.anchor - anchor object
+*/
+</pre>
+<b>removeFromArray</b>(array, index, id) - Removes an index&nbsp; or id from the
+specified array and returns a new array.
+<hr size="1" color="#C0C0C0">
+<p>The following methods requires the dynapi.functions library:</p>
+<p align="center"><font color="#008000"><b>Color Functions (dynapi.functions.Color)</b></font></p>
+<b>DecToHex</b>(value) - Converts a decimal value to hexadecimal.
+<p>example:</p>
+<pre>  var hex=dynapi.functions.DecToHex(255); // hex = 'FF'&nbsp;
+</pre>
+<b>getColor</b>(r,g,b) - Returns the hexadecimal color format from the specified
+RGB color.&nbsp;
+<p>example:</p>
+<pre>var color=dynapi.functions.getColor(255,255,255). //: color = '#FFFFFF'&nbsp;
+</pre>
+<b>getRandomColor</b>() - Returns a random hexadecimal color.&nbsp;
+<p>example:</p>
+<pre>   var rcolor=dynapi.functions.getRandomColor();&nbsp;
+ </pre>
+<p><b>createRedPal</b>(pal) - Creates a red palette and stores the values in
+array pal.&nbsp;&nbsp;</p>
+<b>createGrayPal</b>(pal) - Creates a gray palette and stores the values in
+array pal.&nbsp;&nbsp;
+<p><b>createBluePal</b>(pal) - Creates a blue palette and stores the values in
+array pal.&nbsp;&nbsp;</p>
+<b>createGreenPal</b>(pal) - Creates a green color palette and stores the values
+in array pal.&nbsp;
+<p><b>fadeColor(from,to,percent)</b></p>
+<hr size="1" color="#C0C0C0">
+<p align="center"><font color="#008000"><b>Date functions (dynapi.functions.Date)</b></font></p>
+<b>dateAdd</b>(interval,n,dt) - Returns a date object to which a specified time
+interval was added.
+<pre><b>interval:
+</b>year, month, day, minute, hour, second&nbsp;</pre>
+<p>example:</p>
+<pre>var dt=new Date('30/1/2002');
+var r=dynapi.functions.dateAdd('day',4,dt);
+// r = 3/2/2002
+&nbsp;</pre>
+<b>dateDiff</b>(interval,dt1,dt2) - Returns a numeric value specifying the
+number of time intervals between two dates.
+<pre><b>interval:
+</b>year, month, day, minute, hour, second&nbsp;</pre>
+<p>example:</p>
+<pre>var dt1=new Date('30/1/2002');
+var dt2=new Date('3/2/2002');
+var r=dynapi.functions.dateAdd('day',dt1,dt2);
+// r = 4
+&nbsp;</pre>
+<b>formatDate</b>(date,format) - Returns a formatted date value based on the
+specified format.
+<pre><b>format:&nbsp;
+</b>&nbsp;dd - Display year as 01&nbsp;-&nbsp;31.
+&nbsp;ddd - Display year as Sun&nbsp;-&nbsp;Sat.
+&nbsp;dddd - Display year as Sunday&nbsp;-&nbsp;Saturday.
+
+&nbsp;mm - Display month as 01&nbsp;-&nbsp;12.
+&nbsp;mmm - Display month as Jan&nbsp;-&nbsp;Dec.
+&nbsp;mmmm - Display month as January&nbsp;-&nbsp;December.&nbsp;
+
+&nbsp;hh - Display hours as 00&nbsp;-&nbsp;23.
+&nbsp;nn - Display minutes as 00&nbsp;-&nbsp;59.
+&nbsp;ss - Display seconds as 00&nbsp;-&nbsp;59.&nbsp;
+
+ampm - Displays an AM with any hour before noon or PM with any hour between noon and 11:59 PM.</pre>
+<p>example:</p>
+<pre>var dt= new Date('20/8/2002');
+var r=dynapi.functions.formatDate(dt,'dddd, mmmm dd, yyy');
+// r = Tuesday, August 20, 2002
+</pre>
+<p><b>getDayOfYear(dt)</b> - Returns the day of year in the specified date.</p>
+<pre>dt    - (Date) Specified Date</pre>
+<p><b>isDate</b>(dt,format) - Returns true if dt is of the specified date
+format:</p>
+<pre><b>format:
+</b>&nbsp;mm/dd/yyyy
+&nbsp;dd/mm/yyyy
+&nbsp;yyyy/mm/dd
+&nbsp;</pre>
+<hr size="1" color="#C0C0C0">
+<p align="center"><b><font color="#008000">Image Functions&nbsp;</font></b><font color="#008000"><b>
+(dynapi.functions.Image)</b></font></p>
+<p><b>captureImageProgress</b>(fn) - Captures Image Loading progress by passing
+completed, failed and total images to the fn function.</p>
+<pre>fn - Callback function</pre>
+<pre>dynapi.functions.captureImageProgress(fn)
+
+function fn(c,f,t){
+    var p=parseInt(((c+f)==0)? 0:((c+f)/t)*100);
+    lyr.lyrBar.setWidth(p*3)
+    lyr.lyrBar.setHTML('&lt;font color=&quot;white&quot;&gt;&amp;nbsp;'+p+'%&lt;/font&gt;')
+    if((c+f)==t) {
+        var a=dynapi.functions.getFailedImages();
+        for(var i=0;i&lt;a.length;i++){
+            a[0].reload();
+        }
+    }
+}</pre>
+<p><b>getImage</b>(src,w,h,params) - Loads and returns an Advance XImage object.
+The Advanced XImage object&nbsp; includes all the features of the Basic XImage
+object&nbsp; plus additional parameters.</p>
+<pre><b>params</b>:&nbsp;
+onclick,  onmouseover, onmouseout, onmousedown, onmouseup
+oversrc - Source image when mouse is over image
+downsrc - Source image when mouse is pressed
+tooltip  - Tip to be displayed when mouse is over image
+text - text to be displayed with image
+textdir - direction of text around image: N, E, S, W&nbsp;
+link - Hyperlink to navigate to when image is clicked
+alias - Name used to reference image object in the XImage collection
+name - Name of the &lt;img&gt; object
+</pre>
+<p>example:</p>
+<pre>
+// very simple mouse down &amp; over setup
+var params={};
+params.tooltip=&quot;Click here&quot;;
+params.oversrc=&quot;images/oversrc.gif&quot;;
+params.downsrc=&quot;images/downsrc.gif&quot;;
+params.onclick=function(){alert('Hello!')};
+params.onmouseover=&quot;status='Over!'&quot;;
+params.onmouseout=&quot;status='Out!'&quot;;
+params.onmousedown=&quot;status='Down!'&quot;;
+params.onmouseup=&quot;status='Up!'&quot;;
+var img=dynapi.functions.getImage('images/src.gif',95,15,params)
+document.write('getImage: '+img.getHTML());
+document.write(' '+
+img.getHTML({tooltip:&quot;Another Image&quot;,
+onclick:&quot;alert('Hello Again!')&quot;})+'&lt;br&gt;&lt;br&gt;');
+
+// using the alias parameter
+var img;
+dynapi.functions.getImage('images/src.gif',95,15,{alias:'myimage'});
+// some code here....
+img=dynapi.ximages['myimage'];
+</pre>
+<p>The Advanced XImage Object includes a reload() function to reload failed
+images.</p>
+<p><b>getFailedImages</b>() - Returns an array of failed images</p>
+<p><b>setImageTTL</b>(ms) - Sets the Time-To-Load timeout in milliseconds for
+images created using getImage()</p>
+<hr size="1" color="#C0C0C0">
+<p align="center"><font color="#008000"><b>Math Functions (dynapi.functions.Math)</b></font></p>
+<b>radianToDegree</b>(radian) - Converts radians to degrees.&nbsp;
+<p><b>degreeToRadian</b>(degree) - Converts a degrees to radians.&nbsp;</p>
+<b>sintable</b>(lsin) - Generates a sin table inside array lsin.
+<p>example:&nbsp;</p>
+<pre>var lsin=[];
+dynapi.functions.sintable(lsin);
+// lsin now contains sin table values&nbsp;</pre>
+<b>costable</b>(lcos) - Generates a cos table inside array lcos.
+<p>exmaple:</p>
+<pre>var lcos=[];
+dynapi.functions.costable(lcos);
+// lcos now contains cos table values
+</pre>
+<p><b>getRandomNumber(n)</b> - Used to generate a Random number not greater than
+n</p>
+<pre>n - (Number) Optional. If missing a number not greater than 10000 is returned
+</pre>
+<p><b>getGUID() </b>- Generated a Globally Unique Identifier.</p>
+<p><b>interlacePaths(x,y)</b> - Combines separate [x1,x2],[y1,y2] arrays into a path array [x1,y1,x2,y2]</p>
+<hr size="1" color="#C0C0C0">
+<p align="center"><b><font color="#008000">Numeric Functions&nbsp;</font></b><font color="#008000"><b>
+(dynapi.functions.Numeric)</b></font></p>
+<p>
+<b>formatNumber</b>(n,format) - Returns a formatted numeric value based on the
+specified format.</p>
+<pre><b>format:&nbsp;
+</b>&nbsp;0 - Digit placeholder. Display a digit or a zero.&nbsp;
+&nbsp;# - Digit placeholder. Display a digit or nothing.
+&nbsp;$ - Currency Character
+&nbsp;% - Percentage Character</pre>
+<p>formatting examples:</p>
+<pre>&nbsp;0
+&nbsp;0%
+&nbsp;0.00%&nbsp;
+&nbsp;0.00
+&nbsp;#,##0
+&nbsp;#,##0.00
+&nbsp;$#,##0
+&nbsp;$#,##0.00
+&nbsp;</pre>
+<p>
+<b>isFloat</b>(n,default) - Return true is n is of the float data type.</p>
+<p><b>isInteger</b>(n,default) - Returns true if n is of the integer data
+type.&nbsp;</p>
+<p><b>toInteger</b>(dt) - Converts the specified value to an integer and return
+the result.&nbsp;</p>
+<b>toFloat</b>(dt) - Converts the specified value to float and return the
+result.&nbsp;
+<p><b>toBoolean</b>(dt) - Converts the specified value to boolean and return the
+result.&nbsp;</p>
+<hr size="1" color="#C0C0C0">
+<p align="center"><b><font color="#008000">String Functions</font></b>
+<font color="#008000"><b> (dynapi.functions.String)</b></font>
+<p><b>sprintf(t)</b> -&nbsp;
+<p>
+<b>strRepeat</b>(s,n) - Repeats the specified string n number of times.</p>
+<p>example:</p>
+<pre>var r=dynapi.functions.strRepeat('*',5);
+//r = '*****';
+&nbsp;</pre>
+<b>strReverse</b>(s) - Reverses the characters in the specified string.&nbsp;
+<p>example:</p>
+<pre>var r=dynapi.functions.strRepeat('Test',5);
+//r = 'tseT';
+</pre>
+<b>strStuff</b>(s,v,index) - Inserts a string into another string and returns
+the new string.
+<p>example:</p>
+<pre>var a='Thisa test';
+var b=' is ';
+var r = dynapi.functions.strStuff(a,b,4);
+// r = 'This is a test'
+&nbsp;</pre>
+<p>
+<b>trim</b>(s,dir) - Returns the specified string without leading or trailing
+spaces. The dir argument is used to control the trimming direction.</p>
+<pre><b>dir:
+</b>&nbsp;&gt; - Trims trailing white spaces
+&nbsp;&lt; - Trims leading white spaces
+&nbsp;&lt;&gt; - (Default) Trims both leading and trailing white spaces</pre>
+<p>example:</p>
+<pre>var r;
+var t=' Testing... ';
+r=dynapi.functions.trim(t) // r = 'Testing...';
+r=dynapi.functions.trim(t,'&lt;') // r = 'Testing... ';
+r=dynapi.functions.trim(t,'&gt;') // r = ' Testing...';
+&nbsp;</pre>
+<hr size="1" color="#C0C0C0">
+<p align="center"><b><font color="#008000"> System Functions</font></b><font color="#008000"><b>
+(dynapi.functions.System)</b></font></p>
+<b>coalesce</b>(a1,a2,...a<i>N</i>) - Returns the first non-null value of the
+specified arguments.
+<p>example:</p>
+<pre>var a=null,b=null,c='Cool';
+var r=dynapi.functions.coalesce(a,b,c);
+// r = 'Cool'
+&nbsp;</pre>
+<b>choose</b>(index,a1,a2,...a<i>N</i>) - Returns the value from the arguments
+list.
+<p>example:</p>
+<pre>var r=dynapi.functions.choose(3,'a','b','c','d');
+// r = 'c'
+&nbsp;</pre>
+<b>cloneObject</b>(src) - Clones a non-intrinsic javascript object.
+<p><b>copyObject</b>(from, to) - Copies the values from a non-intrinsic
+javascript object into another and returns a new object. If noclone is set to
+true then the destination object is returned.</p>
+<p>example:</p>
+<pre>var a={red:true};
+var b={blue:true};
+va r= dynapi.functions.copyObject(a,b);
+// r = {red:true,blue:true}
+&nbsp;&nbsp;</pre>
+<b>getElementById</b>(id,parentLyr) - Returns an inline DOM Layer from the
+specified parent DynLayer. If parent layer is not supplied then DynDocument is
+used.
+<p>example:</p>
+<pre>var t='&lt;div id=&quot;myid&quot; style=&quot;position:absolute&quot;&gt;&lt;/div&gt;';
+var lyr=dynapi.document.addChild(new DynLayer(t));
+var ilyr=dynapi.functions.getElementById('myid',lyr);
+// ilyr = inline layer myid
+&nbsp;</pre>
+<b>isNull</b>(value,default) - Returns a default value if the specified value is
+null. If the specified value is not null then the value is returned.&nbsp;&nbsp;
+<p>
+<b>lookUp</b>(value,array) - Searches an array for the specified value and
+returns the index of the value.</p>
+<p>example:</p>
+<pre>var a=['red','blue','green'];
+var r=dynapi.functions.lookUp('blue',a);
+//r = 1;&nbsp;
+&nbsp;</pre>
+<b>nullIf</b>(a1,a2,....a<i>N</i>) - Returns a null value if any of the
+specified expressions are true.
+<p>example:</p>
+<pre>var a = 1;
+var r = dynapi.functions.nullIf(a);
+// r = null;
+&nbsp;</pre>
+<hr size="1" color="#C0C0C0">
+<p align="center"><b><font color="#008000">Library/Module Specific Functions</font></b></p>
+<p align="center"><b><u><font color="#3366CC">dynapi.api.EventObject</font></u></b>
+<p>
+<b>subClassEvent</b>(type,eobj,fn) - Subclassing allows a user to manipulate, modify, or even discard events bound for other objects within
+dynapi, and in the process changing the way in which the dynobjects behaves.&nbsp;</p>
+<p>type&nbsp;&nbsp;&nbsp; - Event type<br>
+eobj&nbsp;&nbsp;&nbsp; - EventObject or id<br>
+fn&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - Callback function</p>
+<p>See the <a href="../../examples/dynapi.functions.subclassevent.html">Event
+SubClassing</a>&nbsp; example for more details<br>
+&nbsp;</p>
+<p align="center"><b><u><font color="#3366CC">dynapi.util.Cookie</font></u></b>
+<p><b>deleteCookie</b>(name)</p>
+<p><b>getCookie</b>(name)</p>
+<p><b>setCookie</b>(name,value,days)<br>
+</p>
+<p align="center"><font color="#3366CC"><b>dynapi.fx.GlideAnimation'</b></font></p>
+<p><b>getNormalizedAngle</b>(x1,y1,x2,y2) - Returns correct angle in radians between 2 points</p>
+<hr>
+<h2>Private Methods</h2>
+<p>[none]</p>
+<hr>
+<h2>Static Methods</h2>
+<p>[none]</p>
+<p>&nbsp;&nbsp; </p>
+</body>
+</html>

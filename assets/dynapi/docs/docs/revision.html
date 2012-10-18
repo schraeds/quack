@@ -1,0 +1,374 @@
+<!doctype html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title> DynAPI - Appendix A: Revision History </title>
+<link rel="stylesheet" type="text/css" href="../include/dynapi.css">
+</head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" width="100%">
+  <tr>
+    <td width="38%"><img border="0" src="../images/dynapi.gif"></td>
+    <td width="62%" align="right">
+      <p align="right"><a href="../index.html" style="text-decoration:none"><img border="0" src="../images/home.gif" align="absmiddle" width="22" height="19">&nbsp;Home</a>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="100%" colspan="2" align="left">
+<hr size="1" color="#C0C0C0">
+    </td>
+  </tr>
+  <tr>
+    <td width="100%" colspan="2" align="left">
+
+<h1>Appendix A: Revision History</h1>
+    </td>
+  </tr>
+</table>
+<pre>Please report any bugs to the DynAPI Development Mailing List at
+dynapi-dev@lists.sourceforge.net.
+
+TO-DO
+----
+
+[   Legend:                  ]
+[----------------------------]
+[ + Added Feature            ]
+[ * Improved/Changed Feature ]
+[ - Bug Fix                  ]
+
+Version 3.0.0-beta2 (2005-08-02)
+----------------------------------
+[*] Updated Documentation &amp; Examples
+[*] Update quickrefs (See docs/docs/quickref.html)
+[+] Added new examples (See examples/dynapi.gui.*.html)
+[+] Add DragIcon feature to DragEvent
+[*] Modify DragDrop() events to use mouse pointer or layer's width/height
+[*] Move Frame Class from BorderManager into frame.js file - dynapi.gui.Frame
+[+] Add setBorder(w,c,style) to BorderManager - see dynapi.gui.bordermanager-boxfix.html
+[-] Add box fix model to dynlayers (requires BorderManager).
+[+] Add disableContextMenu() to MouseEvent class - see quickref.mouseevent.html
+[-] Fix dragevent bug with boundary when child layer is larger than it's parent
+[-] Fix ioelmsrv.php bug
+[+] Add FileReader Class
+[+] Add Explorer Component
+[+] Add Button Component
+[+] Add CheckBox Component
+[+] Add RadioButton Component
+[+] Add Knob Component
+[+] Add ListBox Component
+[+] Add ViewPane Component
+[+] Add ScrollBar Component
+[+] Add Marquee Component
+[+] Add ProgressBar Component
+[+] Add StyleManager Library
+[+] Add PoolManager Library
+[+] Add setOpacity() and getOpacity() to Fader Library
+[-] Fix HTMLListbox getItem() bug
+[*] Rename dynapi.util.ioelement-sync.html to dynapi.util.ioelement-soda.sync.html
+[*] Remove dynapi.util.ioelement-soda-nsync.html example
+[-] Fix text column bug in HTMLTextArea
+[+] Add "event" argument to HTMLComponent inline events
+[*] Modify getContentWidth/Height for all browsers
+[*] Call adjustSize whenever a layer is removed.
+[*] Move component images from ext/images to gui/images
+[+] Add setAutoSize() to DynLayer
+[+] Add getBlueBrint() to DynLayerInline
+[+] Add dynapi.document.writeStyle()
+[+] Add HTMLProgressBar
+[+] Add HTMLColorPicker
+[+] Add HTMLCel() and HTMLText() to HTMLComponent
+[*] HTMLMenu addItem() will now respect text directions from image inputs
+[+] Add contMode (Container Mode) to HTMLMenu addItem() text argument
+[+] Add setItems() function to HTMLListBox
+[-] Fix HTMLMenu bug with submenus by setting submenus to -x and -y
+[-] Fix getImage() bug when using different params
+[-] Fix bug with Form &lt;input type="image"&gt; buttons in NS4
+[-] Fix memory leak bug with deleteChildren() and removeChild() functions
+[+] Add image support to addItem() in HMTLMenu - {image:XImage,text:'Text here'}
+[-] Fix NS4 bug with HTMLComponent.writeStyle - usage: HTMLComponent.writeStyle({StyleName:'Inline-Styles;'})
+[*] Remove HCMNU Style from HTMLMenu
+[-] Fix Graphics Object -  line 223, the closing brace to the drawLine() function was missing
+[+] Add padding argument to createMenuBar()
+[-] Fix GlideAnimation stopping short of it's mark when using slow and fast starting and ending speeds.
+[+] Add onchange events to HTMLTextbox and HTMLTextarea
+[-] Fix Motionx semi-colon error
+[-] Fix line 110 and 114 in ioelmsvr.soda.*
+[+] Add wsAddJSCommand() to IOElement server files
+[+] Add execInParent() to IOElement
+[+] Add auto-fold to submenus (HTMLMenu)
+[+] Add vert or horz orientation to HTMLMenu
+[-] Fix HTMLMenu bug when used outside TM
+[-] Fix HC problem in Opera - use [^\[] instead of [^]] inside template manager
+[+] Add a name field to HC form elements inside the constructor. Also add a setElementName() field
+[-] Fix HTMLMenu problem with submenus by adding subMnuOffset to createMenuBar()
+[-] Fix setClass() Bug in IE
+[-] Fix Loadpanel Bug with pages containing JS in NS7
+[+] Add HyperText Component fields (&lt;htc:Object() @field /&gt; to TM
+[-] Fix _destroy() bug with page reload (See bug#763790)
+[-] Fix getClip bug in Opera (bug#763279)
+[-] Fix HTMLListbox bug in Opera (bug#763285)
+[+] Add new increment-decrement swipes to Swiper class
+[-] Fix TM bug - was not allowing fields to be changed
+[-] Fix mouse x,y bug found in mouse_events (See bug #762495)
+[*] Auto hide &amp; underline calendar Year/Month selector
+[-] Fix HTMLMenu sound events
+[+] Add Sound Events to HCs
+[+] Add cloneField() and addField() to TemplateManager
+[+] Add Data-aware features to HCs
+[+] Add HTMLClock, HTMLMenu, HTMLButton
+[+] Add HTMLTextBox,HTMLTextArea,HTMLRadioButton
+[+] Add HTMLCheckBox, HTMLFile,HTMLListBox
+[+] Add HTMLDropDownMenu, HTMLDatePicker
+[+] Add pkgFile (package file) arugment to dynapi.library.setPath(path,pkgFile). pkgFile most contain the full path and file name of the package file
+[+] Add startFlash(fCol,tCol) and stopFlash() to HTMLHyperLink
+[+] Add setAlarm feature to HTMLClock
+[-] Fix GroupManager (GM) width bug
+[*] Allow GroupManager to autoset boundary after a layer resizes
+[+] Add sprintf() function to dynapi.functions.String
+[+] Add getDayOfYear() to dynapi.functions.Date
+[+] Add new ioelemsvr.php server-side library
+[-] Fix LoadPanel/IOElement bug in Opera v7
+[-] Fix problem with delteAllChildren()
+[-] Fix HTMLRollover - prevent reloading images on every mouse click
+[+] Add setDefaultFieldValue() to TM
+[*] Change TM field syntax from [@fieldname] to {@fieldname}
+[-] Prevent layers from being loaded in TM if field is not available in template
+[-] Prevent unused field names from been shown in generated templates.
+[*] Allow [Template].setField() to replace all occurrences of the field name
+[*] Modify SnapX Class to support Sticky snap
+[-] Fix DynLayer _destroy() bug
+[-] Added semi-colons where needed (fixed most, there are still some left)
+[-] Changed main method name in several files to main_&lt;file&gt; so they don't conflict.
+[-] Fix an assignment where it should be an equality comparison in ioelmsrv.soda.jscript.asp
+[+] cross frame access demo update, added textarea to set custom HTML
+[-] Added comment about file upload example disabled by default.  Added PHP file upload example, commented out.  (IOElement)
+[-] Fix auto size height related bug/typo
+
+Version 3.0 Beta 1
+---------------------------
+[+] Add new Frame Class
+[*] Allow img tags with width / height
+[+] Add HTMLCalendar, HTMLRollover, HTMLHyperLink, HTMLContainer
+[+] Add new TemplateManager Class
+[-] Fix LoadPanel bug in Opera browsers
+[-] Add fix to prevent IOElement from displaying an incomplete progress bar when using IE
+[+] Add dynapi.ua.gecko - return true if browser uses the gecko engine
+[*] Rename setBorder to setInnerBorder() and setBorder2 to setBorder()
+[+] Add SnapX Class
+[*] Modify FocusManager to support TabManager
+[+] Add TabManager extensions
+[*] Modified DynKeyEvents
+[*] Remove setIntegrated debug feature
+[+] DynLayer now supports a 7th agrument called image - used for bgImage
+[+] Add BorderManager - setInnerBorder() and setOuterBorder()
+[+] Add Higlighter widget
+[*] Remove setBorder() from dynlayer_base.js to bordermanager.js and use layers to implement borders.
+[+] Add addHTML() example
+[+] Add textanimation
+[-] Fix bug in inline-widget example to work with ns4
+[*] Modify LoadPanel to support new code changes
+[*] FlashSound library can now be loaded Dynamically using dynapi.library.load()
+[-] Fix library conflicts with instrinsic javascript object (String, Math, Date and Image)
+[-] Fix dynapi.library-load.html example
+[*] Modify addHTML()
+[*] Separate soda from ioelmsrv.{whatever} to produce ioelmsrv.{whatever} and ioelmsrv.soda.{whatever}
+[*] Rename soda.{whatever} to ioelmsrv.{whatever}
+[*] Separate library packages from dynapi.js - now stored in ext/packages.js
+[+] Add getContentWidth/Hight test page
+[+] Add version.xml to dynapi/src
+[*] Rename dynapi compiler to dynapi compressor - replace icon
+[*] Remove revision. file from dynapi/ - only dynapi/docs/docs/revision.html will be used
+[-] Fix onCreate/onPreCreate bug - onCreate
+[-] Fix functions.Image with ns4 layers
+[-] Fix IOElement bug with visible content
+[-] Fix DynLayers elements not being destroyed when _remove() is called.
+[-] Fix DynLayer not setting visible/textselectable when using dictionary object
+[+] Add StringBuffer
+[-] Fix NS4 blackboard bug when mouse events are assigned
+[*] Modify generateBlueprint(type) to support style sheets.
+    &gt; Generate Style Sheets from blueprints by using lyr.generateBlueprint('css');
+[+] Add setClass(c,noInlineStyle) to DynLayer
+[-] Fix NS4 bug in DataSource/IOElement
+[-] Fix playtAnimation bug in PathAnimation
+[*] Modify insertChild(c,pos,usebp) to support positions
+[+] Add setPosition(p)
+[*] DynKeyEvents now supports bubbling
+[-] Fix IOElement &amp; DataSource typos/bugs
+[*] IOElementSoda now loads functions.Math libary
+[+] Add getGUID() to functions.Math
+[+] Add getRandomNumber(n) to functions.Math
+[-] Fix setAnchor() resize bug
+[*] Modify compiler - add &quot;check semi-colon&quot; button to the main screen
+[+] Add enableBlackboard() function
+    &gt; enableBlackboard() must be called before the layer is created or
+    &gt; before the setHTML function if the layer has already been created
+[+] Add FocusManager
+[+] Add setDragMode(b,boundry)
+[+] Add setMinimumSize(w,h) and setMaximumSize(w,h), setOverflow(s) - default is hidden
+[+] Add oncontentchange event - triggered by setHTML
+[+] Add onresize and onlocationchange events
+[+] Add Preserve Data Type (pDType) to Cookie constructure - Cookie(name,pDType)
+[+] Add Cookie.encode &amp; Cookie.decode functions - useful for storing simple and complex objects and datatype.
+[+] Add removeAll() function to cookie object
+[*] Modify insertAllChildren() and insertChild() to support blueprints.
+[+] Add generateBlueprint() to DynLayer Inline
+[*] Modify DynLayer files to use a common/base file
+[+] Add swiper animation class
+[*] Modify DynEvent Object - DynEvent should not be a DynObject.
+[+] Rename IOElementSODA, IOElementSYNC to IOElementSoda, IOElementSync respectively.
+[+] Add ImageClip to dynapi.gui - See ImageClip &amp; Slide Show examples
+[+] Add fadeColor to dynapi.functions.Color - see Color Fade exmaple
+[+] Remove oncreate and onprecreate events, please use onCreate and onPrecreate instead
+[+] Add dictionary support to dynapi constructor
+[+] Add Fader Class - needs more testing in gecko browsers
+[-] Fix NS4/NS6 Drag event bug
+[*] Enhance inline layer support - inline layers/widgets can be created/automated before page loads
+[-] Fix DynLayerInline
+[*] Modify addChild() to addChild(c,alias,inlineID)
+[*] Modify setID() to setID(id,isInline,noImports)
+[+] Add divs object for speed - dyndocument.js line 102
+[+] Added _createInserted() to all dynlayers - this is called by dyndocument
+[*] Rename DynLayer_inline to DynLayerInline
+[+] Add _hasDragEvents to Event Object
+[+] Fix setZIndex({topmost:true}) - Wasn't setting layers as topmost
+[+] Add dynapi.functions.removeFromObject()
+[-] fix #15 for ie,moz,opera (except ns4)
+[-] fix form elements inside drag-enabled layers #08
+[*] Rename some files in examples to follow dynapi. naming convention
+[*] Move images found in ext into ext/images
+[+] Add setTextSelectable to dynapi.document
+[-] Fix image dragging in opera,ie and gecko browser
+[+] Add demo.dragover.html to examples
+[+] Add ondrop, ondragover, ondragout events to dragevents.js
+[+] Add GroupManager to dynapi.gui
+[+] Add demo.dynlayer-attack.html to examples
+[*] Rename Slide() to SlideAnimation()
+[*] Rename Glide() to GlideAnimation()
+[*] Rename dynapi.fx.pathanim-glide.html to dynapi.fx.glideanim.html
+[*] Rename dynapi.fx.pathanim-slide.html to dynapi.fx.slideanim.html
+[-] Fix PathAnimation, GlideAnimation, SlideAnimation
+[+] Rename pathanim.js to glideanim.js
+[*] Move move code from pathanim-full,js to pathanim.js
+[*] Move Slide code from Thread into slidanim.js. remove pathamin_slide.js
+    &gt; This will cause only the slide functions to load when needed since
+      DynLayer already offers a slideTo feature
+[+] Add generateLinePath() to functions.Math
+[*] Move dynapi.functions.getNormalizedAngle to dynapi.functions.Math
+[-] Fix HoverAnimation
+[-] Fix CircleAnimation
+[-] Fixed setTextSelectable() for DOM browsers (except Opera)
+[-] Fixed problem with Safari and setID()
+[*] Rename mouse_ns6.js to mouse_dom.js
+[*] Rename dynlayer_ns6.js to dynlayer_dom.js
+[*] Improvements for LoadPanel
+[*] Set dynapi.ua.support to true if browser is DOM compatible
+[+] Add Safari and DOM support
+[+] Add FlashSound library to DynAPI
+
+Version 3.0 Alpha (2.9.2)
+---------------------------
+This version is a code fork from DynAPI 2.54, so some features and
+bug fixes in later versions may not be included in this version.
+This is definately not a drop in replacement for DynAPI 2.5x, a large
+amount of syntax has changed. See the <a href="../changelog.html">ChangeLog</a> for more information
+
+[*] File structure reorganized
+[+] Debugger
+[+] Library Loader
+[+] DynLayer anchoring
+[+] GlideAnimation
+[*] DynLayer resize handling
+[*] DynLayer has slideTo built-in
+[*] Event handing changed, EventListener removed
+[*] more... read docs/changelog.html for complete list of new features and syntax
+
+Version 2.54
+------------
+[+] Added Netscape 4 resize fix (layers are recreated on resize)
+[*] Recycled layers in Netscape 4 should now lose previous properties
+[-] Event fixes in Netscape 4
+[-] Double-click events fix for non windows Netscape 4
+[*] setID now removes old references when reassigning ids
+[-] ScrollPane fix for setting bar width/height
+[-] innerHTML is now only set for IE (not Mozilla/NS6)
+[-] setSize will not set the size only if there is no change
+[*] Changed setBgColor/setFgColor logic for Netscape 4
+[*] DynAPIObject now uses &quot;c=null&quot; instead of &quot;delete c&quot;
+[*] LoadPanel should display correctly now on resize in IE
+[*] recycled layers are now retrieved from the last array element first
+
+Version 2.53
+------------
+[*] Improved memory management
+[-] Improvements for the Mac
+[-] DynImage fixes for Mac
+[*] Merged IE4 and IE5 code in LoadPanel
+[-] Fixed typo in dynlayer.js (is.win32 --&gt; is.platform==&quot;win32&quot;)
+[*] Converted for (var i in x) loops (should fix some problems)
+[*] toString now uses the format DynObject.all.dynobject1
+
+Version 2.52
+------------
+[-] Fixed bug causing errors in input boxes using keyevents
+[-] Fixed some EventMethod bugs in NS 4
+
+Version 2.51
+-----------
+[-] cancelBrowserEvent changes for NS 4
+
+
+Version 2.5
+-----------
+The internal structure has been completely rewritten in the 2.5
+release.  External changes were kept to a minimum.  Events
+are now in dynapi.event.*.  Please look at the examples
+to see how they are included.  Also, keyevents has been moved
+and renamed to dynapi.event.keyboard.js.  Many other internal
+bug fixes have also been made.
+
+[*] Precreation changes in NS 6 (the div and all its children
+    are created at once)
+[-] Keyevents should now bubble
+[*] Simple events (dynlayer.onresize = function(){}) can be used
+    by including simple.js instead of mouse.js.
+[*] Mozilla (DOM) support has been improved
+[*] DragDrop changes for children layers
+[-] Inline layers (inline.js) should now work in NS 6
+[-] Image animation fixes
+[-] Many other bug fixes
+
+
+Version 2001.01.25
+------------------
+This release features many changes to the DynAPI.  Most noticable is
+a new layer creation system, as well as requiring the script tags after
+the DynAPI.include() statements must be closed before using any DynAPI
+related functions.  Also, the widgets are finally back.  There is a new
+loadPanel widget for loading external files as well as list, path animation
+(slide), button, scrollpanel, and label widgets.  Also included in this package
+is compressed forms of the DynAPI.  These should still be considered beta
+as little testing has been made as of yet.  See the &quot;INSTALL&quot; file for
+more information.  This release also features the first API documentation for
+the distribution.  Please post and bugs to the mailing list.  There are
+too many changes to list, but here are a few:
+
+[-] Many fixes to events
+[*] createElement, deleteElement, assignElement, and assignChildren are
+    now static methods of the DynLayer object.
+[-] DynAPI.include() should now work correctly
+[+] Libraries are now added dynamically (not hard-coded into DynAPI)
+[-] Re-fix for setBgImage in Netscape
+[-] Returned setPageX/Y to previous versions
+[*] getClip fix
+[*] Check for child is created in deleteChildElements
+[*] Modified moveTo
+[-] InvokeEvent how works properly for double click in NS
+[*] Removed .unassigned and .all arrays.  Renamed .unassignedID and .allID to .unassigned and .all
+[-] Fixed DynAPI.removeFromArray with removal of id's
+[-] Fixed bug in removal from unassigned array in findLayers
+[-] Fixed bug in adding to the all array in findLayers
+[+] Added dynapi.ext.loadPanel for loading external files
+
+</pre>
+</body>
+</html>

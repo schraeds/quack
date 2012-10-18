@@ -1,0 +1,136 @@
+<html>
+<head>
+<title>DynAPI - Library [Load]</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+<!--
+
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.debug');  // can load on the fly
+dynapi.library.include('dynapi.library');  // include library load extension
+
+dynapi.library.addPackage('mypackage','mypackage/');
+dynapi.library.add(['mypackage.MyObject0','mypackage.MyObject1'],'myobject1.js','dynapi.api');
+dynapi.library.add('mypackage.MyObject2','myobject2.js','MyObject1');
+dynapi.library.add('mypackage.MyObject3','myobject3.js',['MyObject2']);
+
+// include the <script> elements for the files:
+//dynapi.library.include('dynapi.api');
+//dynapi.library.include('DynEvent');
+//dynapi.library.include('DynDocument');
+//dynapi.library.include('MouseEvent');
+//dynapi.library.include('MyObject3');
+
+// any load()'s performed before dynapi is loaded will be queued
+// and loaded before dynapi.onLoad handlers are called
+//dynapi.library.load('dynapi.api');
+
+function loadPackage() {
+	var p = document.libloader.packagename.options[document.libloader.packagename.selectedIndex].value;
+	if (p) dynapi.library.load(p, function() {
+		alert(eval(p));
+	});
+}
+function getPackagePath() {
+	var p = document.libloader.packagename.options[document.libloader.packagename.selectedIndex].value;
+	if (p) alert(dynapi.library.getPath(p));
+}
+function loadObject() {
+	var n = document.libloader.objectname.options[document.libloader.objectname.selectedIndex].value;
+	if (n) dynapi.library.load(n, function() {
+		alert(dynapi.frame[n]);
+	});
+}
+function reloadObject() {
+	var n = document.libloader.objectname.options[document.libloader.objectname.selectedIndex].value;
+	if (n) dynapi.library.reload(n, function() {
+		alert(dynapi.frame[n]);
+	}, true);
+}
+function reloadAll() {
+	var n = document.libloader.objectname.options[document.libloader.objectname.selectedIndex].value;
+	if (n) dynapi.library.reload(n, function() {
+		alert(dynapi.frame[n]);
+	}, true);
+}
+
+//-->
+</script>
+<script language="Javascript">
+
+dynapi.onLoad(init);
+function init() {
+	var evalstr = 'dynapi.debug.print(MyObject0)\n'+
+	'dynapi.debug.print(MyObject1)\n'+
+	'dynapi.debug.print(MyObject2)\n'+
+	'dynapi.debug.print(MyObject3)\n\n'+
+	'var m3 = new MyObject3();\n'+
+	'alert(m3.value0+" "+m3.value1+" "+m3.value2+" "+m3.value3);\n';
+	dynapi.debug.setEvaluate(evalstr)
+
+	// run test on startup:
+	//createTest();
+}
+
+//dynapi.onLoad(createTest);
+count = 1;
+function createTest() {
+	dynapi.library.load('dynapi.api', function(){
+		dynapi.document.addChild(new DynLayer('success '+count++,260,70,80,80,'yellow'));
+	});
+}
+
+
+
+</script>
+</head>
+<body bgcolor="#999999">
+
+<!-- load debugger on the fly
+<a href="javascript:dynapi.library.load('dynapi.debug', function(){dynapi.debug.open()})">open Debugger</a><br>
+<a href="javascript:dynapi.debug.close()">close Debugger</a>
+-->
+<form name="libloader">
+
+<p>After clicking the links try testing for the objects with the given commands in the debugger.<br>
+<ul>
+<p><li>Load a package:<br>
+<font face="Courier" size=-1><select name=packagename size=5>
+<script language="Javascript">
+var str = '';
+var s,pkg;
+for (var p in dynapi.library.packages) {
+	str += '<option value="'+p+'">'+p+'</option>';
+}
+document.write(str);
+</script>
+</select></font><br>
+<input type=button onclick="loadPackage()" value="Load"><input type=button onclick="getPackagePath()" value="Get Path">
+
+<p><li>Load an object:<br>
+<font face="Courier" size=-1><select name=objectname size=10>
+<script language="Javascript">
+var str = '';
+var s,pkg;
+for (var n in dynapi.library.objects) {
+	s = dynapi.library.objects[n];
+	str += '<option value="'+n+'">'+ s.pkg +'.'+ n +'</option>';
+}
+document.write(str);
+</script>
+</select></font>
+<br><input type=button onclick="loadObject()" value="Load"><input type=button onclick="reloadObject" value="Reload"><input type=button onclick="reloadAll()" value="Reload all Dependencies">
+
+</form>
+
+<p><li>Tests:<br>
+<a href="javascript:createTest()">load dynapi.api, then draw a layer</a><br>
+
+<p><li>Manually load a JS file:<br>
+Note: dynapi.library.loadScript() is meant for non-objects (commands that manipulate the page or load data)<br>
+<a href="javascript:dynapi.library.loadScript('dynapi.library-file1.js', function(){alert(file1Data); dynapi.debug.print('loaded dynapi.library-file1.js')})">libraryloader_file1.js</a><br>
+<a href="javascript:dynapi.library.loadScript('dynapi.library-file2.js', function(){alert(file2Data); dynapi.debug.print('loaded dynapi.library-file2.js')})">libraryloader_file2.js</a>
+</ul>
+
+</body>
+</html>

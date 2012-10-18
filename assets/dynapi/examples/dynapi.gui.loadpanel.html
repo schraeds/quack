@@ -1,0 +1,39 @@
+<html>
+<head>
+<title>DynAPI Examples - LoadPanel</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.library');
+dynapi.library.include('dynapi.api');
+//dynapi.library.include('dynapi.debug');
+dynapi.library.include('dynapi.gui.LoadPanel');
+</script>
+<script language="JavaScript">
+<!--
+
+lp = new LoadPanel('loadpanel/file1.html');
+lp.setLocation(200,20);
+lp.setSize(300,300);
+lp.setBgColor('#C0C0C0');
+dynapi.document.addChild(lp);
+
+//-->
+</script>
+</head>
+<body bgcolor="#999999">
+<script>
+	dynapi.document.insertAllChildren();
+</script>
+<a href="javascript:lp.setURL('loadpanel/file1.html')">file 1</a><br>
+<a href="javascript:lp.setURL('loadpanel/file2.html')">file 2</a><br>
+<a href="javascript:lp.setURL('loadpanel/file3.html')">file 3</a>
+
+<p><a href="javascript:lp.history.back()">back</a><br>
+<a href="javascript:lp.history.forward()">forward</a><br>
+<a href="javascript:lp.reload()">reload</a><br>
+<a href="javascript:lp.clear()">clear</a>
+
+<p><a href="javascript:alert(lp.history)">show history</a><br>
+</body>
+</html>

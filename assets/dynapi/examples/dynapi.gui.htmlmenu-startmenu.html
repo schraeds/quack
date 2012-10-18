@@ -1,0 +1,98 @@
+<html>
+<head>
+<title>DynAPI Examples - HTML Menu - (Start Menu)</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.api');
+dynapi.library.include('HTMLMenu');
+dynapi.library.include('Image');
+
+</script>
+<script language="Javascript">
+
+var lyr = new DynLayer(null,0,0,65,25)
+lyr.setAnchor({left:10,bottom:5})
+
+var mnu = lyr.addChild(new HTMLMenu(),'mnu');
+mnu.backCol = "#FFFFFF";
+mnu.selBgCol="#C1D2EE";
+mnu.foreCol = "#000000";
+mnu.cssMenuItem="";
+mnu.cssMenuText = "MNUItmText";
+
+dynapi.document.addChild(lyr)
+
+if(dynapi.ua.ns4){
+	// NS4 style
+	HTMLComponent.writeStyle({
+		MNUItm: 		'border: 1px solid #C0C0C0',
+		MNUItmTop: 		'border: 1px solid #C0C0C0',
+		MNUItmBottom:	'border: 1px solid #C0C0C0',
+		MNUItmText:		'text-decoration: none; color: #000000; font: 12px Arial, Helvetica '
+	})
+}
+else{
+	// IE & DOM Style
+	HTMLComponent.writeStyle({
+		MNUItm: 		'{border-left: 1px solid #C0C0C0; border-right: 1px solid #C0C0C0;}',
+		MNUItmTop: 		'{border-top: 1px solid #C0C0C0; border-left: 1px solid #C0C0C0; border-right: 1px solid #C0C0C0}',
+		MNUItmBottom:	'{border-bottom: 1px solid #C0C0C0; border-left: 1px solid #C0C0C0; border-right: 1px solid #C0C0C0}',
+		MNUItmText:	'{cursor: default; text-decoration: none; color: #000000; font: 12px Arial, Helvetica }'
+	})
+}
+
+var  p ={align:"absmiddle"}
+var ipx = dynapi.functions.getImage('images/menu_side.gif',16,22,p);
+var iprog = dynapi.functions.getImage('images/menu_programs.gif',16,22,p);
+var istart = dynapi.functions.getImage('images/menu_start.gif',16,22,{
+	align:"absmiddle",
+	oversrc:'images/menu_start_on.gif'
+});
+var iset = dynapi.functions.getImage('images/menu_settings.gif',16,22,{
+	align:"absmiddle",
+	oversrc:'images/menu_settings_on.gif'
+});
+
+var mbar;
+// Main Menu
+mbar= mnu.createMenuBar('main',60,20,1,0);
+mbar.addItem(null,{image:istart,text:' Start'},'start');
+	//File menu
+	mbar = mnu.createMenuBar('start',150,22,-3,0);
+	mbar.addItem('MNUItmTop',iprog.getHTML()+' Programs','progs');
+	mbar.addItem('MNUItm',ipx.getHTML()+' Documents',null,'nav()');
+	mbar.addItem('MNUItm',{image:iset,text:' Settings'},'settings');
+	mbar.addItem('MNUItm',ipx.getHTML()+' Search...',null,'nav()');
+	mbar.addItem('MNUItmTop',ipx.getHTML()+' Logoff',null,'nav()');
+	mbar.addItem('MNUItmBottom',ipx.getHTML()+' Shutdown ...',null,'nav()');
+		// Programs
+		mbar = mnu.createMenuBar('progs',130,22,-2,0);
+		mbar.addItem('MNUItmTop',ipx.getHTML()+' Accessories',null,'nav()');
+		mbar.addItem('MNUItm',ipx.getHTML()+' Startup',null,'nav()');
+		mbar.addItem('MNUItmTop',ipx.getHTML()+' Games',null,'nav()');
+		mbar.addItem('MNUItm',ipx.getHTML()+' DynAPI IDE',null,'nav()');
+		mbar.addItem('MNUItmBottom',ipx.getHTML()+' The Compressor',null,'nav()');
+		// Settings
+		mbar = mnu.createMenuBar('settings',130,22,-2,0);
+		mbar.addItem('MNUItmTop',ipx.getHTML()+' Control Panel',null,'nav()');
+		mbar.addItem('MNUItmTop',ipx.getHTML()+' Printers & Fax',null,'nav()');
+		mbar.addItem('MNUItm',{image:iset,text:' Networks'},null,'nav()');
+		mbar.addItem('MNUItmBottom',ipx.getHTML()+' DynAPI Debugger',null,'nav()');
+
+function nav(){
+	alert ('Do amazing things with the new HTMLMenu')
+}
+
+</script>
+</head>
+
+<body>
+<font face="arial">
+<center><h1>The Start Menu</h1>
+Just <font color="green"><b>Imagine</b></font> what you can do with HTMLMenu.
+</center>
+</font>
+<script> dynapi.document.insertChild(mnu);</script>
+</body>
+</html>

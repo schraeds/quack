@@ -1,0 +1,42 @@
+<html>
+<head>
+<title>DynAPI - DynLayer Create/Remove/Delete</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.api');
+</script>
+<script language="Javascript">
+
+w = new DynLayer();
+w.setBgColor('white');
+w.setSize(130,130);
+w.setLocation(250,50);
+
+b = new DynLayer();
+b.setBgColor('black');
+b.setSize(100,100);
+b.setLocation(400,50);
+
+r = new DynLayer();
+r.setBgColor('red');
+r.setSize(50,50);
+
+dynapi.document.addChild(w);
+dynapi.document.addChild(b);
+
+</script>
+</head>
+<body bgcolor="#999999">
+
+<p>This is not working, and will be fixed in a next release:
+
+<p>R: add to <a href="javascript://" onClick="w.addChild(r)">W</a>, <a href="javascript://" onClick="b.addChild(r)">B</a><br>
+R: remove from <a href="javascript://" onClick="r.removeFromParent()">[parent]</a>, <a href="javascript://" onClick="w.removeChild(r)">W</a>, <a href="javascript://" onClick="b.removeChild(r)">B</a>
+
+<script>
+dynapi.document.insertAllChildren();
+</script>
+
+</body>
+</html>

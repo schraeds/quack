@@ -1,0 +1,56 @@
+<html>
+<head>
+<title>DynAPI Examples - Spaceship & CircleAnimation</title>
+<script language="Javascript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+<!--
+	dynapi.library.setPath('../src/');
+	dynapi.library.include('dynapi.api');
+	dynapi.library.include('dynapi.fx.MotionX');
+	dynapi.library.include('dynapi.gui.ImageClip');
+	dynapi.library.include('dynapi.fx.CircleAnimation');
+//-->
+</script>
+<script language="Javascript">
+<!--
+dynapi.onLoad(function() {
+	block = new ImageClip({x:200,y:200,w:32,h:32,clipImage:"images/ship360.gif",cols:16,rows:1});
+
+	circle = new CircleAnimation(block);
+	circle.setRadius(50);
+	circle.setAngle(180);
+	circle.setAngleIncrement(10);
+	circle.sleep(20);
+
+	circle.playAnimation();
+
+	var listener = {
+		onmove : function(e) {
+			var me = e.getSource();
+			var a= me.getDirectionAngle();
+			me.setFrame(Math.floor(a/22))
+		}
+	}
+	block.addEventListener(listener);
+
+	block.makeSolid()
+
+	dynapi.document.addChild(block);
+});
+
+//-->
+</script>
+</head>
+
+<body bgcolor="#000000" scroll=no>
+<img src="images/ship360.gif" width="512" height="32">
+<table bgcolor="#ffffff" border=0><tr><td>
+<p>Circle
+<br>radius: <a href="javascript:circle.setRadius(50)">50</a> | <a href="javascript:circle.setRadius(100)">100</a>
+<br>H radius: <a href="javascript:circle.setHRadius(50)">50</a> | <a href="javascript:circle.setHRadius(100)">100</a>
+<br>V radius: <a href="javascript:circle.setVRadius(50)">50</a> | <a href="javascript:circle.setVRadius(100)">100</a>
+<br>angle increment: <a href="javascript:circle.setAngleIncrement(10)">10</a> | <a href="javascript:circle.setAngleIncrement(5)">5</a>
+<br>sleep: <a href="javascript:circle.sleep(20)">20</a> | <a href="javascript:circle.sleep(40)">40</a>
+</td></tr></table>
+</body>
+</html>

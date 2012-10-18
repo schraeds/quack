@@ -1,0 +1,47 @@
+<html>
+<head>
+<title>DynAPI Examples - HTML Clock</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.api');
+dynapi.library.include('TemplateManager');
+dynapi.library.include('HTMLClock');
+dynapi.library.include('FlashSound');
+</script>
+<script language="Javascript">
+
+fs = new FlashSound();
+fs.setSWF("images/sndfx.swf");
+HTMLComponent.setFlashSound(fs); // Set FlashSound object for all HCs
+
+// Mozilla will collapse/expand table cells whenever the content of the layer changes. To solve this, specify a width for your table cells
+var tp = new Template('This clock will alarm every 15 seconds<br><br><center><table background="images/blue_back_strip.gif" border="0"><tr><td width="90" height="90">{@fld}</td></tr></table></center>',100,100,200,200,'#EEEEEE');
+
+tp.addChild(new HTMLClock(),'fld');
+tp.fld.sndOnAlarm = '/alarm@start';
+
+var dt = new Date();
+dt = Date.parse(dt)+15000
+tp.fld.setAlarm(dt); // or we could do tp.fld.setAlarm('13:30:00');
+tp.fld.addEventListener({
+	onalarm : function(e){
+		var dt = new Date();
+		status='This is an alarm @' + dt;
+		dt = Date.parse(dt)+15000
+		tp.fld.setAlarm(dt);
+	}
+});
+dynapi.document.addChild(tp);
+
+
+</script>
+</head>
+
+<body>
+<script>
+	dynapi.document.insertAllChildren();
+</script>
+
+</body>
+</html>

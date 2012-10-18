@@ -1,0 +1,35 @@
+<html>
+<head>
+<title>ScrollBar - Speed Test</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+	dynapi.library.setPath('../src/');
+	dynapi.library.include('dynapi.api');
+	dynapi.library.include('dynapi.gui.BorderManager');
+</script>
+<script language="JavaScript" src="_xui.packages.js"></script>
+<script>
+	dynapi.library.include('ScrollBar');
+</script>
+<script language="Javascript">
+
+var d1= new Date;
+for(var i=0;i<20;i++){
+	vsc = new ScrollBar(null,(i+1)*17,100,100,0,100);
+	dynapi.document.addChild(vsc);
+}
+
+dynapi.onLoad(function(){
+	var d2=new Date;
+	alert(d2-d1);
+});
+
+</script>
+</head>
+<body bgcolor="#FFFFFF">
+<p>&nbsp;</p>
+<script>
+	dynapi.document.insertAllChildren();
+</script>
+</body>
+</html>

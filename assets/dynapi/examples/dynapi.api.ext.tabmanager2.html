@@ -1,0 +1,183 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>DynAPI Examples - Tab Manager 2</title>
+<script language="Javascript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.api');
+dynapi.library.include('dynapi.functions');
+dynapi.library.include('dynapi.util.DataSource');
+dynapi.library.include('dynapi.gui.FocusManager');
+dynapi.library.include('dynapi.api.ext.TabManager');
+</script>
+<style type="text/css">
+td { font:10px Helvetica; background:#dddddd; }
+.center { text-align:center; }
+</style>
+<script language="Javascript">
+// data source error function
+function dsConfirm(ds,err) {
+  var elm,t,c;
+  elm=ds.ioelement.getScope();
+  // IE only - used to display page content of a failed response.
+  if(!(dynapi.ua.ie && elm.document && !elm.document._tranState)) t='';
+  else t='------\n'+elm.document.body.innerText;
+  c=confirm(err+'\n\nWould you like to retry the operation?\n\n'+t);
+  if(c) ds.retry();
+};
+// data source listener
+var dsListener={};
+dsListener.onalert=function(e,err) {
+  var ds=e.getSource();
+  if(err.indexOf('DataSource: Server Timeout')>=0) dsConfirm(ds,err);
+};
+// data source callback
+function dsConnect(ds,s,err) {
+  if(s!=true) dsConfirm(ds,err);
+  else ds.moveFirst();
+};
+// tab manager listener
+var tmListener={
+  onblur:function(e) {
+    var o=e.getSource();
+    o.setBgColor('#cccccc');
+  },
+  onfocus:function(e) {
+    var o=e.getSource();
+    o.setBgColor('#aaaaaa');
+  },
+  onsubmit:function(e) {
+    var o=e.getSource();
+    o.setBgColor('#eeeeee');
+    o.callSubmitFn();
+  }
+}
+// default tab attributes
+function Tab(html,x,id) {
+  this.base=DynLayer;
+  this.base(html,x,1,50,16,'#cccccc');
+  this.setClass('center');
+  if(id) this.setID(id)
+}
+Tab.prototype=new DynLayer();
+// example 1
+var e1=dynapi.document.addChild(new DynLayer(null,0,0,309,48));
+// menubar 1
+var m1=e1.addChild(new DynLayer(null,1,1,309,19,'#666666'));
+m1.addChild(new Tab('&lt;&lt; First',1),'tab1').addSubmitFn('ds1.moveFirst()');
+m1.addChild(new Tab('&lt; Prev',52),'tab2').addSubmitFn('ds1.movePrev()');
+m1.addChild(new Tab('Add',103)); // tab 3
+m1.addChild(new Tab('Submit',154)); // tab 4
+m1.addChild(new Tab('Next &gt;',205),'tab5').addSubmitFn('ds1.moveNext()');
+m1.addChild(new Tab('Last &gt;&gt;',256),'tab6').addSubmitFn('ds1.moveLast()');
+m1.createTabManager(m1.tab1,m1.tab2,m1.tab5,m1.tab6); // exclude tab3 & tab4
+m1.addTabListeners(tmListener)
+m1.tab1.onCreate(function() { this.setFocus(true); } );
+// data source 1
+var ds1=new DataSource();
+ds1.setSource('dynapi.util.datasource-testfile.html','GET');
+ds1.connect(dsConnect);
+ds1.addEventListener(dsListener);
+e1.addChild(new DynLayer(null,1,21,17,25,'#cccccc'),'dri').setDataSource(ds1,'dataRowIndex');
+e1.addChild(new DynLayer(null,20,21,80,25,'#cccccc')).setDataSource(ds1,'user_id');
+e1.addChild(new DynLayer(null,102,21,205,25,'#cccccc')).setDataSource(ds1,'full_name');
+e1.dri._setDSValue=function(d) { this.setHTML((d+1)+''); }
+// example 2
+var e2=dynapi.document.addChild(new DynLayer(null,0,0,410,48));
+// menubar 2
+var m2=e2.addChild(new DynLayer(null,0,0,410,19,'#666666'));
+m2.addChild(new Tab('&lt;&lt; First',1,'ds2-moveFirst'),'t1');
+m2.addChild(new Tab('&lt;&lt; -10',52),'t2');
+m2.addChild(new Tab('&lt; Prev',103,'ds2-movePrev'),'t3');
+m2.addChild(new Tab('Add',154));
+m2.addChild(new Tab('Submit',205));
+m2.addChild(new Tab('Next &gt;',256,'ds2-moveNext'),'t4');
+m2.addChild(new Tab('+10 &gt;&gt;',307),'t5');
+m2.addChild(new Tab('Last &gt;&gt;',358,'ds2-moveLast'),'t6');
+m2.t2.addSubmitFn(function() { ds2.setRecordPosition(I2-10); });
+m2.t5.addSubmitFn(function() { ds2.setRecordPosition(I2+10); });
+// m2 tab elements t1,t3,t4,t6 will have id callbacks, '-' replaced with '.' ;)
+m2.createTabManager(m2.t1,m2.t2,m2.t3,m2.t4,m2.t5,m2.t6);
+m2.addTabListeners(tmListener)
+// data source 2
+var ds2=new DataSource(),I2=0;
+ds2.setSource('dynapi.util.datasource-acronyms.html','GET');
+ds2.connect(dsConnect);
+ds2.addEventListener(dsListener);
+e2.addChild(new DynLayer(null,1,21,17,25,'#cccccc'),'dri').setDataSource(ds2,'dataRowIndex');
+e2.addChild(new DynLayer(null,20,21,80,25,'#cccccc')).setDataSource(ds2,'mnemonic');
+e2.addChild(new DynLayer(null,102,21,307,25,'#cccccc')).setDataSource(ds2,'description');
+e2.dri._setDSValue=function(d) { I2=parseInt(d); this.setHTML((I2+1)+''); }
+// example 3
+// tab manager and focus manager listener
+var fmListener={
+  onfocus:function(e) {
+    var o=e.getSource();
+    o.__oldBg=o.getBgColor();
+    o.setBgColor('#999999');
+  },
+  onblur:function(e) {
+    var o=e.getSource();
+    o.setBgColor(o.__oldBg);
+  },
+  onsubmit:function(e) { // tab manager
+    var o=e.getSource();
+    o.setBgColor('#eeeeee');
+  }
+}
+// default box attributes
+function Box(x,y,c) {
+  this.base=DynLayer;
+  this.base(null,x,y,50,50,c);
+  this.setFocus('auto')
+  this.setClass('center');
+}
+Box.prototype=new DynLayer();
+var e3=dynapi.document.addChild(new DynLayer(null,0,0,410,75));
+e3.addChild(new Box(0,0,'#cccccc'));
+e3.addChild(new Box(80,0,'#cccccc'));
+e3.addChild(new Box(160,0,'#cccccc'));
+e3.addChild(new Box(240,0,'#cccccc'));
+e3.addChild(new Box(320,0,'#cccccc'));
+e3.addChild(new Box(360,25,'#bbbbbb'));
+e3.addChild(new Box(280,25,'#bbbbbb'));
+e3.addChild(new Box(200,25,'#bbbbbb'));
+e3.addChild(new Box(120,25,'#bbbbbb'));
+e3.addChild(new Box(40,25,'#bbbbbb'));
+e3.createTabManager(); // all children
+e3.addTabListeners(fmListener);
+// hidden information
+var e4=dynapi.document.addChild(new DynLayer(null,null,null,380,150));
+FORM=null;
+function getForm() {
+  if(FORM) return;
+  FORM=TabManager.getForm(e4);
+  var html4='When using the [Tab] key in Mozilla this text field prevents default tab focus. It may be <a href="" onclick="FORM.setVisible(false);return false;">hidden</a> (unfortunately the cursor is still visible).<br>When using NS4 on Linux with broken key events make sure this text field is <a href="" onclick="FORM.setVisible(true);return false;">visible</a> and click in the field to force focus and allow key input.'
+  e4.addChild(new DynLayer(html4,30,0,350,100));
+}
+</script>
+</head>
+<body bgcolor="#eeeeee">
+<table border=0 cellspacing=4 cellpadding=4>
+<tr><td colspan=2 align="center">Tab Manager Demonstration 2</td></tr>
+<tr>
+<td valign="top">
+<p>Names Datasource<br>
+<script>dynapi.document.insertChild(e1,'relative');</script>
+<p>Acronyms Datasource<br>
+<script>dynapi.document.insertChild(e2,'relative');</script>
+<p>Tab Manager and Focus Manager<br>
+<script>dynapi.document.insertChild(e3,'relative');</script>
+</td>
+<td valign="top"><ol>
+<li>In NS4 click in the window and use the numeric keypad (Num Lock) arrow keys to tab around the menus and the space key to select.
+<li>For other browsers use the numeric keypad or standard arrow keys to tab around the menus and the enter or space key to select.
+<li>On some browsers it is possible to use the [SHIFT+Tab] and [Tab] keys to move left and right repectively. Use up and down arrow keys to move between the menus as before.
+<li>To prevent default tab focus when using the [Tab] key in Mozilla or when trying to use NS4 on Linux with broken key events, click <a href="" onclick="getForm();return false;">here</a>.</ol>
+<script>dynapi.document.insertChild(e4,'relative');</script>
+</td>
+</tr>
+</table>
+</body>
+</html>

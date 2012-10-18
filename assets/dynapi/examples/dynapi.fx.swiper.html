@@ -1,0 +1,79 @@
+<html>
+<head>
+<title>DynAPI Examples - Swiper Animation</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.api');
+dynapi.library.include('dynapi.fx.Swiper');
+</script>
+<script language="Javascript">
+
+var h = '<center><p>&nbsp;<h2>DynAPI 3.0<br>Swiper fx</h2></p></center>';
+var lyr = dynapi.document.addChild(new DynLayer(h,100,50,170,150,'yellow'));
+
+//Init incLayer
+var lyr2=dynapi.document.addChild(new DynLayer({html:h,x:490,y:50,w:170,h:150,color:'#00FF00',zIndex:1}));
+
+dynapi.onLoad(function(){
+	lyr.swipeTo("top",10);
+})
+
+</script>
+</head>
+<body>
+<form>
+<table width="100%" border="0" cellspacing="0" cellpadding="0"><tr><td>
+  <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" id="AutoNumber1" width="364" height="222">
+    <tr>
+      <td width="94" height="26" align="center">
+      <input type="button" value="top-left" name="B1" onclick="lyr.swipeTo(this.value,10)"></td>
+      <td width="160" height="26" align="center">
+      <input type="button" value="top" name="B8" onclick="lyr.swipeTo(this.value,10)"></td>
+      <td width="106" height="26" align="center">
+      <input type="button" value="top-right" name="B7" onclick="lyr.swipeTo(this.value,10)"></td>
+    </tr>
+    <tr>
+      <td width="94" height="168" align="center">
+      <input type="button" value="left" name="B2" onclick="lyr.swipeTo(this.value,10)"></td>
+      <td width="160" height="168" align="center">&nbsp;</td>
+      <td width="106" height="168" align="center">
+      <input type="button" value="right" name="B6" onclick="lyr.swipeTo(this.value,10)"></td>
+    </tr>
+    <tr>
+      <td width="94" height="26" align="center">
+      <input type="button" value="bottom-left" name="B3" onclick="lyr.swipeTo(this.value,10)"></td>
+      <td width="160" height="26" align="center">
+      <input type="button" value="bottom" name="B4" onclick="lyr.swipeTo(this.value,10)"></td>
+      <td width="106" height="26" align="center">
+      <input type="button" value="bottom-right" name="B5" onclick="lyr.swipeTo(this.value,10)"></td>
+    </tr>
+  </table>
+</td><td>
+  <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" id="AutoNumber1" width="364" height="222">
+    <tr>
+      <td width="364" height="26" align="center" colspan="3">
+      <input type="button" value="dec-up" name="btn1" onclick="lyr2.swipeTo(this.value,10,10,50)">
+      <input type="button" value="inc-up" name="btn2" onclick="lyr2.swipeTo(this.value,10,10,50)"></td>
+    </tr>
+    <tr>
+      <td width="94" height="168" align="center">
+      <input type="button" value="inc-left" name="btn3" onclick="lyr2.swipeTo(this.value,10,10,50)"><br>
+      &nbsp;<br>
+      <input type="button" value="dec-left" name="btn4" onclick="lyr2.swipeTo(this.value,10,10,50)"></td>
+      <td width="170" height="168" align="center">&nbsp;</td>
+      <td width="94" height="168" align="center">
+      <input type="button" value="inc-right" name="btn5" onclick="lyr2.swipeTo(this.value,10,10,50)"><br>
+      &nbsp;<br>
+      <input type="button" value="dec-right" name="btn6" onclick="lyr2.swipeTo(this.value,10,10,50)"></td>
+    </tr>
+    <tr>
+      <td width="364" height="26" align="center" colspan="3">
+      &nbsp;<input type="button" value="dec-down" name="btn7" onclick="lyr2.swipeTo(this.value,10,10,50)">
+      <input type="button" value="inc-down" name="btn8" onclick="lyr2.swipeTo(this.value,10,10,50)"></td>
+    </tr>
+  </table>
+</td></tr></table>
+</form>
+</body>
+</html>

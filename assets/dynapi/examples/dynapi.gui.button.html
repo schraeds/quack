@@ -1,0 +1,69 @@
+<html>
+<head>
+<title>DynAPI Examples - Button</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+	dynapi.library.setPath('../src/');
+	dynapi.library.include('dynapi.api');
+	dynapi.library.include('dynapi.gui.BorderManager');
+	dynapi.library.include('Button');
+	dynapi.library.include('ButtonFlatStyle'); // (optional)
+	dynapi.library.include('ButtonImageStyle'); // (optional)
+</script>
+<script language="Javascript">
+
+// Set BlueGel Image Path
+// Styles.setImagePath('images/bluegel/');
+
+// Make all buttons use the Flat Style
+//Styles.addStyle('Button',FlatButtonStyle);
+
+//var btnStyle = Styles.getStyle('ButtonFlat');
+//btnStyle.setStyleAttribute('backColor','#C0C0C0'); // set global style atribute
+
+var btn = new Button('B',300,100,20,20);
+var btn2 = new Button('Flat Button 2',300,170,100,30,'ButtonFlat');
+var btn3 = new Button('I2',300,130,21,21,'ButtonImage');
+dynapi.document.addChild(btn);
+dynapi.document.addChild(btn2);
+dynapi.document.addChild(btn3);
+
+var cnt=0; // onbuttonclick gives better performance than onclick in IE
+btn.onbuttonclick = function(e){
+	window.status = cnt++;
+}
+
+function setButtonStyle(t){
+	btn.setStyle(t||'Button')
+	//btn.setLocalStyleAttribute('foreColor','red');
+	//btn.setEnabled(false);
+}
+
+function flatbutton2(t){
+	// set local back ground color
+	btn2.setLocalStyleAttribute('backColor','Yellow');
+	btn2.setLocalStyleAttribute('mOverBackColor','Lime');
+	btn2.setLocalStyleAttribute('mDownBackColor','#FFCC00');
+	btn2.setLocalStyleAttribute('fontBold',true);
+};
+
+function greenbutton(){
+	btn3.setStyle('ButtonImage');
+	btn3.setLocalStyleAttribute('imageOn',dynapi.functions.getImage('images/btn_green_on.gif',22,22));
+}
+
+
+</script>
+</head>
+<body bgcolor="#FFFFFF">
+<p>&nbsp;</p>
+<a href="javascript:;" onclick="setButtonStyle('Button')">Standard Button</a><br>
+<a href="javascript:;" onclick="setButtonStyle('ButtonFlat')">Flat Button</a><br>
+<a href="javascript:;" onclick="setButtonStyle('ButtonImage')">Image Button (Fixed Size)</a><br><br>
+<a href="javascript:;" onclick="greenbutton()">Image Button #2 - Green</a><br><br>
+<a href="javascript:;" onclick="flatbutton2()">Flat Button #2 - Customized</a><br>
+<script>
+	dynapi.document.insertAllChildren();
+</script>
+</body>
+</html>

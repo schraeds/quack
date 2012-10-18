@@ -1,0 +1,77 @@
+<html>
+<head>
+<title>DynAPI Examples - DynLayer Anchor II</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.api');
+</script>
+<script language="Javascript">
+	var parentLayer = dynapi.document.addChild(new DynLayer(null,200,10,50,50,'#999999'));
+
+	var greenLayer = parentLayer.addChild(new DynLayer(null,0,0,8,8,'green'));
+    	greenLayer.setAnchor({right:0,bottom:0});
+
+	var redLayer = parentLayer.addChild(new DynLayer(null,0,0,8,8,'red'));
+    	redLayer.setAnchor({top:0,left:0});
+
+	var blueLayer = parentLayer.addChild(new DynLayer(null,0,0,8,8,'blue'));
+    	blueLayer.setAnchor({top:0,right:0});
+
+	var yellowLayer = parentLayer.addChild(new DynLayer(null,0,0,8,8,'yellow'));
+    	yellowLayer.setAnchor({bottom:0,left:0});
+
+
+	dynapi.document.addChild(parentLayer);
+</script>
+</head>
+<body>
+<br>
+<Br>
+<table width="100%" border="0">
+  <tr>
+    <td>Green Layer <br> <a href="#" onClick="greenLayer.setWidth(16)">set the
+      green layer's width to 16</a><br> <a href="#" onClick="greenLayer.setWidth(8)">set
+      the green layer's width to 8</a><br> <a href="#" onClick="greenLayer.setWidth(1)">set
+      the green layer's width to 1</a><br> <a href="#" onClick="greenLayer.setHeight(16)">set
+      the green layer's height to 16</a><br> <a href="#" onClick="greenLayer.setHeight(8)">set
+      the green layer's height to 8</a><br> <a href="#" onClick="greenLayer.setHeight(1)">set
+      the green layer's height to 1</a> </td>
+    <td>Red Layer <br> <a href="#" onClick="redLayer.setWidth(16)">set the red
+      layer's width to 16</a><br> <a href="#" onClick="redLayer.setWidth(8)">set
+      the red layer's width to 8</a><br> <a href="#" onClick="redLayer.setWidth(1)">set
+      the red layer's width to 1</a><br> <a href="#" onClick="redLayer.setHeight(16)">set
+      the red layer's height to 16</a><br> <a href="#" onClick="redLayer.setHeight(8)">set
+      the red layer's height to 8</a><br> <a href="#" onClick="redLayer.setHeight(1)">set
+      the red layer's height to 1</a></td>
+  </tr>
+  <tr>
+    <td>Blue Layer <br> <a href="#" onClick="blueLayer.setWidth(16)">set the blue
+      layer's width to 16</a><br> <a href="#" onClick="blueLayer.setWidth(8)">set
+      the blue layer's width to 8</a><br> <a href="#" onClick="blueLayer.setWidth(1)">set
+      the blue layer's width to 1</a><br> <a href="#" onClick="blueLayer.setHeight(16)">set
+      the blue layer's height to 16</a><br> <a href="#" onClick="blueLayer.setHeight(8)">set
+      the blue layer's height to 8</a><br> <a href="#" onClick="blueLayer.setHeight(1)">set
+      the blue layer's height to 1</a></td>
+    <td>Yellow Layer <br> <a href="#" onClick="yellowLayer.setWidth(16)">set the
+      yellow layer's width to 16</a><br> <a href="#" onClick="yellowLayer.setWidth(8)">set
+      the yellow layer's width to 8</a><br> <a href="#" onClick="yellowLayer.setWidth(1)">set
+      the yellow layer's width to 1</a><br> <a href="#" onClick="yellowLayer.setHeight(16)">set
+      the yellow layer's height to 16</a><br> <a href="#" onClick="yellowLayer.setHeight(8)">set
+      the yellow layer's height to 8</a><br> <a href="#" onClick="yellowLayer.setHeight(1)">set
+      the yellow layer's height to 1</a></td>
+  </tr>
+</table>
+<Br>
+<Br>
+<Br>
+<Br>
+<Br>
+<Br>
+<Br>
+<script>
+dynapi.document.insertAllChildren();
+</script>
+
+</body>
+</html>

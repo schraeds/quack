@@ -1,0 +1,29 @@
+<html>
+<head>
+<title>DynAPI Examples  - Template Manager HyperText Component Fields</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.api');
+dynapi.library.include('TemplateManager');
+dynapi.library.include('HTMLButton');
+</script>
+<script language="Javascript">
+
+var t= 'This is the Template <table width="100%" border="1"><tr><td>This is a Layer:</td><td> '
++'<htc:DynLayer("HTC",0,0,30,20,"Yellow") @lyr1 /></td><td> <form name="frm"><td> This is a Button: '
++'<htc:HTMLButton(null,"Button") @btn2 /></form>Some text</td></tr></table> More Text here';
+var tp = new Template(t,100,100,450,150,'#EEEEEE');
+
+// tp.lyr1.setHTML('Cool!');
+
+dynapi.document.addChild(tp);
+
+</script>
+</head>
+<body>
+<script>
+	dynapi.document.insertAllChildren();
+</script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<html>
+<head>
+<title>DynAPI Examples - Random Borders</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.api');
+dynapi.library.include('dynapi.functions.Math');
+dynapi.library.include('dynapi.functions.Color');
+dynapi.library.include('BorderManager');
+</script>
+<script language="Javascript">
+
+
+var styles=['solid','dotted','inset','outset','groove'];
+function generate(n) {
+	for (var i=0;i<n;i++) {
+		var d = new DynLayer();
+		d.setBgColor(dynapi.functions.getRandomColor());
+		d.setSize(10+80*Math.random(),10+80*Math.random());
+		d.setLocation(100+500*Math.random(),400*Math.random());
+		color = '#'+dynapi.functions.getRandomColor();
+		d.setBorder(parseInt(4*Math.random()),color,styles[parseInt(4*Math.random())]);
+		dynapi.document.addChild(d);
+	}
+}
+
+generate(100)
+
+</script>
+</head>
+<body bgcolor="#FFFFFF">
+<script>
+	dynapi.document.insertAllChildren();
+</script>
+</body>
+</html>

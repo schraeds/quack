@@ -1,0 +1,41 @@
+<html>
+<head>
+<title>DynAPI Examples - Speed Test DynLayer Basic</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+	dynapi.library.setPath('../src/');
+	dynapi.library.include('dynapi.library');
+	dynapi.library.include('dynapi.api');
+</script>
+<script>
+var x=0,y=30,c=0,lyr;
+var d1=new Date();
+for(var i=0;i<200;i++){
+	if((i % 25)==0) {
+		y+=21;
+		c=0;
+	}
+	x=c*31;
+	c+=1;
+	lyr=new DynLayer(null,x,y,20,20,'yellow');
+	dynapi.document.addChild(lyr);
+}
+
+dynapi.onLoad(init);
+
+function init(){
+	var d2=new Date();
+	document.frm.txt.value = i+' layers in '+(d2-d1)+' milliseconds';
+}
+
+</script>
+</head>
+<body>
+<form name="frm">Speed:
+<input type="text" size="50" name="txt" value="loading...">
+</form>
+<script>
+	dynapi.document.insertAllChildren();
+</script>
+</body>
+</html>

@@ -1,0 +1,184 @@
+<html>
+<head>
+<title>DynAPI Examples - DataSource Paging</title>
+<style>
+A {color:blue;text-decoration:none}
+A:hover {color:red}
+</style>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.api');
+dynapi.library.include('dynapi.functions');
+dynapi.library.include('DataSource');
+dynapi.library.include('IOElement');
+dynapi.library.include('IOElementSoda');
+</script>
+<script language="Javascript">
+
+
+var lyr = dynapi.document.addChild(new DynLayer(null,20,100,580,200,'#EEEEEE'));
+var infoLyr = dynapi.document.addChild(new DynLayer(null,10,70,300,20));
+
+var ds= new DataSource();
+ds.setSource('dynapi.util.datasource-paging.asp','GET');
+ds.connect(OnDSConnect,true,false);
+ds.addEventListener({
+	onalert: function(e,errMsg){
+		var o=e.getSource();
+		if(errMsg.indexOf('DataSource: Server Timeout')>=0) {
+			var c,t;
+
+			// IE only - used to display page content of a failed response.
+			var elm=o.ioelement.getScope();
+			if (!(dynapi.ua.ie && elm.document && !elm.document._tranState)) t='';
+			else t='------\n'+elm.document.body.innerText;
+
+			c=confirm(errMsg+'\n\nWould you like to retry the operation?\n\n'+t);
+			if(c) o.retry();
+		}
+	},
+	onrequest: function(e){
+		infoLyr.setHTML('<font face="arial">Loading records...</font>');
+	},
+	onresponse: function(e){
+		infoLyr.setHTML(' ');
+	}
+});
+
+
+var loadPages,lastRecordCount;
+
+function OnDSConnect(ds,state,errMsg){
+	if(state!=true) {
+		var c,t;
+
+		// IE only - used to display the page content of a failed response.
+		var elm=ds.ioelement.getScope();
+		if (!(dynapi.ua.ie && elm.document && !elm.document._tranState)) t='';
+		else t='------\n'+elm.document.body.innerText;
+
+		c=confirm(errMsg+'\n\nWould you like to retry the operation?\n\n'+t);
+		if(c) ds.retry();
+		return;
+	}
+
+	// because we'll be using the data source is unbound mode
+	// we have to use a onrecordchange event to receive row change notifications
+	ds.addEventListener({
+		onrecordchange: function(e){
+			var i,o=e.getSource();
+			var table=['<table border="0" cellspacing="1" bgcolor="#000000" width="100%">']
+			for(i=o.getPageStart();i<=o.getPageEnd();i++){
+				r=o.getRecord(i);
+				table[table.length]='<tr bgcolor="'+((i==o.getRecordPosition())? 'lime':'white')+'">'
+				+'<td width="10%"><font face="arial" size="2">'+r.id+'</font></td>'
+				+'<td width="35%"><font face="arial" size="2">'+r.fname+'</font></td>'
+				+'<td width="35%"><font face="arial" size="2">'+r.lname+'</font></td>'
+				+'<td width="20%" align="center"><font face="arial" color="'+r.color+'" size="2"><b>'+r.color+'</b></font></td>'
+				+'</tr>';
+			}
+			table[table.length]='</table>';
+			lyr.setHTML(table.join(''));
+
+			var op,cbo,f=document.forms['frm'];
+			if(lastRecordCount!=o.getRecordCount()) {
+				cbo = clearSelectBox(f.cborecords);
+				for(i=0;i<o.getRecordCount();i++){
+					op=new Option(i+'',i+'');
+					cbo.options[i]=op;
+				}
+				loadPages=true;
+				lastRecordCount=o.getRecordCount();
+			}
+			if(loadPages){
+				cbo = clearSelectBox(f.cbopages);
+				for(i=1;i<=o.getPageCount();i++){
+					op=new Option(i+'',i+'');
+					cbo.options[i-1]=op;
+				}
+				loadPages=false;
+				lyr.setHeight(lyr.getContentHeight());
+			}
+		}
+	});
+
+	setPageSize();
+}
+
+// Clear <select> Box
+function clearSelectBox(sel){
+	if(!sel) return;
+	for(var i=0;i<sel.length;i++) sel.options[i]=null;
+	return sel;
+};
+
+// Set Record Postion
+function setRecordPostion() {
+	var pn,f=document.frm;
+	var cbo=f.cborecords;
+	if(cbo.selectedIndex<0) pn=1;
+	else pn=dynapi.functions.toInteger(cbo.options[cbo.selectedIndex].value);
+	ds.setRecordPosition(pn); // setting the record position will load the page that the record is on
+};
+
+// Set Page Number
+function setPageNumber() {
+	var pn,f=document.frm;
+	var cbo=f.cbopages;
+	if(cbo.selectedIndex<0) pn=1;
+	else pn=dynapi.functions.toInteger(cbo.options[cbo.selectedIndex].value);
+	ds.setAbsolutePage(pn); // setting the page number will load the page
+};
+
+// Set Page Size
+function setPageSize() {
+	var f=document.frm;
+	var ps=dynapi.functions.toInteger(f.txtpagesize.value);
+	loadPages=true;
+	if(ps<1) ps=1;
+	ds.setPageSize(ps); // setting the page size will load the first page
+};
+
+</script>
+</head>
+<body>
+<form name="frm">
+  <table border="0" bgcolor="#EEEEEE" cellpadding="3" cellspacing="4">
+    <tr>
+      <td bgcolor="#FFFFFF"><font face="Arial" size="2">Page Size</font></td>
+      <td bgcolor="#FFFFFF"><input type="text" name="txtpagesize" size="10" value="10"></td>
+      <td bgcolor="#FFFFFF"><input type="button" value="Set" name="cmdpagesize" onclick="setPageSize()"></td>
+      <td bgcolor="#FFFFFF"><font face="Arial" size="2">Goto Page</font></td>
+      <td bgcolor="#FFFFFF"><select size="1" name="cbopages" onchange="setPageNumber()">
+        </select></td>
+      <td bgcolor="#FFFFFF"><font face="Arial" size="2">&nbsp;Goto Record</font></td>
+      <td bgcolor="#FFFFFF"><select size="1" name="cborecords" onchange="setRecordPostion()">
+        </select></td>
+      <td bgcolor="#FFFFFF">
+          <div align="center">
+            <center>
+          <table border="0">
+            <tr>
+              <td><font face="arial" size="2">
+<a href="javascript:void(null)" onclick="ds.moveFirst()"><img border="0" src="images/btn_first.gif" width="25" height="22" alt="First Record"></a></font></td>
+              <td><font face="arial" size="2"><a href="javascript:void(null)" onclick="ds.movePrev()"><img border="0" src="images/btn_prev.gif" width="25" height="22"
+<b &nbsp; alt="Previous Record"> </a> </font></td>
+              <td><font face="arial" size="2"> <a href="javascript:void(null)" onclick="ds.moveNext()"><img border="0" src="images/btn_next.gif" width="25" height="22" alt="Next Record"></font></td>
+                <td><font face="arial" size="2"><a href="javascript:void(null)" onclick="ds.moveLast()"><img border="0" src="images/btn_last.gif" width="25" height="22" alt="Last Record"></font></td>
+                </tr>
+              </table>
+            </center>
+          </div>
+      </td>
+    </tr>
+  </table>
+</form>
+<p align="center"><font face="Arial" size="2">This example requires a web
+server. <a href="dynapi.util.datasource-paging.asp">Click
+here</a> to view/debug Web Service Methods</font></p>
+<script>
+	dynapi.document.insertAllChildren();
+</script>
+</body>
+</html>

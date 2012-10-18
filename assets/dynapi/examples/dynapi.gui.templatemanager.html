@@ -1,0 +1,131 @@
+<html>
+<head>
+<title>DynAPI Examples - Template Manager</title>
+<script language="JavaScript" src="../src/dynapi.js"></script><script language="Javascript">dynapi.library.setPath('../src/');dynapi.library.include('dynapi.api');
+dynapi.library.include('TemplateManager');
+dynapi.library.include('HTMLCalendar');
+dynapi.library.include('HTMLRollover');
+dynapi.library.include('HTMLClock');
+dynapi.library.include('HTMLMenu');
+</script>
+<script language="Javascript">
+// HTML code/templates
+var template1='<table cellSpacing=0 cellPadding=0 width=340 border=0>\n	<tr>\n		<td width=10><img src="images/edge.tplt.gif" border=0 width="10" height="10" /></td>\n		<td width=320 background="images/edge.tp.gif"><img height=10 src="images/pixel.gif" width=1 border=0 /></td>\n		<td width=10><img height=10 src="images/edge.tprt.gif" width="10" border="0" /></td>\n	</tr>\n	<tr>\n    	<td width=10 background="images/edge.lt.gif"><img height=1 src="images/pixel.gif" width=10 border=0></td>\n    	<td vAlign=top width=320 bgColor=#f5f5f5>\n			<table cellSpacing=0 cellPadding=4 width="100%" border=0>\n			<tr>\n				<td noWrap align=center bgcolor="#FFFFFF" width="100%">\n				<table border="0" style="border-collapse: collapse" bordercolor="#111111" cellpadding="0" cellspacing="0">\n				  <tr>\n					<td width="100%">\n					<img border=0 src="images/htmlcomponents.gif" width="285" height="42"></td>\n				  </tr>\n				  <tr>\n					<td width="100%" bgcolor="003366">\n					{@hmenu}\n					</td>\n				  </tr>\n				  <tr>\n					<td width="100%">\n					<table border="0" cellpadding="4" style="border-collapse: collapse" bordercolor="#111111" id="AutoNumber1" cellspacing="3">\n					  <tr>\n						<td valign="top">\n						<table border="0" cellpadding="2" cellspacing="1" style="border-collapse: collapse" bordercolor="#111111" width="103" id="AutoNumber2">\n						  <tr>\n							<td width="93" align="center">{@hbtn1}</td>\n						  </tr>\n						  <tr>\n							<td width="93" align="center">{@hbtn2}</td>\n						  </tr>\n						  <tr>\n							<td width="93" align="center"><br>\n							  {@hclk}</td>\n						  </tr>\n						</table>\n						</td>\n						<td valign="top">{@hcal}</td>\n					  </tr>\n					</table>\n					</td>\n				  </tr>\n				  <tr>\n					<td width="100%" align="right">{@lyr1}</td>\n				  </tr>\n				  <tr>\n					<td width="100%" align="center" style="border-top: 1px solid #000000" bgcolor="#F5F5F5"><b>\n				<font face="Arial, Helvetica, sans-serif" size="2" color="#800000">DynAPI</font></b><font color=#333333 \n				face="Arial, Helvetica, sans-serif" size=2> |&nbsp; {@hlink}</font></td>\n				  </tr>\n				</table>          \n				</td>\n			</tr>\n			</table>\n		</td>\n	    <td width=10 background="images/edge.rt.gif"><img height=1 src="images/pixel.gif" width=10 border=0></td>\n	</tr>\n	<tr>\n	    <td width=10><img height=10 src="images/edge.bmlt.gif" width=10 border=0></td>\n	    <td width=320 background="images/edge.bm.gif"><img height=10 src="images/pixel.gif" width=1 border=0></td>\n	    <td width=10><img height=10 src="images/edge.bmrt.gif" width=10 border=0></td>\n    </tr>\n</table>';
+
+var tp = new Template(template1,150,40,400,360);
+
+var imgPath = "images/";;
+var btn_home = imgPath+"btn_home_";
+var btn_contact = imgPath+"btn_contact_";
+var btnE = {
+	onclick:function(e){
+		alert("Hello from  "+e.getSource()._tmplFld)
+	}
+};
+
+// HTMLMenu
+var mbar;
+tp.addChild(new HTMLMenu(),'hmenu');
+// Main Menu
+mbar= tp.hmenu.createMenuBar('main',40,20);
+mbar.addItem(null,'File','file');
+mbar.addItem(null,'Edit','edit');
+mbar.addItem(null,'View','view');
+mbar.addItem(null,'Tools','tools');
+mbar.addItem(null,'Help','help');
+	//File menu
+	mbar = tp.hmenu.createMenuBar('file',130);
+	mbar.addItem(null,'New');
+	mbar.addItem(null,'Open',null,'alert("Open files")',null,null,'navy','red');
+	mbar.addItem(null,'Save');
+	mbar.addItem(null,'Save As ...');
+	mbar.addItem(null,'Recent Files','recent');
+	mbar.addItem(null,'Exit');
+		//Recent menu
+		mbar = tp.hmenu.createMenuBar('recent',120);
+		mbar.addItem(null,'Dynapi.js');
+		mbar.addItem(null,'Quickref.html');
+		mbar.addItem(null,'Changelog.html');
+		mbar.addItem(null,'Index.html');
+	//edit menu
+	mbar = tp.hmenu.createMenuBar('edit',120);
+	mbar.addItem(null,'Undo');
+	mbar.addItem(null,'Cut');
+	mbar.addItem(null,'Copy');
+	mbar.addItem(null,'Paste');
+	//view menu
+	mbar = tp.hmenu.createMenuBar('view',130);
+	mbar.addItem(null,'Go');
+	mbar.addItem(null,'Stop');
+	mbar.addItem(null,'Toolbars','tbar');
+	mbar.addItem(null,'Status Bar');
+		// tbar
+		mbar = tp.hmenu.createMenuBar('tbar',120);
+		mbar.addItem(null,'Header');
+		mbar.addItem(null,'Footer');
+		mbar.addItem(null,'Standard');
+		mbar.addItem(null,'Drawing');
+	//tools menu
+	mbar = tp.hmenu.createMenuBar('tools',120);
+	mbar.addItem(null,'Options');
+	mbar.addItem(null,'Macro');
+	mbar.addItem(null,'Convert...');
+	mbar.addItem(null,'Run...');
+
+//HTMLRollovers
+tp.addChild(new HTMLRollover(null,85,29,btn_home+'off.gif',btn_home+'on.gif'),'hbtn1');
+tp.addChild(new HTMLRollover(null,85,29,btn_contact+'off.gif',btn_contact+'on.gif'),'hbtn2');
+tp.hbtn1.addEventListener(btnE);
+tp.hbtn2.addEventListener(btnE);
+
+//HTMLHyperLink
+tp.addChild(new HTMLHyperLink(null,'Click Here','http://dynapi.sf.net'),'hlink');
+tp.hlink.startFlash('blue','black')
+tp.hlink.addEventListener({
+	onclick:function(e){
+		var o=e.getSource();
+		alert("A link to DynAPI's website")
+		// o.allowEvent(); // By default HyperLink events are canceled (return false)
+	}
+});
+
+
+//HTMLClock
+tp.addChild(new HTMLClock(),'hclk');
+
+
+// HTML Calender
+hc = tp.addChild(new HTMLCalendar(),'hcal');
+// modify colors
+hc.borCol = '#000000';
+hc.titleBgCol ='maroon';
+hc.titleFgCol ='white';
+hc.wkDayBgCol ='beige';
+hc.selBorCol = '#CCCCCC';
+hc.selBgCol = '#DEDEFF';
+hc.selTDayBgCol = 'beige';
+hc.addEventListener({
+	onchange:function(e){
+		var o=e.getSource();
+		var l=o.parent.lyr1;
+		if(l) {
+			var dt = o.getDate();
+			dt=(!dt)? '':(dt.getMonth()+1)+'/'+dt.getDate()+'/'+dt.getFullYear();
+			o.parent.lyr1.setHTML('<font face="arial" size="2">Date is '+dt+'</font>');
+		}
+	}
+});
+
+//DynLayer
+tp.addChild(new DynLayer(null,0,0,200,20),'lyr1');
+
+dynapi.document.addChild(tp);
+
+</script></head>
+
+<body>
+<script>
+	dynapi.document.insertAllChildren();
+</script>
+</body>
+</html>

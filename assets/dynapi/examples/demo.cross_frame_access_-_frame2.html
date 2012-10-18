@@ -1,0 +1,28 @@
+<HTML>
+<HEAD>
+<TITLE>Cross Frame Access test - frame2</TITLE>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1" />
+<SCRIPT ENCTYPE="text/javascript" LANGUAGE="JavaScript" SRC="../src/dynapi.js"></SCRIPT>
+<SCRIPT ENCTYPE="text/javascript" LANGUAGE="JavaScript">
+
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.api');
+
+</SCRIPT>
+<SCRIPT ENCTYPE="text/javascript" LANGUAGE="JavaScript">
+
+this.lyr = new DynLayer( 'text', 50, 100, 100, 100, 'lightgreen' );
+dynapi.document.addChild( this.lyr );
+
+</SCRIPT>
+</HEAD>
+<BODY>
+This is frame2.<BR />
+<FORM>
+  <TEXTAREA NAME="setText" SCROLL="virtual">one<BR />
+two<BR />
+three
+  </TEXTAREA>
+  <INPUT ONCLICK="window.lyr.setHTML(this.form.setText.value);" TYPE="button" VALUE="set text" />
+</BODY>
+</HTML>

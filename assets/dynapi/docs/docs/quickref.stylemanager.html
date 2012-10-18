@@ -1,0 +1,48 @@
+<!doctype html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title> DynAPI - StyleManager</title>
+<link rel="stylesheet" type="text/css" href="../include/dynapi.css">
+</head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" width="100%">
+  <tr>
+    <td width="38%"><img border="0" src="../images/dynapi.gif" width="200" height="75"></td>
+    <td width="62%" align="right">
+      <p align="right"><a href="../index.html" style="text-decoration:none"><img border="0" src="../images/home.gif" align="absmiddle" width="22" height="19">&nbsp;Home</a><a style="text-decoration: none">
+      </a> | <a style="text-decoration: none" href="examples.html">Examples</a>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="100%" colspan="2" align="left">
+<hr size="1" color="#C0C0C0">
+    </td>
+  </tr>
+  <tr>
+    <td width="100%" colspan="2" align="right"></td>
+  </tr>
+</table>
+<h2>&nbsp;</h2>
+<h2>What is StyleManager all about?</h2>
+<p>StyleManager makes it possible to change the look-and-feel of any DynLayer
+component by just simply changing the style of the component. Styles can also be
+used to change or enhance the behavior of a component without having to create
+or load a different class or library. </p>
+<p>For example: The Button component provides a set of basic input/output
+functions which in and of themselves do not generate any user interface. For the
+Button to be of any use to the user a style must be applied that will render a
+user interface.</p>
+<p>In times past if the user wants to use a FlatButton, an ImageButton and a
+normal PushButton, he/she would have to load and create three different objects:</p>
+<p>var btn1 = new FlatButton();<br>
+var btn2 = new ImageButton();<br>
+var btn3 =&nbsp; new PushButton();</p>
+<p>With Style Manager only one Button Class is required and the necessary
+styles:</p>
+<p>var btn1 = new Button(null,10,10,100,100);<br>
+var btn2 = new Button(null,110,10,100,100,'ButtonFlat');<br>
+var btn3 =&nbsp; newButton(null,220,10,100,100,'ButtonImage');</p>
+<p>&nbsp;</p>
+
+</body>
+</html>

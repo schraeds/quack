@@ -1,0 +1,68 @@
+<html>
+<head>
+<title>DynAPI Examples - Explorer</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+	dynapi.library.setPath('../src/');
+	dynapi.library.include('dynapi.api');
+	dynapi.library.include('dynapi.gui.BorderManager');
+	dynapi.library.include('Explorer');
+	dynapi.library.include('ExplorerBlockStyle'); //Optional
+</script>
+<script language="Javascript">
+
+	var	s = Styles.getStyle('Explorer');
+	var file1 = s.getStyleAttribute('imageFile');
+	var env = dynapi.functions.getImage('images/envelope.gif',15,18);
+
+	var exp = new Explorer(70,100);
+	exp.setBgColor('#EEEEEE');
+
+	exp.addLeave("root","Root Folder");
+		// Groceries
+		exp.addLeave("groc","Groceries","root");
+		exp.addLeave("flour","Flour","groc",file1);
+		exp.addLeave("sugar","Sugar","groc",file1);
+		exp.addLeave("choc","Chocolate","groc",file1);
+			// Cakes
+			exp.addLeave("cake","Cakes","groc");
+			exp.addLeave("plain","Plain Cake","cake",file1);
+			exp.addLeave("ccake","Chocolate Cake","cake",file1);
+		// Fruits
+		exp.addLeave("fruit","Fruits","root");
+		exp.addLeave("mango","Mango","fruit",file1);
+		exp.addLeave("apple","Apple","fruit",file1);
+		exp.addLeave("grape","Grapes","fruit",file1);
+	exp.addEventListener({
+		onselect : function(e) {
+			status=("Current ID is: "+e.getSource().currentPos+" and currentUrl is: "+e.getSource().currentUrl);
+		}
+	});
+	dynapi.document.addChild(exp);
+
+	var exp2 = new Explorer(270,100,null,null,'ExplorerBlock');
+	exp2.addLeave("root",'<font color="green"><b>Emails<b></font>');
+		// Groceries
+		exp2.addLeave("ib",'<font color="Navy"><b>Inbox<b></font>',"root");
+		exp2.addLeave("flour",'<font color="red">Just stop to say Hi..<br>Be of good cheer</font><hr>',"ib",env);
+		exp2.addLeave("sugar",'<font color="black">This is a very long message<br>with a lot of <br>breaks...</font><hr>',"ib",env);
+		exp2.addLeave("choc",'Chocolate',"ib",env);
+			// Cakes
+			exp2.addLeave("ar",'Archive',"ib");
+			exp2.addLeave("plain",'Plain Cake',"ar",env);
+			exp2.addLeave("ccake",'Chocolate Cake',"ar",env);
+		// Fruits
+		exp2.addLeave("ob",'<font color="maroon"><b>Outbox<b></font>',"root");
+		exp2.addLeave("mango",'Mango',"ob",env);
+		exp2.addLeave("apple",'Apple',"ob",env);
+		exp2.addLeave("grape",'Grapes',"ob",env);
+	dynapi.document.addChild(exp2);
+
+</script>
+</head>
+<body bgcolor="#ffffff">
+<script>
+	dynapi.document.insertAllChildren();
+</script>
+</body>
+</html>

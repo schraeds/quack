@@ -1,0 +1,59 @@
+<html>
+<head>
+<title>DynAPI - Image Loader</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+	dynapi.library.setPath('../src/');
+	dynapi.library.include('dynapi.api');
+	dynapi.library.include('dynapi.library');
+	dynapi.library.include('dynapi.functions.Image');
+</script>
+<script language="Javascript">
+
+	var myLyr;
+
+	myLyr=dynapi.document.addChild(new DynLayer(null,100,100,300,25,'silver'));
+	myLyr.addChild(new DynLayer(null,0,0,0,25,'blue'),'lyrBar');
+	dynapi.document.addChild(new DynLayer("Image Progress:",100,70));
+
+	dynapi.functions.getImage("images/arrowdown.gif",9,5)
+	dynapi.functions.getImage("images/arrowleft.gif",5,9)
+	dynapi.functions.getImage("images/arrowright.gif",5,9)
+	dynapi.functions.getImage("images/arrowup.gif",9,5)
+	dynapi.functions.getImage("images/btn_delete.gif",25,22)
+	dynapi.functions.getImage("images/btn_first.gif",25,22)
+	dynapi.functions.getImage("images/btn_last.gif",25,22)
+	dynapi.functions.getImage("images/btn_new.gif",25,22)
+	dynapi.functions.getImage("images/btn_next.gif",25,22)
+	dynapi.functions.getImage("images/btn_prev.gif",25,22)
+	dynapi.functions.getImage("images/btn_save.gif",25,22)
+	dynapi.functions.getImage("images/btn_undo.gif",25,22)
+	dynapi.functions.getImage("images/calc.gif",32,32)
+	dynapi.functions.getImage("images/downsrc.gif",95,15)
+	dynapi.functions.getImage("images/eicon1.gif",32,32)
+	dynapi.functions.getImage("images/eicon2.gif",32,32)
+	dynapi.functions.getImage("images/eicon3.gif",32,32)
+	dynapi.functions.getImage("images/left.gif",20,22)
+	dynapi.functions.getImage("images/oversrc.gif",95,15)
+	dynapi.functions.getImage("images/pixel.gif",1,1)
+	dynapi.functions.getImage("images/src.gif",95,15)
+
+	dynapi.functions.captureImageProgress(fn)
+	dynapi.functions.setImageTTL(15000)
+
+	function fn(c,f,t){
+		var p=parseInt(((c+f)==0)? 0:((c+f)/t)*100);
+		myLyr.lyrBar.setWidth(p*3)
+		myLyr.lyrBar.setHTML('<font color="white">&nbsp;'+p+'%</font>')
+		if((c+f)==t) {
+			var a=dynapi.functions.getFailedImages();
+			for(var i=0;i<a.length;i++){
+				a[i].reload();
+			}
+		}
+	}
+</script>
+</head>
+<body>
+</body>
+</html>

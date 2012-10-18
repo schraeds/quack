@@ -1,0 +1,86 @@
+<!doctype html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>DynAPI - Quick Reference</title>
+<link rel="stylesheet" type="text/css" href="../include/quickref.css" media="screen">
+<link rel="stylesheet" type="text/css" href="../include/quickref.css" media="print">
+</head>
+
+<body>
+	<div id="header">
+		<img border="0" src="../images/dynapi.gif">
+		<div>
+			<a href="../index.html"><img src="../images/home.gif" width="22" height="19">Home</a> | <a href="quickref.html">Quick Reference</a>
+		</div>
+	</div>
+	<h1><span class="object">dynapi.debug</span> - Quick Reference</h1>
+	<div id="inherit"><span>Inherit:</span> <a href="quickref.dynobject.html">DynObject</a></div>
+	<h2>Constructor</h2>
+	<dl>
+        <dt>Debugger()</dt>
+	</dl>
+	<h2>Events</h2>
+	<p>[none]</p>
+	<h2>Public Methods</h2>
+	<dl>
+		<dt>close()</dt>
+		<dd>close the debugger window</dd>
+
+		<dt>error(msg, url, lno)</dt>
+		<dd>output a browser generated error to the debug window</dd>
+
+		<dt>evaluate(str)</dt>
+		<dd>evaluates an expression in the scope of the main dynapi window</dd>
+
+		<dt>getEvalHistory(n)</dt>
+		<dd>show evaluation history</dd>
+
+		<dt>isLoaded()</dt>
+		<dd>...</dd>
+
+		<dt>inspect(obj,showFunctions)</dt>
+		<dd>lists all known properties of an object</dd>
+
+		<dt>open()</dt>
+		<dd>opens the debugger window</dd>
+
+		<dt>print(s)</dt>
+		<dd>output text to the debug window</dd>
+
+		<dt>reload(t)</dt>
+		<dd>reloads selected javascripts, packages or html pages</dd>
+
+		<dt>reset(section)</dt>
+		<dd>...</dd>
+
+		<dt>showHelp()</dt>
+		<dd>...</dd>
+
+		<dt>setEvalHistory(s)</dt>
+		<dd>save previous evaluation information</dd>
+
+		<dt>setEvaluate(str)</dt>
+		<dd>enters text to the evaluate field in the debugger widnow</dd>
+
+		<dt>status(str)</dt>
+		<dd>...</dd>
+
+		<dt>switchMode(m)</dt>
+		<dd>...</dd>
+
+		<dt>watch(name,value)</dt>
+		<dd>watch object variables</dd>
+	</dl>
+	<h2>Private Methods</h2>
+	<dl>
+		<dt>_disableWatch()</dt>
+		<dd>...</dd>
+
+		<dt>_enableWatch()</dt>
+		<dd>...</dd>
+
+	</dl>
+	<h2>Static Methods</h2>
+	<p>[none]</p>
+</body>
+</html>

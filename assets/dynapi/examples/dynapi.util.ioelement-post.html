@@ -1,0 +1,64 @@
+<html>
+<head>
+<title>DynAPI Examples - I/O Element [Post]</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.debug');
+dynapi.library.include('dynapi.api');
+dynapi.library.include('IOElement');
+</script>
+<script language="Javascript">
+
+var ioelement = new IOElement(true);
+
+dynapi.onLoad(init);
+function init() {
+}
+
+function loadtest() {
+    var fn = function(e, success) {
+        if (!success) alert ('Server Timeout');
+        else {
+            var o = e.getSource();
+            var response = o.getVariable('response');
+            alert('The server said:\n' + response);
+        }
+    }
+    var frm = document.forms.iotest;
+    var data = {
+        name : frm.name.value,
+        color : frm.color.options[frm.color.selectedIndex].value
+    }
+    var url = frm.url.options[frm.url.selectedIndex].value;
+    var method = frm.method.options[frm.method.selectedIndex].value;
+    if (method=="post") ioelement.post(url, data, fn);
+    else ioelement.get(url, data, fn);
+}
+
+</script>
+</head>
+<body bgcolor="#999999">
+
+<form name="iotest">
+Select the file to load: <select name="url">
+<option value="dynapi.util.ioelement-postresponse.asp">dynapi.util.ioelement-postresponse.asp</option>
+<option value="dynapi.util.ioelement-postresponse.php">dynapi.util.ioelement-postresponse.php</option>
+<option value="dynapi.util.ioelement-postresponse.pl">dynapi.util.ioelement-postresponse.pl</option>
+</select><br>
+Method: <select name="method">
+<option value="post">post</option>
+<option value="get">get</option>
+</select>
+
+<p>Your Name: <input type=text name="name" size=20 value="My Name"><br>
+Favorite Color: <select name="color">
+<option value="red">red</option>
+<option value="blue">blue</option>
+<option value="black">black</option>
+</select><br>
+<a href="javascript:loadtest()">submit</a>
+</form>
+
+</body>
+</html>

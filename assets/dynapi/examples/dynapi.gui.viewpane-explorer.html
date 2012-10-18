@@ -1,0 +1,50 @@
+<html>
+<head>
+<title>DynAPI Examples - ViewPane and Explorer</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+	dynapi.library.setPath('../src/');
+	dynapi.library.include('dynapi.api');
+	dynapi.library.include('ViewPane');
+	dynapi.library.include('Explorer');
+	dynapi.library.include('ExplorerBlockStyle'); //Optional
+</script>
+<script language="Javascript">
+
+	var html;
+	var vp = new ViewPane(null,250,100,200,160);
+
+	// optional corner image
+	vp.setLocalStyleAttribute('imageCorner',Styles.getImage('corner.gif',16,16));
+
+	var env = dynapi.functions.getImage('images/envelope.gif',15,18);
+
+	var exp2 = new Explorer(0,0,null,null,'ExplorerBlock');
+	exp2.addLeave("root",'<font color="green"><b>Emails<b></font>');
+		// Inboox
+		exp2.addLeave("ib",'<font color="Navy"><b>Inbox<b></font>',"root");
+		exp2.addLeave("flour",'<font color="red">Just stop to say Hi..<br>Be of good cheer</font><hr>',"ib",env);
+		exp2.addLeave("sugar",'<font color="black">This is a very long message<br>with a lot of <br>breaks...</font><hr>',"ib",env);
+		exp2.addLeave("choc",'Chocolate',"ib",env);
+			// Archive
+			exp2.addLeave("ar",'Archive',"ib");
+			exp2.addLeave("plain",'Plain Cake',"ar",env);
+			exp2.addLeave("ccake",'Chocolate Cake',"ar",env);
+		// Outbox
+		exp2.addLeave("ob",'<font color="maroon"><b>Outbox<b></font>',"root");
+		exp2.addLeave("mango",'Mango',"ob",env);
+		exp2.addLeave("apple",'Apple',"ob",env);
+		exp2.addLeave("grape",'Grapes',"ob",env);
+
+	vp.setContent(exp2);
+
+	dynapi.document.addChild(vp);
+
+</script>
+</head>
+<body>
+<script>
+	dynapi.document.insertAllChildren();
+</script>
+</body>
+</html>

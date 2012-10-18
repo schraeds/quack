@@ -1,0 +1,59 @@
+<html>
+<head>
+<title>DynAPI Examples - Focus Manager</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.api');
+dynapi.library.include('FocusManager');
+dynapi.library.include('BorderManager');
+</script>
+<script language="Javascript">
+
+var lyr1=dynapi.document.addChild(new DynLayer(null,100,100,100,100,'yellow'))
+var lyr2=dynapi.document.addChild(new DynLayer(null,210,100,100,100,'blue'))
+var lyr3=dynapi.document.addChild(new DynLayer(null,320,100,100,100,'green'))
+var lyr4=dynapi.document.addChild(new DynLayer(null,380,150,100,100,'#FFCC00'))
+var lyr5=dynapi.document.addChild(new DynLayer(null,50,150,100,100,'#FFCC00'))
+
+var child1=lyr3.addChild(new DynLayer(null,10,10,30,30,'#CCDDEE'));
+var child2=lyr3.addChild(new DynLayer(null,50,10,30,35,'#CCDDEE'));
+var child3=child2.addChild(new DynLayer(null,5,5,20,25,'teal'));
+
+var el={
+	onfocus:function(e){
+		var o=e.getSource();
+		o.setInnerBorder(2)
+	},
+	onblur:function(e){
+		var o=e.getSource();
+		o.setInnerBorder(0)
+	}
+}
+
+lyr1.addEventListener(el);
+lyr2.addEventListener(el);
+lyr3.addEventListener(el);
+lyr4.addEventListener(el);
+lyr5.addEventListener(el);
+
+child1.addEventListener(el);
+child2.addEventListener(el);
+child3.addEventListener(el);
+
+
+lyr1.setFocus('auto',false,'hover');
+lyr5.setFocus('auto',false,'hover');
+lyr2.setFocus('auto');
+lyr3.setFocus('auto');
+lyr4.setFocus('auto');
+
+child1.setFocus('auto',true,'hover');
+child3.setFocus('auto');
+
+</script>
+</head>
+
+<body>
+</body>
+</html>

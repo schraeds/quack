@@ -1,0 +1,40 @@
+<html>
+<head>
+<title>Button - Speed Test</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+	dynapi.library.setPath('../src/');
+	dynapi.library.include('dynapi.api');
+	dynapi.library.include('dynapi.gui.BorderManager');
+</script>
+<script language="JavaScript" src="_xui.packages.js"></script>
+<script>
+	dynapi.library.include('Button');
+	dynapi.library.include('ButtonFlatStyle');
+	dynapi.library.include('ButtonImageStyle');
+</script>
+<script language="Javascript">
+
+// Set BlueGel Image Path
+Styles.setImagePath('images/bluegel/');
+
+var d1= new Date;
+for(var i=0;i<100;i++){
+	btn = new Button('B',Math.random()*400,Math.random()*200,20,20);
+	dynapi.document.addChild(btn);
+}
+
+dynapi.onLoad(function(){
+	var d2=new Date;
+	alert(d2-d1);
+});
+
+</script>
+</head>
+<body bgcolor="#FFFFFF">
+<p>&nbsp;</p>
+<script>
+	dynapi.document.insertAllChildren();
+</script>
+</body>
+</html>

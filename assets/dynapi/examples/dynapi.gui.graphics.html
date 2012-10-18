@@ -1,0 +1,133 @@
+<html>
+<head>
+<title>DynAPI Examples - Graphics</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.library');
+dynapi.library.include('dynapi.api');
+dynapi.library.include('dynapi.gui.Graphics');
+</script>
+<script language="JavaScript">
+<!--
+
+DynAPI.onLoad(function() {
+    lyr = new DynLayer();
+    lyr.setLocation(20,80);
+    lyr.setSize(400,400);
+    lyr.setBgColor('#C0C0C0');
+    DynAPI.document.addChild(lyr);
+
+    graphics = new Graphics(lyr);
+    graphics.useVML = true;
+    graphics.setStrokeColor('#FF0000');
+    graphics.setStrokeWeight(2);
+    graphics.setFillColor('#009900');
+});
+
+function getRandomInt(min,max) {
+    return Math.floor(min+Math.random()*(max-min+1));
+}
+
+function randline() {
+    var x1 = getRandomInt(0,400);
+    var y1 = getRandomInt(0,400);
+    var x2 = getRandomInt(0,400);
+    var y2 = getRandomInt(0,400);
+
+    graphics.drawLine(x1,y1,x2,y2);
+}
+
+function randcircle() {
+    var x = getRandomInt(0,200);
+    var y = getRandomInt(0,200);
+    var r = getRandomInt(20,175);
+
+    graphics.drawCircle(x,y,r);
+}
+
+function randrect() {
+    var x = getRandomInt(0,300);
+    var y = getRandomInt(0,300);
+    var w = getRandomInt(0,100);
+    var h = getRandomInt(0,100);
+
+    graphics.drawRect(x,y,w,h);
+}
+
+function randellipse() {
+    var x = getRandomInt(0,150);
+    var y = getRandomInt(0,150);
+    var rx = getRandomInt(0,200);
+    var ry = getRandomInt(0,200);
+
+    graphics.drawEllipse(x,y,rx,ry);
+}
+
+function fillrandcircle() {
+    var x = getRandomInt(0,200);
+    var y = getRandomInt(0,200);
+    var r = getRandomInt(20,175);
+    var color = ( arguments.length ) ? arguments[0] : '#009900';
+
+    graphics.setFillColor(color);
+    graphics.fillCircle(x,y,r);
+}
+
+function fillrandrect() {
+    var x = getRandomInt(0,300);
+    var y = getRandomInt(0,300);
+    var w = getRandomInt(0,100);
+    var h = getRandomInt(0,100);
+    var color = ( arguments.length ) ? arguments[0] : '#990099';
+
+    graphics.setFillColor(color);
+    graphics.fillRect(x,y,w,h);
+}
+
+function fillrandellipse() {
+    var x = getRandomInt(0,150);
+    var y = getRandomInt(0,150);
+    var rx = getRandomInt(0,200);
+    var ry = getRandomInt(0,200);
+    var color = ( arguments.length ) ? arguments[0] : '#999900';
+
+    graphics.setFillColor(color);
+    graphics.fillEllipse(x,y,rx,ry);
+}
+
+function deleteLast() {
+    alert( 'unimplemented' );
+}
+
+function deleteAll() {
+    alert( 'unimplemented' );
+
+/*
+ * DynAPI.document.destroyAllChildren();           // kills everything
+ * lyr.destroyAllChildren();                       // undefined
+ * DynObject.all.DynObject13.destroyAllChildren(); // undefined
+ */
+}
+
+//-->
+</script>
+</head>
+<body bgcolor="#999999">
+
+<form>
+  <INPUT TYPE="button" value="draw line" onclick="randline();">
+  <INPUT TYPE="button" value="draw circle" onclick="randcircle();">
+  <INPUT TYPE="button" value="draw rect" onclick="randrect();">
+  <INPUT TYPE="button" value="draw ellipse" onclick="randellipse();">
+  <BR>
+  <INPUT TYPE="button" value="fill circle" onclick="fillrandcircle('#00FF00');">
+  <INPUT TYPE="button" value="fill rect" onclick="fillrandrect();">
+  <INPUT TYPE="button" value="fill ellipse" onclick="fillrandellipse('#FF0000');">
+  <BR>
+  <INPUT TYPE="button" value="delete last" onclick="deleteLast();">
+  <INPUT TYPE="button" value="delete all" onclick="deleteAll();">
+</form>
+
+</body>
+</html>

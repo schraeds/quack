@@ -9,13 +9,77 @@
 	<link rel="stylesheet" href="assets/style.css"/>
 	<link href='http://fonts.googleapis.com/css?family=Carme' rel='stylesheet' type='text/css'>
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+	<script language="JavaScript" src="assets/src/dynapi.js"></script>
+	<script language="JavaScript">
+	dynapi.library.setPath('assets/src/');
+	dynapi.library.include('dynapi.api');
+	dynapi.library.include('Fader');
+	</script>
+	<script language="JavaScript">
+	var xmlhttp;
+	if (window.XMLHttpRequest)
+	  {// code for IE7+, Firefox, Chrome, Opera, Safari
+	  xmlhttp=new XMLHttpRequest();
+	  }
+	else
+	  {// code for IE6, IE5
+	  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+	  }
+	  /*xmlhttp.onreadystatechange=function()
+	  {
+	  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+	    {
+	    document.getElementById("item2").innerHTML= xmlhttp.responseText;
+	    
+	    }
+	  }*/
+	  
+	/*var lyr1=new DynLayer('<div id="item1">Q: Welcome to VLAB Audience Q&A</div>',50,50,800,100);
+	lyr1.setVisible(false);
+	dynapi.document.addChild(lyr1);*/
+	xmlhttp.onreadystatechange=function()
+	  {
+	  if (xmlhttp.readyState==4 && xmlhttp.status==200 && xmlhttp.responseText.length>0)
+	    {
+			/*document.getElementById("item4").innerHTML= document.getElementById("item3").innerHTML;
+			document.getElementById("item3").innerHTML= document.getElementById("item2").innerHTML
+			document.getElementById("item2").innerHTML= document.getElementById("item1").innerHTML
+			*/
+			document.getElementById("item1").innerHTML= xmlhttp.responseText;
+	    }
+	  }
+	function getQ(){
+		xmlhttp.open("GET","list", true);
+		xmlhttp.send();
+		
+	}
+	/*
+	dynapi.onLoad(function(){
+		lyr1.fadeIn(); lyr1.slideTo(50,150);
+		});
+	*/
+/*		function loadJSON(url) {
+		var headID = document.getElementsByTagName("head")[0];
+		var newScript = document.createElement('script');
+		newScript.type = 'text/javascript';
+		newScript.src = url;
+		headID.appendChild(newScript);
+		newScript.onreadystatechange= function () {
+	      if (this.readyState == 'complete' || this.readyState == 'loaded') helper();
+	   }
+		newScript.onload= helper;
+	}*/
+	r = setInterval(function(){getQ();},3000);
+	
+	</script>
+	
 </head>
 <body>
 
 <div id="container">
 	<div id="header">
 		<img src="assets/logo.png"/>
-		<span id="eventname">Gamify Everything</span>
+		<span id="eventname">The Revolution of Software Defined Networks</span>
 		<span id="eventsub">Audience Q&A</span>
 		<div id="sendinfo">
 			<span id="prompt">Text questions to:</span><br/>
@@ -23,10 +87,10 @@
 		</div>
 	</div>
 	<div id="main">
-		<div id="item1">Q: Welcome to VLAB Audience Q&A</div>
-		<div id="item2">Q: Item 2. Lorem ipsum dolor sit amet</div>
-		<div id="item3">Q: Item 3. Lorem ipsum dolor sit amet</div>
-		<div id="item4">Q: Item 4. Lorem ipsum dolor sit amet</div>
+		<div id="item1">&nbsp;</div>
+		<div id="item2">&nbsp;</div>
+		<div id="item3">&nbsp;</div>
+		<div id="item4">&nbsp;</div>
 	</div>
 </div>
 <div id="footer"></div>

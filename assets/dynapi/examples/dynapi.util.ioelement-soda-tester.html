@@ -1,0 +1,276 @@
+<html>
+<head>
+<title>DynAPI -  SODA-RPC Web Service Test Page</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+    dynapi.library.setPath('../src/');
+    dynapi.library.include('dynapi.api');
+    dynapi.library.include('dynapi.library');
+    dynapi.library.include('dynapi.util.IOElement');
+    dynapi.library.include('dynapi.util.IOElementSoda');
+</script>
+<script language="Javascript">
+    var io,iws,frm,url;
+
+    io=IOElement.getSharedIO();
+
+    var langs = [];
+
+    langs['asp-vb'] = [];
+    langs['asp-vb']['url'] = 'dynapi.util.ioelement-soda-tester-vb.asp';
+    langs['asp-vb']['method'] = null;
+    langs['perl'] = [];
+    langs['perl']['url'] = 'dynapi.util.ioelement-soda-tester.pl';
+    langs['perl']['method'] = 'post';
+    langs['php'] = [];
+    langs['php']['url'] = 'dynapi.util.ioelement-soda-tester.php';
+    langs['php']['method'] = 'get';
+    //langs['tcl'] = [];
+    //langs['tcl']['url'] = 'dynapi.util.ioelement-soda-tester.tcl';
+    //langs['tcl']['method'] = null;
+
+    function doLangSel(lang) {
+        io.createWebService('iws',langs[lang]['url'],OnWSConnect,false,'myname','mypassword',langs[lang]['method']);
+    }
+
+    function OnWSConnect(o,s,errorText) {
+
+        if (s!=true) {
+            alert('An Error occured while creating web service: '+errorText);
+            return;
+        }
+
+        frm=document.frm;
+        frm.txtname.value=o.getWebName();
+        frm.txtcomment.value=o.getWebComment();
+        frm.txtlogin.value=(s)?'ok':'failed';
+    };
+
+    // test boolean
+    function testBoolean() {
+        var v;
+        if(!io.iws.isConnected) return;
+        v=frm.txtboolean.value;
+        io.iws.call('testBoolean',[v],showResult)
+    };
+
+    // test integer
+    function testInteger() {
+        var v;
+        if(!io.iws.isConnected) return;
+        v=frm.txtinteger.value;
+        io.iws.call('testInteger',[v],showResult)
+    };
+
+    // test float
+    function testFloat() {
+        var v;
+        if(!io.iws.isConnected) return;
+        v=frm.txtfloat.value;
+        io.iws.call('testFloat',[v],showResult)
+    };
+
+    // test string
+    function testString() {
+        var v;
+        if(!io.iws.isConnected) return;
+        v=frm.txtstring.value;
+        io.iws.call('testString',[v],showResult)
+    };
+
+    // test date
+    function testDate() {
+        var v;
+        if(!io.iws.isConnected) return;
+        v=new Date(frm.txtdate.value);
+        io.iws.call('testDate',[v],showResult)
+    };
+
+    // test array
+    function testArray() {
+        var v;
+        if(!io.iws.isConnected) return;
+        v=frm.txtarray.value;
+        v=v.split(',');
+        io.iws.call('testArray',[v],showResult)
+    };
+
+    // test object
+    function testObject() {
+        var a,nv,v={};
+        if(!io.iws.isConnected) return;
+        a=frm.txtobject.value;
+        a=a.split(',');
+        for(var i=0;i<a.length;i++) {
+            nv=a[i].split(':');
+            v[nv[0]]=nv[1];
+        }
+
+        io.iws.call('testObject',[v],showResult)
+    };
+
+    function showResult(e,s) {
+        var o = e.getSource();
+        var r = o.getResponse();
+        if(r.error) {
+            frm.txtdispatch.value=r.error.text;
+            var er=r.error.text+'\n\nTo retry the request click the OK button';
+            if (confirm(er)) o.retry();
+            else o.cancel();
+            return;
+        }
+        var v='';
+        var n='txt'+(r.methodName.substr(4)+'result').toLowerCase();
+        var t=frm[n];
+        if(t && r.methodName!='testObject') t.value=r.value+'';
+        else if(t) {
+            for(i in r.value){
+                if(v) v+=',';
+                v+=(i+':'+r.value[i]);
+            }
+            t.value=v;
+        }
+    }
+
+</script>
+</head>
+<body bgcolor="#FFFFFF">
+<form method="POST" name="frm">
+  <table border="0">
+    <tr>
+      <td colspan="2" bgcolor="#008080"><font face="Arial" size="2" color="#FFFFFF"><b>Server-Side
+      Language Selection</b></font></td>
+    </tr>
+    <tr>
+      <td><font face="Arial" size="2">Language
+        <select name="langSel">
+          <option value="asp-vb">ASP (Visual Basic)</option>
+          <option value="perl">Perl</option>
+          <option value="php">PHP</option>
+          <!-- <option value="tcl">TCL</option> -->
+        </select>
+        <input name="langBtn" onclick="doLangSel(this.form.langSel[this.form.langSel.selectedIndex].value);" type="button" value="go"></font></td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <hr>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" bgcolor="#008080"><font face="Arial" size="2" color="#FFFFFF"><b>Service
+        Name &amp; Comment</b></font></td>
+    </tr>
+    <tr>
+      <td><font face="Arial" size="2">Name<br>
+        </font><font face="Arial" size="2"><input type="text" name="txtname" size="20"></font></td>
+      <td><font face="Arial" size="2">&nbsp;Comment<br>
+        </font><font face="Arial" size="2"><input type="text" name="txtcomment" size="40"></font></td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <hr>
+      </td>
+    </tr>
+    <tr>
+      <td><font face="Arial" size="2">Login State<br>
+        <input type="text" name="txtlogin" size="20"></font></td>
+      <td><font face="Arial" size="2">Dispatch State<br>
+        <input type="text" name="txtdispatch" size="40"></font></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td align="right"><font face="Arial" size="2"><a href="dynapi.util.ioelement-soda-tester-vb.asp">Click
+        here</a> to view/debug Web Service Methods</font></td>
+    </tr>
+    <tr>
+      <td><font face="Arial" size="2">&nbsp;&nbsp;</font></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td colspan="2" bgcolor="#008080"><font face="Arial" size="2" color="#FFFFFF"><b>Data
+        Type Test Results</b></font></td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <table border="0">
+          <tr>
+            <td colspan="3"><b><font size="2" face="Arial">Boolean</font></b></td>
+          </tr>
+          <tr>
+            <td><font face="Arial" size="2">Value: true, false, 0,1<br>
+              <input type="text" name="txtboolean" size="20" value="true"></font></td>
+            <td><font face="Arial" size="2">Result<br>
+              <input type="text" name="txtbooleanresult" size="32"></font></td>
+            <td valign="bottom"><input type="button" value="Test" name="B4" onclick="testBoolean()"></td>
+          </tr>
+          <tr>
+            <td colspan="3"><b><font size="2" face="Arial">Integer</font></b></td>
+          </tr>
+          <tr>
+            <td><font face="Arial" size="2">Value<br>
+              <input type="text" name="txtinteger" size="20" value="10"></font></td>
+            <td><font face="Arial" size="2">Result<br>
+              <input type="text" name="txtintegerresult" size="32"></font></td>
+            <td valign="bottom"><input type="button" value="Test" name="B3" onclick="testInteger()"></td>
+          </tr>
+          <tr>
+            <td colspan="3"><b><font size="2" face="Arial">Float</font></b></td>
+          </tr>
+          <tr>
+            <td><font face="Arial" size="2">Value<br>
+              <input type="text" name="txtfloat" size="20" value="9.45"></font></td>
+            <td><font face="Arial" size="2">Result<br>
+              <input type="text" name="txtfloatresult" size="32"></font></td>
+            <td valign="bottom"><input type="button" value="Test" name="B5" onclick="testFloat()"></td>
+          </tr>
+          <tr>
+            <td colspan="3"><b><font size="2" face="Arial">String</font></b></td>
+          </tr>
+          <tr>
+            <td><font face="Arial" size="2">Value<br>
+              <input type="text" name="txtstring" size="20" value="This is a test"></font></td>
+            <td><font face="Arial" size="2">Result<br>
+              <input type="text" name="txtstringresult" size="32"></font></td>
+            <td valign="bottom"><input type="button" value="Test" name="B6" onclick="testString()"></td>
+          </tr>
+          <tr>
+            <td colspan="3"><b><font size="2" face="Arial">Date</font></b></td>
+          </tr>
+          <tr>
+            <td><font face="Arial" size="2">Value: mm/dd/yyyy<br>
+              <input type="text" name="txtdate" size="20" value="March 10, 1999 11:30"></font></td>
+            <td><font face="Arial" size="2">Result<br>
+              <input type="text" name="txtdateresult" size="32"></font></td>
+            <td valign="bottom"><input type="button" value="Test" name="B7" onclick="testDate()"></td>
+          </tr>
+          <tr>
+            <td colspan="3"><b><font size="2" face="Arial">Array</font></b></td>
+          </tr>
+          <tr>
+            <td><font face="Arial" size="2">Value <br>
+              <input type="text" name="txtarray" size="20" value="red,blue,green"></font></td>
+            <td><font face="Arial" size="2">Result<br>
+              <input type="text" name="txtarrayresult" size="32"></font></td>
+            <td valign="bottom"><input type="button" value="Test" name="B8" onclick="testArray()"></td>
+          </tr>
+          <tr>
+            <td colspan="3"><b><font size="2" face="Arial">Object</font></b></td>
+          </tr>
+          <tr>
+            <td><font face="Arial" size="2">Value - Key: mykey<br>
+              <input type="text" name="txtobject" size="20" value="fname:Mary,lname:Jane,email:mj@yahoo.com"></font></td>
+            <td><font face="Arial" size="2">Result<br>
+              <input type="text" name="txtobjectresult" size="32"></font></td>
+            <td valign="bottom"><input type="button" value="Test" name="B9" onclick="testObject()"></td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </table>
+</form>
+</body>
+</html>

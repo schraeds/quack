@@ -1,0 +1,220 @@
+<!doctype html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title> DynAPI Documentation </title>
+<link rel="stylesheet" type="text/css" href="../include/dynapi.css">
+</head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" width="100%">
+  <tr>
+    <td width="38%">
+    <img border="0" src="../images/dynapi.gif" width="200" height="75"></td>
+    <td width="62%" align="right">
+      <p align="right"><a href="../index.html" style="text-decoration:none"><img border="0" src="../images/home.gif" align="absmiddle" width="22" height="19">&nbsp;Home</a>
+    </td>
+  </tr>
+  <tr>
+    <td width="100%" colspan="2" align="left">
+<hr size="1" color="#C0C0C0">
+    </td>
+  </tr>
+</table>
+
+<h1>IOElement Client-Server Basics</h1>
+
+<p>This document seeks to shed some light on the inner workings of the
+IOElement client-server libraries.</p>
+
+<p align="center">&nbsp;</p>
+
+<p><b>Content</b>
+</p>
+<ul>
+  <li><a href="#What is IOElement?">What is IOElement?</a></li>
+ <li><a href="#IOElement on the Client-Side">IOElement on the Client-side</a></li>
+ <li><a href="#IOElement on the Server-Side">IOElement on the Server-side</a></li>
+</ul>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2><a name="What is IOElement?">What is IOElement?</a>
+</h2>
+<p>IOElement stands for Input/Output Element and can&nbsp; divided into two
+major categories: IOElement Client-Side and IOElement Server-Side.&nbsp;
+</p>
+<p><u>IOElement client-side</u> is basically a multi-threaded DynAPI object that's used
+primarily for sending and receiving multiple sets of data to and from the server. The IOElement
+object consist of one main JavaScript library and&nbsp; two or more library
+extensions (IOElementSODA and IOElemenSync). Below is a list of some of the
+files used by the client:
+</p>
+<ul>
+  <li><a href="../../src/util/ioelement.js">ioelement.js</a></li>
+  <li><a href="../../src/util/ioelement.soda.js">ioelement.soda.js</a></li>
+  <li><a href="../../src/util/ioelement.sync.js">ioelement.sync.js</a></li>
+</ul>
+<p><u>IOElement server-side</u> is a set of library files that provides
+server-side functionality that enables to client to communicate effectively with
+the server regardless of whatever language the server is running:
+</p>
+<ul>
+  <li><a href="../../examples/ioelmsrv.php">ioelmsrv.php</a></li>
+  <li><a href="../../examples/ioelmsrv.pl">ioelmsrv.pl</a></li>
+  <li><a href="../../examples/ioelmsrv.pm">ioelmsrv.pm</a></li>
+  <li><a href="../../examples/ioelmsrv.jscript.asp">ioelmsrv.jscript.asp</a></li>
+  <li><a href="../../examples/ioelmsrv.vbscript.asp">ioelmsrv.vbscript.asp</a></li>
+</ul>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h3><a name="IOElement on the Client-Side">IOElement on the Client-Side</a>
+</h3>
+<p>The basic function of the IOElement object on the client (without any extension) is for
+sending data to the server via the GET, POST or the file UPLOAD method. This is
+done by routing the data to the server through hidden IFrames and/or Layers
+inside the browser. The server then process the data and sends back an html page
+containing JavaScript commands to inform the client of the server's response.
+Below we'll look at how the methods differ from each other:
+</p>
+<h4>The GET method
+</h4>
+<p>The GET method is the simplest way of sending data to server because it does not
+require much processing on the client and handle data of up to two (2) kilobytes
+on each send. Data is sent using name=parameter pairs which are then appended to
+the server's url and sent via the hidden frames.
+</p>
+<p>example:
+</p>
+<pre>var fn = function response(e,s){
+    // code here to handle server response;
+}
+var url ='mypage.php'
+var io = new IOElement(1); // create a single thread ioelement;
+var data = {
+    field1:'value1',
+    field2:'value2'
+}
+io.get(url,data,fn);</pre>
+<p>Data Sample sent to server:
+</p>
+<p>&nbsp;&nbsp;&nbsp; mypage.php?field1=value1&amp;field2=value2
+</p>
+<h4>The POST method
+</h4>
+<p>This method is very similar to the regular html form post method with the
+exception that no form elements are required and the data is not limited to two
+(2) killobytes.&nbsp;
+</p>
+<pre>// sending data via post
+io.post(url,data,fn);</pre>
+<h4>The UPLOAD method
+</h4>
+<p>The UPLOAD (or file upload) method works slightly differently from the get
+and post methods in that if takes in an html form object as it's data input:
+</p>
+<pre>// get form from document
+var f = document.forms['myform'];
+
+// upload data to server
+io.upload(url,f,fn);</pre>
+<p>This is method is only used when uploading files to the server. All
+additional data must be stored inside the form elements. Data is sent using the
+'multipart/form-data' encode format.<br>
+</p>
+<p>When data is being sent to the server via any of the methods mentioned above,
+the library will append three additional variables to the outgoing url. These
+variables (IOElementID, IORequestID and IOMethod) are used by both the client
+and server.
+</p>
+<p>&nbsp;
+</p>
+<p>&nbsp;
+</p>
+<h3><a name="IOElement on the Server-Side">IOElement on the Server-Side</a>
+</h3>
+<p>Data on the server is handled in the same way you would a regular GET, POST
+request from the client. The only difference is that the returned data (or web
+page) must contain the following JavaScript commands:</p>
+<pre>var ioelement;
+var dynapi = parent.dynapi;
+if (dynapi) ioelement = parent.IOElement.notify(this);
+else alert('Error: Missing or invalid DynAPI library');
+</pre>
+<p>The above will notify the client-side IOElement object that the server has
+sent a reply. At this point the client can retrieve the data returned from the
+server. </p>
+<p>Example showing a complete web page returned by the server:</p>
+<pre>&lt;html&gt;&lt;head&gt;
+&lt;script&gt;
+	var ioelement;
+	var dynapi = parent.dynapi;
+	if (dynapi) ioelement = parent.IOElement.notify(this);
+	else alert('Error: Missing or invalid DynAPI library');
+
+	// returned variables
+	var fname = 'Mary';
+	var age = '25';
+	var Address = '45 Waterworks Blvd.';
+	var colors = ['red','blue',green'];
+&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;&lt;/body&gt;
+&lt;/html&gt;</pre>
+<p>Data is sent back to the client in the form of JavaScript variables. For
+example&nbsp; var myname=&quot;John&quot; would store the value &quot;john&quot; inside the &quot;myname&quot;
+variable which can be access by the IOElement using the getVariable() function
+on the client.</p>
+<p>To help make receiving and sending data much easier on the server a few
+server-side IOElement scripts are provided:</p>
+<pre><a href="../../examples/ioelmsrv.php">ioelmsrv.php
+</a><a href="../../examples/ioelmsrv.pl">ioelmsrv.pl</a>
+<a href="../../examples/ioelmsrv.pm">ioelmsrv.pm</a>
+<a href="../../examples/ioelmsrv.jscript.asp">ioelmsrv.jscript.asp
+</a><a href="../../examples/ioelmsrv.vbscript.asp">ioelmsrv.vbscript.asp</a></pre>
+<p>The above scripts contains the following server-side methods:</p>
+<dl>
+  <dt><b>wsAddVariable(name,value)</b></dt>
+  <dd>Adds a JavaScript variable name and value to be returned to the client.
+  This should only be used when html content is being returned to the client.</dd>
+  <dt>&nbsp;</dt>
+  <dt><b>wsDispatchVariables()</b></dt>
+  <dd>Dispatches data to the client. This will send all the necessary html and
+  JavaScript variables to the client. At this point the ws__docWrite() function
+  is called to generate the html codes.</dd>
+  <dt>&nbsp;</dt>
+  <dt><b>wsEndResponse()</b></dt>
+  <dd>Prevents the ws__docWrite function from sending anymore information to the client</dd>
+  <dt>&nbsp;</dt>
+  <dt><b>wsGetRequest(name)</b></dt>
+  <dd>Returns a value sent to the server using either the GET or POST method</dd>
+  <dt>&nbsp;</dt>
+  <dt><b>wsGetRequestMethod()</b></dt>
+  <dd>Returns the method (GET or POST) used for sending data to the server from the IOElement object on the client.</dd>
+  <dt>&nbsp;</dt>
+  <dt><b>ws__docWrite(h)</b></dt>
+  <dd>(Private) Generates an html page containing containing the necessary JavaScript codes
+    to be loaded into an &lt;IFrame> or &lt;Layer> on the client.</dd>
+  <dt>&nbsp;</dt>
+  <dt><b>ws__Var2Text(v)</b></dt>
+  <dd>(Private) Used to convert a server-side variable into a JavaScript client-side variable.</dd>
+  <dt>&nbsp;</dt>
+  <dt><b>ws__Var2TextEncode(text)</b></dt>
+  <dd>(Private) Converts multi-line text into single line JavaScript.&nbsp;</dd>
+</dl>
+<p>&nbsp;
+</p>
+<h2>See Also...
+</h2>
+<ul>
+	<li>Example - <a href="../../examples/dynapi.util.ioelement.html">IOElement -GET</a>
+	<li>Example - <a href="../../examples/dynapi.util.ioelement-post.html">IOElement -
+      POST</a>
+	<li>Example - <a href="../../examples/dynapi.util.ioelement-upload.html">IOElement -
+      UPLOAD</a>
+	<li>Quick Reference - <a href="quickref.ioelement.html">Client/Server
+      communication utility</a>
+</ul>
+<p>&nbsp;</p>
+<p>&nbsp;
+</p>
+</body>
+</html>

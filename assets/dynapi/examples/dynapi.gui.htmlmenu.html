@@ -1,0 +1,80 @@
+<html>
+<head>
+<title>DynAPI Examples - HTML Menu</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.api');
+dynapi.library.include('TemplateManager');
+dynapi.library.include('HTMLMenu');
+
+</script>
+<script language="Javascript">
+
+// Mozilla will collapse/expand table cells whenever the content of the layer changes. To solve this, specify a width for your table cells
+t = 'This is the Template:<br><br><center><table border="0"><tr><td width="200">{@mnu}</td></tr></table></center>';
+var tp = new Template(null,100,100,250,200,'#EEEEEE');
+
+tp.addChild(new HTMLMenu(),'mnu');
+
+var mbar;
+// Main Menu
+mbar= tp.mnu.createMenuBar('main',40,20);
+mbar.addItem(null,'File','file');
+mbar.addItem(null,'Edit','edit');
+mbar.addItem(null,'View','view');
+mbar.addItem(null,'Tools','tools');
+mbar.addItem(null,'Help','help');
+	//File menu
+	mbar = tp.mnu.createMenuBar('file',130);
+	mbar.addItem(null,'New');
+	mbar.addItem(null,'Open',null,'alert("Open files")');
+	mbar.addItem(null,'Save');
+	mbar.addItem(null,'Save As ...');
+	mbar.addItem(null,'Recent Files','recent');
+	mbar.addItem(null,'Exit');
+		//Recent menu
+		mbar = tp.mnu.createMenuBar('recent',120);
+		mbar.addItem(null,'Dynapi.js');
+		mbar.addItem(null,'Quickref.html');
+		mbar.addItem(null,'Changelog.html');
+		mbar.addItem(null,'Index.html');
+	//edit menu
+	mbar = tp.mnu.createMenuBar('edit',120);
+	mbar.addItem(null,'Undo');
+	mbar.addItem(null,'Cut');
+	mbar.addItem(null,'Copy');
+	mbar.addItem(null,'Paste');
+	//view menu
+	mbar = tp.mnu.createMenuBar('view',130);
+	mbar.addItem(null,'Go');
+	mbar.addItem(null,'Stop');
+	mbar.addItem(null,'Toolbars','tbar');
+	mbar.addItem(null,'Status Bar');
+		// tbar
+		mbar = tp.mnu.createMenuBar('tbar',120);
+		mbar.addItem(null,'Header');
+		mbar.addItem(null,'Footer');
+		mbar.addItem(null,'Standard');
+		mbar.addItem(null,'Drawing');
+	//tools menu
+	mbar = tp.mnu.createMenuBar('tools',120);
+	mbar.addItem(null,'Options');
+	mbar.addItem(null,'Macro');
+	mbar.addItem(null,'Convert...');
+	mbar.addItem(null,'Run...');
+
+dynapi.document.addChild(tp);
+
+dynapi.onLoad(function(){
+	tp.setHTML(t);
+})
+</script>
+</head>
+
+<body>
+<script>
+	dynapi.document.insertAllChildren();
+</script>
+</body>
+</html>

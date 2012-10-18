@@ -1,0 +1,53 @@
+<html>
+<head>
+<title>DynAPI Examples - Drag Icon</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.api');
+dynapi.library.include('DragEvent');
+</script>
+<script language="Javascript">
+
+var icon = new DynLayer('<img src="images/file.gif">',0,0,20,24);
+icon.setMaximumSize(20,24);
+
+dynapi.functions.getImage("images/menu_side.gif");
+var icon2 = new DynLayer(null,0,0,0,0,null,'images/menu_side.gif');
+
+
+// layer 1
+var lyr = new DynLayer('Yellow Source',50,100,100,100,'yellow');
+lyr.setDragIcon(icon);
+lyr.setDragEnabled(true,null,true);
+dynapi.document.addChild(lyr);
+lyr._tag='yellow';
+
+// layer 2
+var lyr = new DynLayer('Lime Source',50,210,100,100,'lime');
+lyr.setDragIcon(icon);
+lyr.setDragEnabled(true,null,true);
+dynapi.document.addChild(lyr,'layer2');
+lyr._tag='lime';
+
+// target
+var lyr = new DynLayer('Target',250,100,300,210,'gold');
+dynapi.document.addChild(lyr,'target');
+lyr.addEventListener({
+	ondrop:function(e,dragIcon){
+		o = dragIcon.getDragSource();
+		alert("You've dropped the "+o._tag+" layer");
+	}
+});
+
+function changeIcon(){
+	dynapi.document.layer2.setDragIcon(icon2);
+}
+</script>
+</head>
+
+<body>
+Drag and Drop the Yellow or Lime colored layers onto the Gold layer <br><br>
+<a href="javascript:;" onclick="changeIcon()">Change Lime Source Drag Icon<a>
+</body>
+</html>

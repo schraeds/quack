@@ -1,0 +1,88 @@
+<html>
+<head><title>DynAPI Tutor - Button widget</title>
+<script language="Javascript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+	dynapi.library.setPath('../src/');
+	dynapi.library.include('dynapi.api');
+</script>
+<script language="Javascript">
+
+	//The widget (later we include it as a .js file)
+	function Button(x,y,w,h,caption) {
+		this.Dynlayer=DynLayer;
+		this.Dynlayer(null,x,y,w,h);
+
+		this.caption=caption||'';
+		this.onPreCreate(Button.PreCreate);
+
+		this.addEventListener(Button.listener);
+	}
+	var p = dynapi.setPrototype('Button','DynLayer');
+	Button.PreCreate = function() {
+		this.setBgColor('#c0c0c0')	// make the widget look gray
+
+		// create child layer for caption
+		this.addChild(new DynLayer(null,1,1,this.w-2,this.h-2),'dyncaption');
+		this.dyncaption.setHTML('<center>'+this.caption+'</center>');
+
+		// add 3D looking borders at the edges of the widget
+		this.BorderL=new DynLayer(null,0,0,1,this.h,'#f0f0f0');
+		this.BorderT=new DynLayer(null,0,0,this.w,1,'#f0f0f0');
+		this.BorderR=new DynLayer(null,this.w-1,1,1,this.h-1,'#808080');
+		this.BorderB=new DynLayer(null,1,this.h-1,this.w-1,1,'#808080');
+
+		this.addChild(this.BorderL);
+		this.addChild(this.BorderT);
+		this.addChild(this.BorderR);
+		this.addChild(this.BorderB);
+
+		this.setVisible(true); // make sure the widget is visible
+
+		// add layer for event handling
+		this.dynevents = new DynLayer(null,0,0,this.w,this.h);
+		this.addChild(this.dynevents);
+	}
+	Button.listener = {
+		onmousedown : function(e) { // add onmousedown handler
+			var o=e.getSource();
+			// switch colors to make the button look pressed
+			o.BorderL.setBgColor('#808080');
+			o.BorderR.setBgColor('#f0f0f0');
+			o.BorderT.setBgColor('#808080');
+			o.BorderB.setBgColor('#f0f0f0');
+		},
+		onmouseup : function(e) {
+			var o=e.getSource();
+			// switch colors to make the button look normal
+			o.BorderL.setBgColor('#f0f0f0');
+			o.BorderR.setBgColor('#808080');
+			o.BorderT.setBgColor('#f0f0f0');
+			o.BorderB.setBgColor('#808080');
+
+			o.invokeEvent("pressed"); // new line to invoke the onpressed() event
+		}
+	}
+
+	myListener = {
+		onpressed : function(e) {
+			var o=e.getSource();
+			alert('You hit '+o.caption+'!')
+		}
+	}
+
+	myButton=new Button(100,100,80,23,'Ok')
+	myButton.addEventListener(myListener);
+
+	myButton2=new Button(180,100,80,23,'Cancel')
+	myButton2.addEventListener(myListener);
+
+	dynapi.document.addChild(myButton);
+	dynapi.document.addChild(myButton2);
+
+</script>
+</head>
+<body bgcolor=#d0d0d0>
+Back to: <a href="../docs/docs/tip.createwidget.html#fullcode">How to create Widgets</a>
+</body>
+</html>
+

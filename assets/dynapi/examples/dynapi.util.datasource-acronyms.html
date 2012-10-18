@@ -1,0 +1,93 @@
+<html>
+<head>
+<script>
+var dynapi=parent.dynapi;
+if(dynapi) {
+var ioelement=parent.IOElement.notify(this);
+var data=[
+{mnem:'AKA',	desc:'Also Known As (sometimes written "a/k/a")'},
+{mnem:'AWBYGN',	desc:'And We Bid You Good Night'},
+{mnem:'BCT',	desc:'Berkeley Community Theatre'},
+{mnem:'BG',	desc:'Bill Graham / Boston Garden'},
+{mnem:'GP',	desc:'Bill Graham Presents'}, 
+{mnem:'BIODTL',	desc:'Beat It On Down The Line'},
+{mnem:'BTW',	desc:'Black Throated Wind / By The Way'},
+{mnem:'DDN',	desc:'Dupree\'s Diamond News'},
+{mnem:'FAQ',	desc:'Frequently Asked Questions'}, 
+{mnem:'FOAF',	desc:'Friend Of A Friend'},
+{mnem:'FOTD',	desc:'Friend of the Devil'},
+{mnem:'FQA',	desc:'Frequently Questioned Acronyms'},
+{mnem:'FTR',	desc:'For The Record'},
+{mnem:'FTP',	desc:'File Transfer Protocol'},
+{mnem:'FWIW',	desc:'For What It\'s Worth'},
+{mnem:'FYI',	desc:'For Your Information'},
+{mnem:'GD',	desc:'Grateful Dead (of course;-)'},
+{mnem:'GDH',	desc:'Grateful Dead Hour'},
+{mnem:'GDM',	desc:'Grateful Dead Merchandising'},
+{mnem:'GDTRFB',	desc:'Goin\' Down The Road Feelin\' Bad'}, 
+{mnem:'GDTS',	desc:'Grateful Dead Ticket Sales'},
+{mnem:'IJWTS',	desc:'I Just Want To Say'},
+{mnem:'IKYR',	desc:'I Know You Rider'},
+{mnem:'ITALTLITATTC',desc:'It Takes A Lot To Laugh, It Takes A Train To Cry'},
+{mnem:'IMHO',	desc:'In My H{umble, onest} Opinion'},
+{mnem:'IMNSHM',	desc:'In My Not So Humble Opinion'},
+{mnem:'IMO',	desc:'In My Opinion'},
+{mnem:'JAPD',	desc:'Just Another Picky Deadhead'},
+{mnem:'JBG',	desc:'Johnny B. Goode'},
+{mnem:'JGAB',	desc:'Jerry Garcia Acoustic Band'},
+{mnem:'JGB',	desc:'Jerry Garcia Band'},
+{mnem:'LDR',	desc:'Long Distance Relationship'},
+{mnem:'LJBF',	desc:'Let\'s Just Be Friends'},
+{mnem:'LLR',	desc:'Looks Like Rain'},
+{mnem:'LSD',	desc:'Lysergic acid Diethylamide'},
+{mnem:'LTGTR',	desc:'Let The Good Times Roll'},
+{mnem:'MIDI',	desc:'Musical Instrument Digital Interface'},
+{mnem:'MO',	desc:'Mail Order'},
+{mnem:'MSG',	desc:'Madison Square Garden / MonoSodium Glutamate'},
+{mnem:'MSWS',	desc:'Man Smart, Woman Smarter'},
+{mnem:'NFA',	desc:'Not Fade Away'},
+{mnem:'NSB',	desc:'New Speedway Boogie'},
+{mnem:'NYE',	desc:'New Year\'s Eve'},
+{mnem:'ODC',	desc:'Obligatory Dead Content'},
+{mnem:'OFTV',	desc:'One From The Vault'},
+{mnem:'OMSN',	desc:'One More Saturday Night'},
+{mnem:'OTOH',	desc:'On The Other Hand'},
+{mnem:'PITB',	desc:'Playing In The Band '},
+{mnem:'PPPS',	desc:'Peace'},
+{mnem:'RSVP',	desc:'Repondez, S\'il Vous Plait (French for "please reply")'},
+{mnem:'SASE',	desc:'Self Addressed Stamped Envelope'},
+{mnem:'SIOMWTMBA',desc:'Stuck Inside Of Mobile With The Memphis Blues Again'},
+{mnem:'SO',	desc:'Significant Other'},
+{mnem:'SOTM',	desc:'Standing On The Moon'},
+{mnem:'SPAC',	desc:'Saratoga Performing Arts Center'},
+{mnem:'SSAE',	desc:'Stamped, Self-Addressed Envelope'},
+{mnem:'SYF',	desc:'Steal Your Face / Space Your Face'},
+{mnem:'TANSTAAFL',desc:'There Ain\'t No Such Thing As A Free Lunch'},
+{mnem:'TLEO',	desc:'They Love Each Other'},
+{mnem:'TOC',	desc:'Table of Contents :)'},
+{mnem:'TWLWMYD',desc:'That\'s What Love Will Make Ya Do'},
+{mnem:'TWYDTTYD',desc:'The Way Ya Do The Things Ya Do'},
+{mnem:'UJB',	desc:'Uncle John\'s Band'},
+{mnem:'VLDR',	desc:'Very Long Distance Relationship'},
+{mnem:'VOTC',	desc:'Victim Or The Crime'},
+{mnem:'WALSTIB',desc:'What A Long Strange Trip It\'s Been'},
+{mnem:'WELL',	desc:'Whole Earth \'Lectronic Link'},
+{mnem:'WRT',	desc:'With Regard To (sometimes written "w/r/t")'},
+{mnem:'YATG',	desc:'Yet Another Ticket Grovel'},
+{mnem:'YLGM',	desc:'Your List Gets Mine'}
+];
+var args=dynapi.functions.getURLArguments(this);
+var da=args['dataAction'];
+var dr=args['dataRowIndex'];
+if(!da||da=='movefirst') { dr=0; }
+else if(da=='moveprev') { dr--; if(dr<0) dr=0; }
+else if(da=='moveto') { if(dr<0) dr=0; if(dr>=data.length) dr=data.length-1; }
+else if(da=='movenext') { dr++; if(dr>=data.length) dr=data.length-1; }
+else if(da=='movelast') { dr=data.length-1; }
+var record={ dataRowIndex:dr,mnemonic:data[dr].mnem,description:data[dr].desc };
+} else alert('Error: no dynapi!');
+</script>
+</head>
+<body>
+</body>
+</html>

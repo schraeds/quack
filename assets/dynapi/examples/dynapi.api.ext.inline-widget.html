@@ -1,0 +1,61 @@
+<html>
+<head>
+<title>DynAPI Examples - Inline Widget</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.library');
+dynapi.library.include('dynapi.debug');
+dynapi.library.include('dynapi.api');
+dynapi.library.include('DynLayerInline');
+dynapi.library.include('DragEvent');
+</script>
+<script language="Javascript">
+
+var mylayer = dynapi.document.addChild(new DynLayer(),null,'mylayer');
+mylayer.addChild(new DynLayer(),'lyrBox1','box1');
+mylayer.addChild(new DynLayer(),'lyrBox2','box2');
+mylayer.addChild(new DynLayer(),'lyrBox3','box3');
+mylayer.addChild(new DynLayer(),'lyrBox4','box4');
+
+DragEvent.enableDragEvents(
+	mylayer,
+	mylayer.lyrBox1,
+	mylayer.lyrBox2,
+	mylayer.lyrBox3,
+	mylayer.lyrBox4
+);
+
+var el = {
+	onmousedown : function(e) {
+		dynapi.debug.print('mousedown on '+e.getSource().id)
+		e.preventBubble();
+	}
+}
+
+mylayer.addEventListener(el);
+
+</script>
+<style type="text/css">
+<!--
+
+#mylayer {position:absolute; left:250px; top:50px; width:200px; height:200px; clip:rect(0px 200px 200px 0px); background-color:red; layer-background-color:red;}
+#box1 {position:absolute; left:0px; top:0px; width:20px; height:20px; clip:rect(0px 20px 20px 0px); background-color:yellow; z-index:5; layer-background-color:yellow;}
+#box2 {position:absolute; left:180px; top:0px; width:20px; height:20px; clip:rect(0px 20px 20px 0px); background-color:blue; z-index:5; layer-background-color:blue;}
+#box3 {position:absolute; left:180px; top:180px; width:20px; height:20px; clip:rect(0px 20px 20px 0px); background-color:silver; z-index:5; layer-background-color:silver;}
+#box4 {position:absolute; left:0px; top:180px; width:20px; height:20px; clip:rect(0px 20px 20px 0px); background-color:green; z-index:5; layer-background-color:green;}
+
+-->
+</style>
+</head>
+<body bgcolor="#FFFFFF">
+<div id="mylayer">
+<table border="0" height="200" width="200"><tr><td align="center"><font color="#ffffff">My Inline Widget<br>Drag Me</font></td></tr></table>
+	<div id="box1"></div>
+	<div id="box2"></div>
+	<div id="box3"></div>
+	<div id="box4"></div>
+</div>
+
+</body>
+</html>

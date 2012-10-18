@@ -1,0 +1,177 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>Dynapi Examples - Drag & Snap (SnapX)</title>
+<meta http-equiv=content-type content="text/html; charset=iso-8859-1">
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="JavaScript">
+    dynapi.library.setPath('../src/');
+    dynapi.library.include('dynapi.api');
+    dynapi.library.include('dynapi.api.ext.DragEvent');
+    dynapi.library.include('dynapi.fx.SnapX');
+    dynapi.library.include('dynapi.functions.Color');
+</script>
+<script language="JavaScript">
+    var l1,l2,l3,l4,l5,l6,l7,l8,l9,l1txt,l2txt,l3txt,l4txt,l5txt,l6txt,l7txt,l8txt,l9txt;
+
+    l1txt = '<font size="1" face="Verdana">drag<br />snap<br />inner, 5</font>';
+    l2txt = '<font size="1" face="Verdana">drag<br />snap<br />outer, 5</font>';
+    l3txt = '<font size="1" face="Verdana">drag<br />snap<br />both, 5</font>';
+    l4txt = '<font size="1" face="Verdana">drag<br />snap<br />both, 10<br />sticky</font>';
+    l5txt = '<font size="1" face="Verdana">drag<br />snap<br />both, 10<br />grid, def</font>';
+    l6txt = '<font size="1" face="Verdana">static<br />snap<br />def, 15</font>';
+    l7txt = '<font size="1" face="Verdana">static<br />snap<br />def, 10<br />sticky</font>';
+    l8txt = '<font size="1" face="Verdana">drag<br />snap<br />def, def<br />grid, def</font>';
+    //l9txt = '<font size="1" face="Verdana">drag<br />snap<br />def, def</font>';
+
+    l1 = new DynLayer(l1txt,25,25,50,50,'red');
+    l2 = new DynLayer(l2txt,185,25,50,50,'orange');
+    l3 = new DynLayer(l3txt,350,25,50,50,'yellow');
+    l4 = new DynLayer(l4txt,515,25,50,50,'lightgreen');
+    l5 = new DynLayer(l5txt,675,25,50,50,'lightblue');
+    l6 = new DynLayer(l6txt,25,100,100,100,'violet');
+    l7 = new DynLayer(l7txt,225,100,100,100,'tan');
+    l8 = new DynLayer(l8txt,425,100,175,175,'lightgrey');
+    //l9 = new DynLayer(l9txt,625,100,100,100,'gray');
+
+    l1.setTextSelectable(false);
+    l2.setTextSelectable(false);
+    l3.setTextSelectable(false);
+    l4.setTextSelectable(false);
+    l5.setTextSelectable(false);
+    l6.setTextSelectable(false);
+    l7.setTextSelectable(false);
+    l8.setTextSelectable(false);
+    //l9.setTextSelectable(false);
+
+    l1.enableSnap();
+    l2.enableSnap();
+    l3.enableSnap();
+    l4.enableSnap();
+    l4.enableStickySnap();
+    l5.enableSnap();
+    l5.enableGridSnap();
+    l6.enableSnap();
+    l7.enableSnap();
+    l7.enableStickySnap();
+    l8.enableSnap();
+    l8.enableGridSnap();
+    //l9.enableSnap();
+
+    l1.setSnapBoundary('inner',5);
+    l2.setSnapBoundary('outer',5);
+    l3.setSnapBoundary('both',5);
+    l4.setSnapBoundary('both',10);
+    l5.setSnapBoundary('both',10);
+    l6.setSnapBoundary(15);
+    l7.setSnapBoundary(10);
+    l8.setSnapBoundary(15,40);
+
+    l1.setZIndex(100);
+    l2.setZIndex(101);
+    l3.setZIndex(102);
+    l4.setZIndex(103);
+    l5.setZIndex(104);
+    l6.setZIndex(10);
+    l7.setZIndex(11);
+    l8.setZIndex(12);
+    //l9.setZIndex(13);
+
+    DragEvent.enableDragEvents(l1);
+    DragEvent.enableDragEvents(l2);
+    DragEvent.enableDragEvents(l3);
+    DragEvent.enableDragEvents(l4);
+    DragEvent.enableDragEvents(l5);
+
+    l1.addEventListener({
+        onsnap : function(e) {
+            var src = e.getSource();
+        }
+    });
+
+    l2.addEventListener({
+        onsnap : function(e) {
+            var src = e.getSource();
+        }
+    });
+
+    l3.addEventListener({
+        onsnap : function(e) {
+            var src = e.getSource();
+        }
+    });
+
+    l4.addEventListener({
+        onsnap : function(e) {
+            var src = e.getSource();
+        }
+    });
+
+    l5.addEventListener({
+        onsnap : function(e) {
+            var src = e.getSource();
+        }
+    });
+
+    dynapi.document.addChild(l1);
+    dynapi.document.addChild(l2);
+    dynapi.document.addChild(l3);
+    dynapi.document.addChild(l4);
+    dynapi.document.addChild(l5);
+    dynapi.document.addChild(l6);
+    dynapi.document.addChild(l7);
+    dynapi.document.addChild(l8);
+    //dynapi.document.addChild(l9);
+
+</script>
+</head>
+<body>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<font face="Verdana, Arial" size="2">Drag &amp; Snap the layers above.<br />
+<br />
+<b>API notes:</b><br />
+<br />
+Public Methods (Snap):
+<ul>
+  <li>[null] enableSnap() &amp; disableSnap()</li>
+  <li>[null] setSnapBoundaryTypeDefault([inner|outer|both]) &amp; [inner|outer|both] getSnapBoundaryTypeDefault()</li>
+  <li>[null] setSnapBoundaryType([inner|outer|both]) &amp; [snapType] getSnapBoundaryType()</li>
+  <li>[null] setSnapBoundaryDefault(b) &amp; [b] getSnapBoundaryDefault()</li>
+  <li>[null] setSnapBoundary() or setSnapBoundary(b) or<br />
+      [null] setSnapBoundary([inner|outer|both],b) or<br />
+      [null] setSnapBoundary(number,number) or<br />
+      [null] setSnapBoundary([inner|outer|both],t,r,b,l) or<br />
+      [null] setSnapBoundary(ti,ri,bi,li,to,ro,bo,lo)</li>
+  <li>[Array (t,r,b,l)] getSnapBoundary([inner|outer]) or<br/>
+      [Array (ti,ri,bi,li,to,ro,bo,lo)] getSnapBoundary(both)</li>
+  <li>[null] enableStickySnap() &amp; disableStickySnap()</li>
+  <li>[null] enableGridSnap() &amp; disableGridSnap()</li>
+  <li>[null] setGridSnapSize(b)</li>
+</ul>
+BUGS list:
+<ul>
+  <li>Dragging a grid snap layer over a sticky snap layer acts like grid snap when it should not.</li>
+  <li>Double check &amp; clean up inner &amp; outer corner grid snapping code.</li>
+  <li>Add sticky snap support for both sides of the target layer's border (currently inner or outer only).</li>
+  <li>Add sticky snap support for upper-right and lower-left corners (i.e. reflective w.r.t. real edge).</li>
+  <li>Find a way to make the snapping/resnapping less jittery (i.e. sticky & grid are options).</li>
+</ul>
+TODO list:
+<ul>
+  <li>Add argument passing to enableSnap() for more compact way to specify snap type [normal|sticky|grid], boundary type [inner|outer|both], grid size (if applicable) and boundary sizes.</li>
+  <li>Add a dockable feature.</li>
+  <li>Add a "ghost" feature.</li>
+</ul>
+</font>
+</body>
+</html>

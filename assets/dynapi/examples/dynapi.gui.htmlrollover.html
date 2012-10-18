@@ -1,0 +1,38 @@
+<html>
+<head>
+<title>DynAPI Examples - HTML Rollover</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.api');
+dynapi.library.include('HTMLRollover');
+</script>
+<script language="Javascript">
+
+var off='images/eicon1.gif';
+var on='images/eicon2.gif';
+var dn='images/eicon3.gif';
+
+hro = new HTMLRollover(null,32,32,off,on,dn);
+hro.setBorder(1);
+hro.addEventListener({
+	onclick:function(e){
+		var o=e.getSource();
+		alert('Hi, my name is Elco');
+		o.cancelEvent(); // cancel event
+	}
+});
+
+dynapi.document.addChild(hro);
+
+
+</script>
+</head>
+
+<body>
+<script>
+	dynapi.document.insertAllChildren();
+</script>
+
+</body>
+</html>

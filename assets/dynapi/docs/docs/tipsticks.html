@@ -1,0 +1,287 @@
+<!doctype html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title> DynAPI Documentation </title>
+<link rel="stylesheet" type="text/css" href="../include/dynapi.css">
+</head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" width="100%">
+  <tr>
+    <td width="38%"><img border="0" src="../images/dynapi.gif"></td>
+    <td width="62%" align="right">
+      <p align="right"><a href="../index.html" style="text-decoration:none"><img border="0" src="../images/home.gif" align="absmiddle" width="22" height="19">&nbsp;Home</a>
+    </td>
+  </tr>
+  <tr>
+    <td width="100%" colspan="2" align="left">
+<hr size="1" color="#C0C0C0">
+    </td>
+  </tr>
+  <tr>
+    <td width="100%" colspan="2" align="left">
+
+<h1>Tutorials / Tips &amp; Ticks / DynAPI Tools</h1>
+    </td>
+  </tr>
+</table>
+
+<P><b>Contents:</b>
+<ul>
+<li>Articles &amp; Tutorials
+<ul>
+    <li><a href="tip.createwidget.html">How to creating a Widget</a></li>
+    <li><a href="quickref.soda.html">An Introduction to SODA-RPC</a></li>
+    <li><a href="quickref.ioelement-basics.html">IOElement
+      Client-Server Basics</a></li>
+    <li><a href="quickref.soda-ntier.html">Building n' Tier Application with
+      DynAPI<br>
+      </a>&nbsp;</li>
+</ul>
+</li>
+<li>Tools &amp; Utilities
+<ul>
+    <li><a href="#Nested var">DynAPI Compressor</a></li>
+    <li><a href="#Java Compressor">Java Compressor</a></li>
+    <li><a href="#Text2Var Converter">Text2Var Converter<br>
+      </a>&nbsp;</li>
+</ul>
+</li>
+<li>Tips &amp; Tricks
+  <ul>
+    <li><a href="#Nested var">Nested var inside for loop</a></li>
+    <li><a href="#Set &amp; Get Cursor functions">Get &amp; Set cursor()
+      functions</a></li>
+    <li><a href="#Giving Layers an alias name">Giving Layers an alias name</a></li>
+    <li><a href="#Cross Frame Access">Cross frame access</a></li>
+    <li><a href="#Using getContentWidth">Using getContentWidth/Height() and
+      setAutoSize()</a></li>
+    <li><a href="tip.configfile.html">How to add a Configuration file to your web apps</a></li>
+    <li><a href="tip.gettemplates.html">Getting Templates from the Server</a></li>
+  </ul>
+</li>
+</ul>
+
+<p>&nbsp;</p>
+<hr>
+
+<h1>Tools&nbsp;&amp; Utilities</h1>
+
+<p>&nbsp;</p>
+
+<h2> <a name="Using the Compiler"> Using the JScript Compressor</a></h2>
+
+<table border="0" width="100%">
+  <tr>
+    <td width="6%"><img border="0" src="../../bin/images/dc_icon.gif" width="32" height="32"></td>
+    <td width="94%">
+
+<p><a href="../../bin/jscript.compressor/compessor.html">DynAPI Compressor</a></p>
+    </td>
+  </tr>
+</table>
+<p>The main purpose of the compressor is to reduce the size of the dynapi
+distribution source files. but it can also be used to remove code statements
+that are not needed for production.&nbsp;</p>
+<p>For example a user might want to create an intranet app that will only run on
+DOM browsers. In such a case the NS4 support code is not need for his/her
+project.&nbsp; All the user needs to do is to uncheck the &quot;NS4
+Support&quot; check box on the compiler and click the compile button.&nbsp; This
+will remove all NS4 specific codes from the DynAPI library after it's compiled.
+For more information please see the &quot;<i>About DynAPI Compressor</i>&quot;
+section of the compiler.</p>
+
+<p>&nbsp;</p>
+
+<h2><a name="Java Compressor">Java Compressor</a></h2>
+<p>The Java Compressor is similar to the DynAPI Compressor, except that it is
+Java based, which makes it easier to run from the command line as part of a
+build process.  Along with compression, it also has the ability to merge
+multiple JavaScipt files into one file, for easier including and faster
+download at runtime.  The Java Compressor has an easily configured xml file
+to customize which files are being compressed and merged.
+<p>Because the merge replaces the DynAPI library features,
+you must include the right files in the right order.  The library normally determines
+which browser specific files to load.  Since the library isn't doing this at runtime,
+you're going to have to.  There are two suggested methods of doing this:
+<blockquote>
+    1) You can configure the xml to merge all files needed, and use the
+    "compare-value" attribute to have it parse the proper one at run time.
+    If the compare value is true, that input-file is the only one that will be
+    parsed.  If it's false, it moves on to the next one, and tries that input-file.
+    If it's at the last input-file in the input-group, then it uses that one.
+    <pre>
+        &lt;input-group&gt;
+            &lt;input-file  name=&quot;D:/development/dynapi/src/api/dynlayer_ie.js&quot; compare-value=&quot;dynapi.ua.ie&quot; /&gt;
+            &lt;input-file  name=&quot;D:/development/dynapi/src/api/dynlayer_dom.js&quot;/&gt;
+        &lt;/input-group&gt;
+    </pre>
+    <blockquote>
+        <font size="-1">
+            <b>Pro</b>: html file only has one file to include.  This makes for cleaner
+            looking code, and the client only needs to hit the server once.<br>
+            <b>Con</b>: client is downloading more code than it's going to use.
+        </font>
+    </blockquote>
+
+    2) You can configure the xml to make N number of merged files, where N is
+    the number of browser types, plus 1 generic.  That way, your html file would
+    include the generic cross-browser file first, do the check to see which browser
+    the client is using and manually include the proper file.
+    <pre>
+        &lt;jscompressor&gt;
+            &lt;compressed-file name=&quot;D:/development/js/generic.js&quot;&gt;
+                &lt;input-file  name=&quot;D:/development/dynapi/src/dynapi.js&quot;/&gt;
+                &lt;input-file  name=&quot;D:/development/dynapi/src/api/event.js&quot;/&gt;
+            &lt;/compressed-file&gt;
+            &lt;compressed-file name=&quot;D:/development/js/ie_stuff.js&quot;&gt;
+                &lt;input-file  name=&quot;D:/development/dynapi/src/api/dynlayer_ie.js&quot;&gt;
+                &lt;input-file name=&quot;D:/development/dynapi/src/api/mouse_ie.js&quot;&gt;
+            &lt;/compressed-file&gt;
+            &lt;compressed-file name=&quot;D:/development/js/dom_stuff.js&quot;&gt;
+                &lt;input-file  name=&quot;D:/development/dynapi/src/api/dynlayer_dom.js&quot;&gt;
+                &lt;input-file name=&quot;D:/development/dynapi/src/api/mouse_dom.js&quot;&gt;
+            &lt;/compressed-file&gt;
+        &lt;/jscompressor&gt;
+    </pre>
+    <blockquote>
+        <font size="-1">
+            <b>Pro</b>: only the javascript that is needed is downloaded
+                by the client.<br>
+            <b>Con</b>: the client will need to hit the server multiple times,
+                and your html code will need to have the if / else browser checks
+                in them.
+        </font>
+    </blockquote>
+</blockquote>
+
+The Java Compressor was built with flexability in mind.  You should be able to
+configure it to generate whatever works best for your situation.
+
+<p>&nbsp;</p>
+
+
+<h2><a name="Text2Var Converter">Text2Var Converter</a></h2>
+
+<table border="0" width="100%">
+  <tr>
+    <td width="100%">
+
+<p><a href="../../bin/text2var/t2var.html">DynAPI Text2Var Converter</a></p>
+    </td>
+  </tr>
+</table>
+
+<p>The DynAPI Text2Var converter is used for converting text/html into a
+JavaScript String or Array variable.</p>
+
+<hr>
+
+<h1>Tips &amp; Tricks</h1>
+
+<p>&nbsp;</p>
+
+<h2>1. <a name="Nested var">Nested var</a> inside for loop</h2>
+
+<p>Never use var inside a loop:</p>
+
+<pre>// this is inefficient
+for (var i=0; i&lt;10;i++){
+    for(var c=0;c&lt;10;c++){
+        // some code here
+    }
+}
+
+// this is more efficient
+var i,c
+for (i=0; i&lt;10;i++){
+    for(c=0;c&lt;10;c++){
+        // some code here
+    }
+}</pre>
+
+<pre>&nbsp; </pre>
+
+<h2>2. <a name="Set &amp; Get Cursor functions">Get &amp; Set Cursor functions</a></h2>
+<p>The getCursor() and setCursor functions will use the word 'hand' to display the
+"hand pointer" in both ie and ns6+</p>
+<pre>var lyr = new DynLayer();
+lyr.setCursor('hand');</pre>
+<p>&nbsp;</p>
+<h2>3. <a name="Giving Layers an alias name">Giving Layers an alias name</a></h2>
+<p>You can use the addChild() alias argument to give the child layer and alias
+when it's added to a parent layer:</p>
+<pre>lyrParent.addChild(new DynLayer(),'lyrBar');
+lyrParent.lyrBar.setHTML('Hi'); </pre>
+<p>Good practice suggest is to always best to add a three letter prefix to the
+name of your objects. For example&nbsp; layers could be named as lyrLine, lyrBox,
+lyrCover, while buttons and other could use the following naming convention.
+This is to prevent newly added objects from overwriting existing methods or
+properties:</p>
+<div align="center">
+  <center>
+  <table border="0" cellspacing="1" cellpadding="2" width="254" bgcolor="#C0C0C0">
+    <tr>
+      <td width="98" bgcolor="#CCCCCC"><b><font face="Arial" size="2">Object</font></b></td>
+      <td width="146" bgcolor="#CCCCCC"><b><font face="Arial" size="2">Prefix</font></b></td>
+    </tr>
+    <tr>
+      <td width="98" bgcolor="#FFFFFF">DynLayer</td>
+      <td width="146" bgcolor="#FFFFFF">lyr</td>
+    </tr>
+    <tr>
+      <td width="98" bgcolor="#FFFFFF">Button</td>
+      <td width="146" bgcolor="#FFFFFF">btn</td>
+    </tr>
+    <tr>
+      <td width="98" bgcolor="#FFFFFF">ScrollBar</td>
+      <td width="146" bgcolor="#FFFFFF">vsc or hsc</td>
+    </tr>
+    <tr>
+      <td width="98" bgcolor="#FFFFFF">ListBox</td>
+      <td width="146" bgcolor="#FFFFFF">lst</td>
+    </tr>
+    <tr>
+      <td width="98" bgcolor="#FFFFFF">TreeView</td>
+      <td width="146" bgcolor="#FFFFFF">tvw</td>
+    </tr>
+    <tr>
+      <td width="98" bgcolor="#FFFFFF">ListView</td>
+      <td width="146" bgcolor="#FFFFFF">lvw</td>
+    </tr>
+    <tr>
+      <td width="98" bgcolor="#FFFFFF">Grid</td>
+      <td width="146" bgcolor="#FFFFFF">grd</td>
+    </tr>
+  </table>
+  </center>
+</div>
+<p>&nbsp;</p>
+<h2>4. <a name="Cross Frame Access">Cross Frame Access</a></h2>
+<p>With DynAPI it's possible to create and access layers from another frame
+within the browser</p>
+<p><a href="../../examples/demo.cross_frame_access.html">Click here</a> to see
+an example.</p>
+<p>&nbsp;</p>
+<h2>5. <a name="Using getContentWidth"> Using getContentWidth</a>/Height() and setAutoSize()</h2>
+<p>The methods used to access the width and height of a layer's content will
+differ from browser to browser. DynAPI however makes it easy with the use of the
+getContentWidth and getContentHeight functions.</p>
+<pre>var lyr = new DynLayer('Hello World');
+dynapi.functions.addChild(lyr)
+dynapi.onLoad(function(){
+    var w = lyr.getContentWidth();
+    var h =  lyr.getContentHeight();
+})</pre>
+<p>The setAutoSize function causes the layer to automatically adjust to the size
+of it's content (including child layers) whenever it's content is changed or
+modified.</p>
+<pre>var lyr = new DynLayer('&lt;table&gt;&lt;tr&gt;&lt;td&gt;Hello &lt;br&gt; World&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;');
+lyr.setAutoSize(true,true);
+dynapi.functions.addChild(lyr);
+</pre>
+<p>For best results across browsers always wrap your HTML content inside a
+table.</p>
+<p>&nbsp;</p>
+</body>
+</html>

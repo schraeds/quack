@@ -1,0 +1,176 @@
+<!doctype html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>DynAPI - Quick Reference</title>
+<link rel="stylesheet" type="text/css" href="../include/dynapi.css">
+</head>
+
+<body bgcolor="#FFFFFF">
+
+<table border="0" width="100%">
+  <tr>
+    <td width="38%"><img border="0" src="../images/dynapi.gif"></td>
+    <td width="62%" align="right">
+      <p align="right"><a href="../index.html" style="text-decoration:none"><img border="0" src="../images/home.gif" align="absmiddle" width="22" height="19">&nbsp;Home</a> | <a href="quickref.html" style="text-decoration:none">Quick Reference</a>
+    </td>
+  </tr>
+  <tr>
+    <td width="100%" colspan="2" align="left">
+<hr size="1" color="#C0C0C0">
+    </td>
+  </tr>
+  <tr>
+    <td width="100%" colspan="2" align="left">
+
+<h1><font color="#800000">dynapi.fx.FlashSound - </font>Quick Reference</h1>
+    </td>
+  </tr>
+</table>
+
+<table border="0" width="100%">
+  <tr>
+    <td width="100%">
+      <p align="right"><i><b><font color="#008000">Inherit: </font> </b><a href="quickref.dynlayer.html">DynLayer</a></i></p>
+    </td>
+  </tr>
+  <tr>
+    <td width="100%">
+      <hr size="1" color="#C0C0C0">
+    </td>
+  </tr>
+</table>
+<p><b>What is the FlashSound Javascript API?<br>
+</b>A custom javascript class for streamlining issues related to using
+javascript to control &quot;sound only&quot; swf loaded in an embedded flash
+player. This javascript class enables a web developer to focus on creating
+content rather than dealing with browser/player compatibility issues and the
+idiosyncrasies of using javascript to control plug-ins for Netscape and activeX
+controls for windows Internet Explorer.</p>
+<p><b><u>Note:</u></b> FlashSound for DynAPI is a modified version of the
+original FlashSound API library found at <a href="http://www.sonify.org">www.flashsoundapi.com</a>.
+Please make note of the necessary changes made to the modified version. Some
+methods and properties of the original library was removed from this version.</p>
+<hr>
+<h2>Constructor</h2>
+<p><b>FlashSound</b>(swfURL, loop, autostart) -&nbsp;</p>
+<pre>swfURL - url of swf to be embedded (optional)</pre>
+<hr>
+<h2>Events</h2>
+<p>[none]</p>
+<hr>
+<h2>Public Methods/Properties</h2>
+<p><b>autostart </b>- (Boolean) Value must be set before calling the setSWF( ) method to override default play attribute value of true. The autostart property is equivalent to the play embed attribute. If set to true, the player automatically begins playing when the swf is loaded in the player. If set to false, the player waits for
+play( ) or gotoAndPlay( ) to begin playback.<br>
+<br>
+<u><font color="#800000">Note:</font></u> If there is any content in frame 1 of the root timeline, Flash player versions 4-5 will automatically play a movie even if autostart = false. The player essentially ignores autostart = false in this situation. To work around this problem, add content on or after frame 2 of the root timeline&nbsp;<br>
+</p>
+<p>example:</p>
+<pre>fsnd.autostart=true;
+fsnd.setSWF('themes.swf');</pre>
+<p><b>loop</b> - (Boolean) Value must be set before calling the setSWF( ) method
+to override default loop attribute value of false. If set to true, the player
+loops playback when reaching the final frame of swf. If set to false the player
+will stop after playing the final frame. A stop actionscript statement on the
+main timeline prevents a movie from looping even if the loop attribute is true</p>
+<p><b>playerID</b> - (String) Returns the name/id attribute for the player.</p>
+<hr noshade size="1" color="#C0C0C0">
+<p><b>setSWF</b>(swfURL) - Sets the &quot;sound only&quot; swf for&nbsp; the
+minimum supported player and supported browsers. <i><font color="#800000">Originally
+called embedSWF()</font></i>&nbsp;</p>
+<p><b>isPlaying</b>() - Returns true if the playhead is moving and false if the
+playhead is stopped. IsPlaying( ) checks for a moving playhead, not for play
+state of sounds set to event or start sync. <font color="#800000"><i>Originally called IsPlaying()</i></font>&nbsp;</p>
+<p><b>isPlayerReady</b>() - Returns true if the browser recognizes the player
+associated with the instance as a javascript object, and the swf has loaded at
+least one frame. Otherwise returns false. This method also returns false if the <a href="../../samples/Flash%20Sound/api/static_methods.html">FlashSound.engage</a>
+static property is set to false.</p>
+<p><b>loadMovie</b>(layerNumber,url) - Loads the movie identified by url
+into the layer specified by layerNumber. This method does not support loading
+swf into targeted movie clips or setting variables like the loadMovie
+actionscript statement.&nbsp; <font color="#800000"><i>Originally called
+LoadMoview()</i></font>&nbsp;</p>
+<pre><u>layerNumber </u>- (Integer) number representing layer to receive external swf
+<u>url </u>- (String) URL of swf to be loaded into the player.</pre>
+<p>example:</p>
+<pre>mysound.LoadMovie(1, &quot;some.swf&quot;);
+</pre>
+<p><b>percentLoaded</b>() - (Integer) Returns the percent of the swf loaded into
+browser. Values are 0 - 100 represented as Integer. Not affected by the
+FlashSound.engage static property. <font color="#800000"><i>Originally called PercentLoaded()&nbsp;</i></font></p>
+<p>example:</p>
+<pre>if (mysound.PercentLoaded == 100) {mysound.TGotoAndPlay(&quot;/sound&quot;, &quot;start&quot;)}
+</pre>
+<p><b>g</b><b>otoAndPlay</b>(target,frame) - Moves playhead to frame number or
+label of target timeline and starts playback at that point. Target timeline
+names use the &quot;slash&quot; syntax common to pre-ECMA actionscript. Use
+&quot;/&quot; to specify the main timeline (parent). Frame numbering starts with
+1 for this method, unlike original flash javascript API which starts frame
+numbering at 0. <i><font color="#800000">Originally called TGotoAndPlay().</font></i></p>
+<pre>target - (String) path and timeline name of target timeline using &quot;slash&quot; syntax.
+location - frame number(Integer) or label(String) where playback is to start</pre>
+<p>&nbsp;example:</p>
+<pre>mysound.TGotoAndPlay(&quot;/sometimeline&quot;,5)
+</pre>
+<p><b>gotoAndStop</b>(target,frame) - Moves playhead to frame number or label of
+target timeline, executes contents of this frame and stops. Target timeline
+names use the &quot;slash&quot; syntax common to pre-ECMA actionscript. Use
+&quot;/&quot; to specify the main timeline (parent). Frame numbering starts with
+1 for this method, unlike original flash javascript API which starts frame
+numbering at 0. <i><font color="#800000">Originally called TGotoAndStop().</font></i></p>
+<pre>target - (String) path and timeline name of target timeline using &quot;slash&quot; syntax.
+location - frame number(Integer) or label(String) where playback is to start
+</pre>
+<p><b>isLoaded</b>(target) - Checks to see if all frames of a given target
+timeline are loaded and returns true or false. Compares frames loaded to total
+number of frames of a given target timeline. You're advised to check if isLoaded(
+) is true before trying to use gotoAndPlay( ) to start playback at a given frame
+or label. Use isLoaded( ) with &quot;/&quot; to check for load of swf. <i><font color="#800000">Originally called
+TLoaded().</font></i></p>
+<pre>target - (String) path and timeline name of target timeline using &quot;slash&quot; syntax.
+</pre>
+<p>example:</p>
+<pre>if(mysound.isLoaded(&quot;/sometimeline&quot;)) {mysound.gotoAndPlay(&quot;/sometimeline&quot;, 5)}
+</pre>
+<p><b>play</b>(target) - Starts the playhead moving on the target timeline at
+the frame where playhead last stopped or first frame. Target timeline names use
+the &quot;slash&quot; syntax common to pre-ECMA actionscript. Use &quot;/&quot;
+to specify the main timeline (parent). It begins playback at frame 1 of given
+timeline or at the frame where playback was last stopped with the stopPlay( )
+method. Calling play( ) defaults to the root timeline if no target path is
+specified. <i><font color="#800000">Originally called TPlay().</font></i></p>
+<pre>target - (String) path and timeline name of target timeline using &quot;slash&quot; syntax.
+</pre>
+<p><b>TStopPlay</b>(target) - Stops playhead on the timeline specified. Target
+timeline names use the &quot;slash&quot; syntax common to pre-ECMA actionscript.
+Use &quot;/&quot; to specify the main timeline (parent). The stopPlay() function
+is equivalent to the stop actionscript statement and will only stop playback of
+sounds set to stream sync. stopPlay() does not stop playback of sounds set to
+event or start sync. stopPlay( ) defaults to the root timeline if no target path
+is specified. <i><font color="#800000">Originally called TStopPlay().</font></i></p>
+<pre>target - (String) path and timeline name of target timeline using &quot;slash&quot; syntax.
+</pre>
+<hr>
+<h2>Private Methods</h2>
+<p><b>_recognizeMethod</b>(objstr)</p>
+<p><b>_checkForInstance</b>()</p>
+<hr>
+<h2>Static Methods</h2>
+<p><b>FlashSound.engage</b> - The engage property controls the execution of
+certain instance methods. If the engage property is false, then the affected
+methods will not execute. This property affects all instance methods except for
+instance.setSWF( ) and instance.percentLoaded().</p>
+<p><b>FlashSound.</b><b>playerVersion</b> - Returns player version number of
+plug-in or activeX control. Returns zero if user does not have the player. Read
+only. Assigning a value to playerVersion can cause errors.</p>
+<p><b>FlashSound.setMinPlayer</b>(vers) - Sets the minimum player version that the FlashSound script checks for. If a
+user does not have the player or has a version less than specified, the
+FlashSound script will not embed swf content. The FlashSound script defaults to
+checking for player version 4 if no value for FlashSound.setMinPlayer( ) is
+specified. </p>
+<p>FlashSound.setMinPlayer( ) cannot override the minimum FlashSound
+compatibility with player version 4. This statement should occur before an
+instance is created. </p>
+<pre>vers - player version number</pre>
+</body>
+</html>

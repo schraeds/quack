@@ -1,0 +1,36 @@
+<html>
+<head>
+<title>DynAPI Examples - Slide Show</title>
+<script language="Javascript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+	dynapi.library.setPath('../src/')
+	dynapi.library.include('dynapi.api')
+	dynapi.library.include('ImageClip');
+</script>
+<script language="Javascript">
+
+	projector = new ImageClip({x:200,y:100,w:32,h:32,cols:5,rows:1,speed:400});
+	projector.addImage(dynapi.functions.getImage('images/file.gif'));
+	projector.addImage(dynapi.functions.getImage('images/eicon1.gif'));
+	projector.addImage(dynapi.functions.getImage('images/eicon3.gif'));
+	projector.addImage(dynapi.functions.getImage('images/calc.gif'));
+	projector.addImage(dynapi.functions.getImage('images/eicon2.gif'));
+
+	dynapi.document.addChild(projector);
+
+	var slide=1;
+
+</script>
+</head>
+<body>
+<p><font face="Arial" size="4">ImageClip Slide Show</font></p>
+<a href="javascript:;" onclick="projector.playAnimation(false,'1>5');">Show Slides &gt;&gt;</a><br>
+<a href="javascript:;" onclick="projector.playAnimation(false,'1<5');"> &lt;&lt; Show Slides</a><br><br>
+<a href="javascript:;" onclick="projector.playAnimation(false,'1<3,5,2,1,4,2,4');"> Mixed Slides</a><br><br>
+<a href="javascript:;" onclick="slide++;if(slide>5) slide=5;projector.setFrame(slide);"> Next Slide &gt;</a><br>
+<a href="javascript:;" onclick="slide--;if(!slide) slide=1;projector.setFrame(slide);"> &lt; Previous Slide</a>
+<script>
+	dynapi.document.insertAllChildren();
+</script>
+</body>
+</html>

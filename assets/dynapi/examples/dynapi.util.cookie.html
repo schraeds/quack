@@ -1,0 +1,61 @@
+<html>
+<head>
+<title>DynAPI Examples - Cookie</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/');
+//dynapi.library.include('dynapi.debug');
+dynapi.library.include('dynapi.api');
+dynapi.library.include('Cookie');
+dynapi.library.include('DragEvent');
+</script>
+<script language="Javascript">
+
+
+var ck = new Cookie('mycookie',true); // create mycookie object
+ck.setExpires(100);
+var o=ck.get('myobject'); // get myobject from mycookie
+if(!o) o={
+	name:'mary jane',
+	age:12,
+	email:'mjane@yahoo.com',
+	'date':new Date(),
+	'float': 24233.4534,
+	'array':['red','blue','green'],
+	counter:0
+};
+
+var h='<table border="1" width="100%"><tr><td width="100%" align="center"><b><font size="3" face="Arial">'+o.counter+'</font></b></td></tr></table>';
+var lyr = dynapi.document.addChild(new DynLayer(h,(ck.get('x')||200),(ck.get('y')||100),100,30,'yellow'));
+
+lyr.setTextSelectable(false);
+DragEvent.enableDragEvents(lyr);
+
+window.setInterval('goTick()',500);
+
+function goTick(){
+	o.counter+=10;
+	ck.add('myobject',o); // save or update cookie
+	ck.add('x',lyr.x); // save or update cookie
+	ck.add('y',lyr.y); // save or update cookie
+	lyr.setHTML('<table border="1" width="100%"><tr><td width="100%" align="center"><b><font size="3" face="Arial">'+o.counter+'</font></b></td></tr></table>')
+}
+
+</script>
+</head>
+<body bgcolor="#FFFFFF">
+<p>Refreshing this page will restore the layer to it's lasted saved state. Drag the layer and try reloading the page</p>
+-----------------------------------<br>
+<script>
+document.write(
+		'Last Tick Count:\t'	+o.counter+'\n' +
+		'Name:\t\t'		+o.name +'<br>'+
+		'Age:\t\t'		+o.age +'<br>'+
+		'Email:\t\t'	+o.email +'<br>'+
+		'Array Length:\t'	+o.array.length+'<br>' +
+		'Array Content:\t'	+o.array+'<br>'
+);
+dynapi.document.insertAllChildren();
+</script>
+</body>
+</html>

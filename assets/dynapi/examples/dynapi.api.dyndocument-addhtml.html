@@ -1,0 +1,44 @@
+<html>
+<head>
+<title>DynAPI - DynDocument addHTML</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.api');
+dynapi.library.include('DynLayerInline');
+</script>
+<script language="Javascript">
+
+// Before the page loads you can use addHTML to add regular html text to the document.
+// this will behave similar to the document.write() function in both ns4 and other browsers
+dynapi.document.addHTML('Some Text <b>here Some Text</b> here Some Text here Some Text here Some Text here Some Text here');
+
+dynapi.onLoad(function(){
+
+	// After the page has been loaded the addHTML() function will behave differently in ns4 than in other browsers.
+	// All HTML content added after the page has been loaded in ns4 will appear at location 0,0
+	// while in other browsers it will be appended to the end of the document.
+	// It's best to use the addHTML() to add inline layers to the document after a page load.
+
+	// in ns4 you might have to use a <table> to force text-wrapping. The <layer> must always include a width and a height when using <table> with width="100%"
+	var html='<table border="1" width="100%"><tr><td>This is an inline layer that was created after page load</td></tr></table>';
+
+	if(dynapi.ua.ns4) dynapi.document.addHTML('<layer id="myid2" width="100" height="100" bgcolor="yellow">'+html+'</layer>');
+	else dynapi.document.addHTML('<div id="myid2" style="position:absolute;width:100px;height:100px;background-color:yellow;">'+html+'</div>');
+
+	var lyr = new DynLayer();
+	lyr.setID('myid2',true);
+	dynapi.document.addChild(lyr);
+	lyr.setLocation(100,100);
+	lyr.setSize(150,100);
+	lyr.setHTML(html);
+});
+
+</script>
+</head>
+<body bgcolor="#FFFFFF">
+<script>
+	dynapi.document.insertAllChildren();
+</script>
+</body>
+</html>

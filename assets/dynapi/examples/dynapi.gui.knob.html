@@ -1,0 +1,32 @@
+<html>
+<head>
+<title>DynAPI Examples - Knob</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+	dynapi.library.setPath('../src/');
+	dynapi.library.include('dynapi.api');
+	dynapi.library.include('Knob');
+</script>
+<script language="Javascript">
+
+// Set BlueGel Image Path
+// Styles.setImagePath('images/bluegel/');
+
+
+var kn = new Knob(0,0,16,60);
+var kn2 = new Knob(200,100,16,16);
+
+var lyr = new DynLayer(null,300,10,16,200,'#eeeeee')
+lyr.addChild(kn);
+
+dynapi.document.addChild(lyr);
+dynapi.document.addChild(kn2);
+
+</script>
+</head>
+<body bgcolor="#FFFFFF">
+<script>
+	dynapi.document.insertAllChildren();
+</script>
+</body>
+</html>

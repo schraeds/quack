@@ -1,0 +1,675 @@
+<!doctype html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>Simple Object and Data Access (SODA) - for DynAPI 2.9</title>
+<link rel="stylesheet" type="text/css" href="../include/dynapi.css">
+</head>
+
+<body>
+
+<table border="0" width="100%">
+  <tr>
+    <td width="38%"><img border="0" src="../images/dynapi.gif"></td>
+    <td width="62%" align="right">
+      <p align="right"><a href="../index.html" style="text-decoration:none"><img border="0" src="../images/home.gif" align="absmiddle" width="22" height="19">&nbsp;Home</a>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="100%" colspan="2" align="left">
+<hr size="1" color="#C0C0C0">
+    </td>
+  </tr>
+  <tr>
+    <td width="100%" colspan="2">
+<h1>Simple
+Object and Data Access (SODA) Remote<br>
+Procedure Call (RPC)</h1>
+    </td>
+  </tr>
+</table>
+<h2><br>
+What is SODA-RPC?
+</h2>
+<p>SODA-RPC (or SODA for short) stands for Simple
+Object and Data Access. It's a protocol that provides an easy way for web applications to communicate with a web server. The
+transport uses XML to send and receive data to and from the server.&nbsp; No XML parser is required since SODA-RPC uses a very simple layout to convert data variables into an XML
+document and back.
+</p>
+<p><a href="../../examples/dynapi.util.ioelement-soda.html">Click
+      here</a> to see a live Calculator Application using SODA-RPC. An ASP compatible
+web server is&nbsp; required.<br>
+      &nbsp;
+<h2>
+Why should I use SODA-RPC?</h2>
+<p>XML
+is a widely used data format for exchanging data on the web, but it requires the
+overhead of an XML parser and data often times will have to be converted to the
+desired data type for use with the application.&nbsp;&nbsp;</p>
+<p>A SOAP-RPC Web
+Service provides another way for programmers to send and receive
+information to and from a web server, but it too requires the web server and browser to
+have special software installed to in order to communicate.
+<p>SODA-RPC
+might not be as powerful as SOAP, but it’s powerful enough to get the job done
+right</p>
+<p>Key Features:</p>
+<ul>
+  <li>Based on XML</li>
+  <li>Works behind firewalls</li>
+  <li>Support older browsers such as NS4+ and IE4+</li>
+  <li>Doesn’t
+    require an XML parser</li>
+  <li>Doesn’t
+    require any new software on client or server</li>
+  <li>Supports Asynchronous and Synchronous calls.</li>
+  <li>Supports
+    server-side methods and error traps</li>
+  <li>Can
+    make multiple asynchronous/synchronous calls to the same service
+    &nbsp;</li>
+  <li>Can
+    support complex data structures (e.g. objects, arrays, etc)</li>
+  <li>Can
+    be easily ported to any server-side language (perl, php, vbscript, jscript, etc)</li>
+  <li>Simplify
+    communications between the browser and the web server</li>
+  <li>Support
+    seven (8) data types: Undifined/null, Date, String, Integer, Float, Boolean, Array and
+    Object (Associative Array)</li>
+</ul>
+The SODA protocol makes it very easy for a programmer to send and receive JavaScript objects to
+and from the server without having to worry about how the object will be handled
+on the server. With each transmission the programmer will be able interact
+directly with objects and variables in the language they’re using on the
+server-side.<br>
+&nbsp;
+<h2>How easy is it to get started with SODA-RPC?</h2>
+<p>It's very simple! All you have to do is download
+DynAPI 2.9 and include the following inside the &lt;head&gt; tag of your html
+document:</p>
+<pre>&lt;script language=&quot;JavaScript&quot; src=&quot;../src/dynapi.js&quot;&gt;&lt;/script&gt;
+&lt;script language=&quot;Javascript&quot;&gt;
+&nbsp;&nbsp;&nbsp; dynapi.library.setPath('../src/');
+&nbsp;&nbsp;&nbsp; dynapi.library.include('dynapi.api');
+&nbsp;&nbsp;&nbsp; dynapi.library.include('dynapi.library');
+&nbsp;&nbsp;&nbsp; dynapi.library.include('dynapi.util.IOElement');
+&nbsp;&nbsp;&nbsp; dynapi.library.include('dynapi.util.IOElementSoda');
+&lt;/script&gt;</pre>
+<p>The first line must point to the location of your
+dynapi.js file:</p>
+<pre>&lt;script language=&quot;JavaScript&quot; src=&quot;../src/dynapi.js&quot;&gt;&lt;/script&gt;</pre>
+<p>Secondly you want to make sure you set the path
+to the dynapi library&nbsp; files (it's usually the same path as that of the
+dynapi.js file):</p>
+<pre>dynapi.library.setPath('../src/');</pre>
+<p><br>
+Now that we've included the necessary library files into our html document, it's
+now time to explore create a connection to the server.</p>
+<p>The first thing to do is to create a new
+IOElement object.</p>
+  <pre>var io = new IOElement(1); // create only one asynchronous thread</pre>
+<p>Next we'll connect to the service using the createWebService method. The
+createWebService has the following arguments:</p>
+  <pre>createWebService(name,url,fn,uid,pwd,method)
+    name    - client-side name used to identify the service
+    url     - URL path to the web sercvice
+    fn      - Callback function
+    useSync - Used to activate Synchronous transfers.
+    uid     - User ID
+    pwd     - User Password
+    method  - GET or POST method during calls. POST is used by default</pre>
+<p>The name argument makes it possible for you to
+connect to more than one service using one IOElement object<br>
+<br>
+example:</p>
+<pre>// io.createWebService(bksrv,&quot;bkman.asp&quot;,initWS,false);
+// io.createWebService(hrms,&quot;hrms.asp&quot;,initWS,false);
+
+// create a synchronous connection
+io.createWebService(calc,&quot;calc.asp&quot;,initWS,true); </pre>
+<pre>function initWS(calc,s,errorText){
+   if(s!=true) {
+      alert('An Error occured while creating web service: '+errorText);
+      return;
+   }
+
+   // access the calc service
+   calc.call(&quot;multiply&quot;, [5,6],fn);
+}</pre>
+<p>Once we've established a synchronous connection with the service we can now import methods located on the server by
+using the importWebMethods() function. This function will only work with
+synchronous calls. You can <b>NOT</b> import web methods when using asynchronous
+calls!</p>
+  <pre>var rt=io.calc.importWebMethods();
+if (!rt) alert('Unable to import web method');</pre>
+<p>So far we've manage to include the necessary
+libraries, create a connection and import web methods
+exposed by the service. Our next step is to place both asynchronous and
+synchronous calls to the service.</p>
+<p>To place a asynchronous call to the server we'll
+use the call method.</p>
+  <pre>var id = io.calc.call('multiply', [4,5],fn);
+// do some work here
+function fn(e,s){
+&nbsp;&nbsp;&nbsp; var o = e.getSource();
+&nbsp;&nbsp;&nbsp; var r = o.getResponse(); // get Response object
+&nbsp;&nbsp;&nbsp; var f=document.forms[&quot;calculator&quot;];
+&nbsp;&nbsp;&nbsp; if(!r.error) f.txtdisplay.value = r.value;
+&nbsp;&nbsp;&nbsp; else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; var er=r.error.text+'\n\nTo retry the request click the OK button';
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (confirm(er)) o.retry();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else o.cancel();
+&nbsp;&nbsp;&nbsp; }
+}</pre>
+<p>The above will call the multiply() method on the
+server and pass it the arguments 4 and 5. The fn argument is used as the
+callback function that's called when the server has issued a response. The value
+returned from the call() function can be used later to cancel the call or to
+perform a retry operation if the call had failed.</p>
+<p>To place a synchronous call to the service we can
+do it using one of two methods. The first is to use the call() method with the
+callback function set to false. The second is to use the imported web methods:<br>
+<br>
+1) Using the call function.</p>
+<pre>var response = io.calc.call('subtract',[9,19],false); // note: no callback function is used.
+if (response.error) alert(response.error.text);
+else {
+&nbsp;&nbsp;&nbsp; alert(response.value);
+}</pre>
+<p>2) Using imported web methods</p>
+  <pre>var response = io.calc.subtract(4,5);</pre>
+<p>Note that an object is returned after a
+synchronous call is made. This object is called the Response Object. It contains
+the returned value and an error object if there was an error during
+the call.</p>
+<p>The call() function can also be used to place
+multiple calls to the server in either async/sync modes.&nbsp;<br>
+<br>
+Let's say we want to perform the following
+calculation via our web service:</p>
+<p>23+(((5*7)-6)/2)&nbsp; which is equal to 37.5</p>
+<p>With conventional tools you would have to make
+several calls to the server or create a function on the server that can perform
+the above calculation. But what it you're not able to create the function on the
+server? Then you'd just have to stick with with what you have. SODA-RPC solves the above problem by allowing
+you to not only make multiple
+calls but to also pass arguments from one method to the next in a single call to
+the server!</p>
+<p>Here's how it's done using a simple object:</p>
+  <pre>var dta={
+&nbsp;&nbsp;&nbsp; multiply:[5,7],
+&nbsp;&nbsp;&nbsp; subtract:['@RESULT#0',6],
+&nbsp;&nbsp;&nbsp; divide:['@RESULT#1',2],
+&nbsp;&nbsp;&nbsp; add:[23,'@RESULT#2']
+}
+var response = io.calc.call(dta,null,false);
+if (response.error) alert(response.error.text);
+else {
+&nbsp;&nbsp;&nbsp; alert(response.value[3]); // displays 37.5
+}</pre>
+<p>Or we could be it this way using arrays:</p>
+  <pre>var mns='multiply,subtract,divide,add';
+var args=[
+&nbsp;&nbsp;&nbsp; [5,7],
+&nbsp;&nbsp;&nbsp; ['@RESULT#0',6],
+&nbsp;&nbsp;&nbsp; ['@RESULT#1',2],
+&nbsp;&nbsp;&nbsp; [23,'@RESULT#2']
+];
+var response = io.calc.call(mns,args,false);
+if (response.error) alert(response.error.text);
+else {
+&nbsp;&nbsp;&nbsp; alert(response.value[3]);
+}</pre>
+<p>Using the later makes it possible for you to use
+a method more than once. For example:</p>
+<p>((23*4)+12)*3 can be represented as:</p>
+  <pre>var mns='multiply,add,multiply';
+var args=[
+&nbsp;&nbsp;&nbsp; [23,4],
+&nbsp;&nbsp;&nbsp; ['@RESULT#0',12],
+&nbsp;&nbsp;&nbsp; ['@RESULT#1',3]
+];
+var response = io.calc.call(mns,args,false)
+if (response.error) alert(response.error.text);
+else {
+&nbsp;&nbsp;&nbsp; alert(response.value[2]);
+}&nbsp;</pre>
+<p>The value return in the response object is an array
+containing the results of all the methods called on the server.<br>
+<br>
+Note: Using Synchronous transfers will block the executing script will it waits
+for a response from the server. In my opinion it's best to use asynchronous
+transfers as it allows for more control.
+</p>
+<hr>
+<h2>SODA-RPC
+Data Types</h2>
+<p>The soda protocol has 8 types of data. All values have one of these types:
+<blockquote>
+  <dl>
+    <dt><b>Undefined/Null</b></dt>
+    <dd>The Undefined or Null<b> </b>type has one value only, <b>null</b>.
+    <dt><b>Boolean</b>
+    <dd>The Boolean type represents the two logical values, <b>true</b> and <b>false</b>.
+    <dt><b>String</b>
+    <dd>Strings are delineated by single or double quotation marks and can contain zero or
+      more characters. An empty string has zero
+      characters and length.
+    <dt><b>Integer</b>
+    <dd>The integer type represents positive or negative numbers without a
+      decimal point.&nbsp;
+    <dt>Float&nbsp;
+    <dd>The float type represents positive or negative numbers with a decimal
+      point. A floating-point literal must have at least one digit and either a
+      decimal point.</dd>
+    <dt>Date</dt>
+    <dd>The Date type stores a valid date entry in the format mm/dd/yyy hh:nn:ss</dd>
+    <dt>Array</dt>
+    <dd>An Array is a series of data elements of mixed data types.</dd>
+    <dt><b>Object</b></dt>
+    <dd>The Object type is represents an associative (hash) array used for
+      storing name and value
+      pairs.</dd>
+  </dl>
+</blockquote>
+<p>&nbsp;</p>
+<table border="0" width="100%" bgcolor="#000000" cellspacing="1" cellpadding="0">
+  <tr>
+    <td width="20%" bgcolor="#EEEEEE"><b>Data Types</b></td>
+    <td width="20%" bgcolor="#EEEEEE"><b>&nbsp;JavaScript</b></td>
+    <td width="20%" bgcolor="#EEEEEE"><b>&nbsp;VBScript</b></td>
+    <td width="21%" bgcolor="#EEEEEE"><b>&nbsp;Perl</b></td>
+  </tr>
+  <tr>
+    <td width="20%" bgcolor="#FFFFCC">&nbsp;Date</td>
+    <td width="20%" bgcolor="#FFFFFF">&nbsp;Date</td>
+    <td width="20%" bgcolor="#FFFFFF">&nbsp;Date</td>
+    <td width="21%" bgcolor="#FFFFFF">&nbsp;scalar ($)</td>
+  </tr>
+  <tr>
+    <td width="20%" bgcolor="#FFFFCC">&nbsp;String</td>
+    <td width="20%" bgcolor="#FFFFFF">&nbsp;String</td>
+    <td width="20%" bgcolor="#FFFFFF">&nbsp;String</td>
+    <td width="21%" bgcolor="#FFFFFF">&nbsp;scalar ($)</td>
+  </tr>
+  <tr>
+    <td width="20%" bgcolor="#FFFFCC">&nbsp;Integer</td>
+    <td width="20%" bgcolor="#FFFFFF">&nbsp;Integer</td>
+    <td width="20%" bgcolor="#FFFFFF">&nbsp;Long Integer</td>
+    <td width="21%" bgcolor="#FFFFFF">&nbsp;scalar ($)</td>
+  </tr>
+  <tr>
+    <td width="20%" bgcolor="#FFFFCC">&nbsp;Float</td>
+    <td width="20%" bgcolor="#FFFFFF">&nbsp;Float</td>
+    <td width="20%" bgcolor="#FFFFFF">&nbsp;Double</td>
+    <td width="21%" bgcolor="#FFFFFF">&nbsp;scalar ($)</td>
+  </tr>
+  <tr>
+    <td width="20%" bgcolor="#FFFFCC">&nbsp;Boolean</td>
+    <td width="20%" bgcolor="#FFFFFF">&nbsp;Boolean</td>
+    <td width="20%" bgcolor="#FFFFFF">&nbsp;Boolean</td>
+    <td width="21%" bgcolor="#FFFFFF">&nbsp;scalar ($)</td>
+  </tr>
+  <tr>
+    <td width="20%" bgcolor="#FFFFCC">&nbsp;Array</td>
+    <td width="20%" bgcolor="#FFFFFF">&nbsp;Array []</td>
+    <td width="20%" bgcolor="#FFFFFF">&nbsp;Array</td>
+    <td width="21%" bgcolor="#FFFFFF">&nbsp;Array []</td>
+  </tr>
+  <tr>
+    <td width="20%" bgcolor="#FFFFCC">&nbsp;Associative Array</td>
+    <td width="20%" bgcolor="#FFFFFF">&nbsp;Object {}</td>
+    <td width="20%" bgcolor="#FFFFFF">&nbsp;Dictionary Object</td>
+    <td width="21%" bgcolor="#FFFFFF">&nbsp;Hashes %</td>
+  </tr>
+</table>
+<p>&nbsp;The server or client libraries can be easily ported to other languages (such as
+php, python, java, tcl)&nbsp;</p>
+<h3>Server-Side Libraries:</h3>
+<p>You first need to include the following set of files:</p>
+<dl>
+  <dd><a href="../../examples/ioelmsrv.jscript.asp">ioelmsrv.*</a></dd>
+  <dd><a href="../../examples/ioelmsrv.soda.jscript.asp">ioelmsrv.soda.*</a></dd>
+</dl>
+<p>Where * is used to represent the language and extension of the file. For
+example * would represent jscript.asp which would result in ioelmsrv.jscript.asp
+and ioelmsrv.soda.jscript.asp</p>
+<h3>Client-Side Libraries:</h3>
+<blockquote>
+  <ul>
+    <li>DynAPI 3.0 Library files supports SODA-RPC</li>
+  </ul>
+</blockquote>
+<p>Note: If you'd like to create a library file for another scripting language
+you can use the <a href="../../examples/soda-tester.html">soda-tester example</a> page to test the functions of the library.</p>
+<hr>
+<h2>Creating a SODA-RPC web service
+</h2>
+<p>The first thing you'll be needing is the IOElement Server and SODA-RPC library files for the
+server-side script that you're using. There are currently three server-side scripts
+avaiable:&nbsp;
+</p>
+<dl>
+  <dt><font size="2" color="#000080">PHP</font></dt>
+  <dd><a href="../../examples/ioelmsrv.php">ioelmsrv.php</a></dd>
+  <dd><a href="../../examples/ioelmsrv.soda.php">ioelmsrv.soda.php</a></dd>
+  <dt>&nbsp;</dt>
+  <dt><font color="#000080">Perl</font></dt>
+  <dd><a href="../../examples/ioelmsrv.pl">ioelmsrv.pl</a></dd>
+  <dd><a href="../../examples/ioelmsrv.soda.pl">ioelmsrv.soda.pl</a></dd>
+  <dt>&nbsp;</dt>
+  <dt><font size="2" color="#000080"> JScript
+    (ASP)&nbsp;</font></dt>
+  <dd><a href="../../examples/ioelmsrv.jscript.asp">ioelmsrv.jscript.asp</a></dd>
+  <dd><a href="../../examples/ioelmsrv.soda.jscript.asp">ioelmsrv.soda.jscript.asp</a></dd>
+  <dt>&nbsp;</dt>
+  <dt><font size="2" color="#000080">
+    VBScript (ASP)</font></dt>
+  <dd><a href="../../examples/ioelmsrv.vbscript.asp">ioelmsrv.vbscript.asp</a></dd>
+  <dd><a href="../../examples/ioelmsrv.soda.vbscript.asp">ioelmsrv.soda.vbscript.asp</a></dd>
+</dl>
+<p>The above libraries can be easily ported to other languages.
+</p>
+<p><b>Server-Side Methods:</b></p>
+<p><b>wsAddDescription</b>(name,text) - Add a description to a method or its parameters.
+When online help is enabled users will be able to see the description of the
+methods or parameters.</p>
+<pre>wsAddDescription(&quot;aboutMe&quot;,&quot;Company Information - Name, Email, etc&quot;)
+wsAddDescription(&quot;add&quot;,&quot;Add two numeric values and returns the result&quot;)
+wsAddDescription(&quot;add:a&quot;,&quot;Numeric value&quot;)
+wsAddDescription(&quot;add:b&quot;,&quot;Numeric value&quot;)</pre>
+<p><b>wsAddMethod</b>(name,params,rtype) - Used for adding a methods to the service. Methods
+added will be made public.&nbsp;</p>
+<ul>
+  <li>&nbsp;name - Method name (case-senitive)&nbsp;</li>
+  <li>params - Parameters/Agruments accepted by the method</li>
+  <li>rtype - Returned data type&nbsp;</li>
+</ul>
+<pre>wsAddMethod('search',['fname:string','age:integer:0'],'array');
+wsAddMethod('clearcache',null,'boolean'); // method does not accept arguments</pre>
+<p>The params argument can be a string or and array of string parameters. Each
+parameter is defined as:</p>
+<blockquote>
+  <p>&nbsp;Name of argument<b>:</b>Data Type<b>:</b>Default Value</p>
+</blockquote>
+<p><b>wsAddErrorCode</b>(code,text) - Used for adding error codes to the
+service. These codes can be triggered by using the wsRaiseError() method</p>
+<pre>wsAddErrorCode(&quot;D2&quot;,&quot;Test Error&quot;);
+// some code here
+wsRaiseError(&quot;D2&quot;); // later raise error D2
+</pre>
+<p><b>wsAddVariable</b>(name,value) - Used for adding JavaScript variables which
+will be returned to the client current client</p>
+<p><b>wsCaptureEvent</b>(evnt,fn) - Used for capturing Dispatch and Login events
+triggered by the service.&nbsp;</p>
+<pre>wsCaptureEvent(&quot;login&quot;,login);
+wsCaptureEvent(&quot;logout&quot;,logout);
+wsCaptureEvent(&quot;dispatch&quot;,dispatch);
+
+wsDispatch();
+
+function login(uid, pwd, sid) {
+   if (uid==&quot;myname&quot; &amp;&amp; pwd==&quot;mypassword&quot;) {
+      Session.Contents(sid)=&quot;ok&quot;;
+      return true; //returns true if successful
+   }
+};
+
+function logout(sid) {
+   Session.Contents(sid)=&quot;&quot;;
+   return true; //returns true if successful
+};
+
+function dispatch() {
+   var sid;
+   sid=wsGetSessionId();
+    if (Session.Contents(sid)!=&quot;ok&quot;);
+    return false; //returns false to prevent dispatch
+};
+ </pre>
+<p><b>wsDispatch</b>() - Dispatches methods and variables if IOResponse is set
+to html (default-asynchronous) otherwise only methods are dispatched</p>
+<p><b>wsDispatchVariables</b>() - Dispatches JavaScript variables to client. Should only be
+used with Asynchronous calls. A SODA-RPC library can be used on the server-side to
+dispatch variables to the client when a call is made via IOElement's get(),
+post() or upload() methods.</p>
+<pre>wsAddVariable('count',2);
+wsAddVariable('name','Mary Jane');
+
+wsDispatchVariables(); // returns JavaScript variables to client;</pre>
+<p><b>wsEnableOnlineHelp</b>(b) - Used to enable or disable online help/debug.
+When set the false users will only be able to see the main splash screen.&nbsp;</p>
+<pre>wsEnableOnlineHelp(true)</pre>
+<p><b>
+wsGetRequest</b>(name) - Returns form data submitted by client</p>
+<pre>var fname = wsGetRequest(&quot;firstname&quot;); // client submitted &quot;firstname&quot;</pre>
+<p><b>
+wsGetRequestMethod</b>() - Returns the method (GET, POST or UPLOAD) used to make
+the call</p>
+<p><b>wsGetSessionId</b>() - Returns the current caller's session id</p>
+<p><b>wsIsHelpMode</b>() - Returns true if in helpmode or false if not in help mode.</p>
+<p><b>wsRaiseError</b>(ecode,etext) - Returns an error to the client. This
+method can also be used to help debug server-side code:&nbsp;</p>
+<pre>function setDate(dt){
+   if(!dt) wsRaiseError(null,'You've entered:'+dt);
+   else {
+      // code to set date
+   }
+}</pre>
+<p><b>wsSetComment</b>(strComment) - Sets a comment or description for the service&nbsp;</p>
+<p><b>wsSetName</b>(strName) -&nbsp; Sets a name for the service</p>
+<p>&nbsp;</p>
+<p>The SODA-RPC protocol makes it possible for any web server to act as a web service
+because it uses either GET or POST to send data to the server. There are two
+main variables used when submiting data, they are as follows:</p>
+<p>IORepsonse -&nbsp; XML or HTML (default)&nbsp; - Sets the returned data
+format from the server</p>
+<p>IOEnvelope -&nbsp;SODA-RPC XML document&nbsp;</p>
+<p>example:</p>
+  <blockquote>
+    http://localhost/myserver.asp?IOResponse=XML&amp;IOEnvelope=&lt;soda.env&gt;  &lt;sid&gt;12232-33334-23243354-2332&lt;/sid&gt; &lt;method>Test&lt;/method> &lt;body> &lt;so.da&gt;&lt;/so.da&gt; &lt;/body> &lt;/soda.env&gt;
+  </blockquote>
+  <p>&nbsp;The XML/HTML formats make it possible for a SODA-RPC client to exist
+  within a browser or within a desktop application
+<hr>
+<h2 align="center">A
+      SODA-RPC Application Example using Asynchronous Calls</h2>
+<p>Let’s
+say we have a web service app call Book Manager that was written in JavaScript and DHTML
+on the client-side and VBScript on the server-side.<br>
+<br>
+
+First I’m going to have to create a way for me to
+send and receive data to and from the server. Next I need a way to send data in
+the background.</p>
+The first thing that normally comes to mind is to
+use a &lt;form&gt; with hidden fields to send data to the server, but that would
+then force me to reload my html page. Ok, let’s use an IFrame! Sure, but that
+would also require me to parse the data returned from the server!
+<p>This is how SODA-RPC makes it very easy to communicate with server-side apps:</p>
+<p><b><font color="#000080">&nbsp;IOElement
+SODA-RPC functions:</font></b></p>
+<p>&nbsp;Constructor <b>IOElement</b>(hidden, useXFrames)</p>
+<pre>hidden – total number or threads or ports;
+useXFrames – use eXternal Frames for post request in NS4</pre>
+<p>&nbsp;<b>createWebService</b>(name, url, fn, useSync, method, uid, pwd);</p>
+<pre>name – local name used to identify the service
+url – SODA web service url
+fn - Callback function
+useSync - Activate Synchronous transfers
+method – method used for request; POST or GET
+uid - user id - for use with server-side login event when
+a connection is created
+pwd - user password - for use with server-side login
+event when a connection is created</pre>
+<p>&nbsp;<b>getResponse</b>();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Returns a
+response object containing the returned value from the server and and error
+object</p>
+<p>For more information please see the <a href="quickref.ioelement.html">IOElement
+Quick Reference&nbsp; Guide</a></p>
+<p><b><font color="#000080">Web Service Object Methods</font>&nbsp;<br>
+</b>
+<br>
+<b>call</b>(name, params, fn); - calls a remote method on the server<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; name – name of method(s) on the server<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; params – parameters to pass to the method; multiple params are passed
+as an array<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fn – (optional) callback or returned function. When
+set to false an synchronous call
+is made.</p>
+<p><b>importWebMethods</b>();&nbsp; - Import web methods available on the
+server. Returns true if successful.<br>
+
+</p>
+<p><i><font color="#008000"><b>Example:</b>&nbsp;</font>
+
+</i>
+
+</p>
+<p>Let’s first create an IOElement with a single thread or port
+
+</p>
+<pre>var io = new IOElement(1); // for NS4 to support post request use IOElement(1,true);</pre>
+<p>Next we'll connect to the soda web service on the server
+
+</p>
+<pre>io.createWebService(‘book’, ‘bookmanager.asp’, initWS, false);
+function initWS(ws,s,et){
+   if(s!=false) {
+      alert('Error while connecting');
+      return;
+   }
+   // some code here
+};</pre>
+<p>Request books from server
+
+</p>
+<pre>io.book.call(“getBooks”, null, fetchBooks);</pre>
+<pre>function fetchBooks(e){
+&nbsp;&nbsp;&nbsp; var o=e.getSource();
+&nbsp;&nbsp; var result=o.getResult();
+&nbsp;&nbsp; if (result.error) alert(result.error.text);
+&nbsp;&nbsp;&nbsp; else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; var books=result.value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for( var i=0;i&lt;books.length;i++){
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // code here to display books
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }
+&nbsp;&nbsp; }
+}</pre>
+<p>Search for a book by the name of 'The JavaScript Bible'
+
+</p>
+<pre>var sortby=2; //author
+var query={};
+query.name&nbsp; = ‘The JavaScript Bible’;
+query.author = ‘*’;
+query.year = ‘*’;
+io.book.call(‘searchBooks’,[query, sortby], fetchBooks);</pre>
+<p>The
+getBooks and searchBooks methods on the server-side can be written in any
+program.</p>
+<p>Example
+of server-side code:</p>
+<pre>&lt;!-- #include file=“soda.vbscript.asp”&nbsp; --&gt;
+&lt;%</pre>
+<pre>Call wsAddMethod(“searchBooks”, Array(“name:string:*”, “sortby:int:0”),“object”)
+Call wsAddMethod(“getBooks”,null,“array”)
+Call wsDispatch()</pre>
+<pre>Functions GetBooks()
+&nbsp;&nbsp; Dim books()
+&nbsp;&nbsp; ‘get data from database and populate books() array
+&nbsp;&nbsp; GetBooks=books&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+End Function</pre>
+<pre>Function SearchBooks(query, sortby)
+&nbsp;&nbsp; ‘ Note: In VBScript the dictionary object is used to
+&nbsp;&nbsp;&nbsp; ‘ represent an associative array
+&nbsp;&nbsp;&nbsp; Dim results
+&nbsp;&nbsp; // perform search
+&nbsp;&nbsp;&nbsp; SearchBooks = results
+End Function</pre>
+<pre>%&gt;</pre>
+<p>For more information please see:</p>
+<ul>
+  <li><a href="quickref.ioelement-basics.html">IOElement Client-Server Basics</a></li>
+  <li><a href="quickref.soda-basics.html">IOElement SODA-RPC Client-Server
+    Basics</a></li>
+</ul>
+<hr>
+<h2><b>An example of a SODA-RPC
+document</b></h2>
+<pre>
+&lt;envelope&gt;
+    &lt;sid&gt;3435-453546-FG34-5464634&lt;/sid&gt;
+    &lt;uid&gt;Mary&lt;/uid&gt;
+    &lt;pwd&gt;password&lt;/pwd&gt;
+    &lt;err&gt;E1|System Error&lt;/err&gt;
+    &lt;method&gt;GetUsers&lt;/method&gt;
+    &lt;body&gt;
+        &lt;soda&gt;
+            &lt;a0&gt;
+                &lt;s1&gt;This is a string&lt;/s1&gt;
+                &lt;r0/&gt;
+                &lt;s1&gt;Testing  A&lt;/s1&gt;
+                &lt;r0/&gt;
+                &lt;f1&gt;34.5&lt;/f1&gt;
+                &lt;r0/&gt;
+                &lt;i1&gt;100&lt;/i1&gt;
+                &lt;r0/&gt;
+                &lt;f1&gt;0.15&lt;/f1&gt;
+                &lt;r0/&gt;
+                &lt;a1&gt;
+                    &lt;s2&gt;A&lt;/s2&gt;
+                    &lt;r1/&gt;
+                    &lt;s2&gt;B&lt;/s2&gt;
+                    &lt;r1/&gt;
+                    &lt;s2&gt;C&lt;/s2&gt;
+                    &lt;r1/&gt;
+                    &lt;d2&gt;3/20/2002 22:23:38&lt;/d2&gt;
+                &lt;/a1&gt;
+                &lt;r0/&gt;
+                &lt;s1&gt;More string&lt;/s1&gt;
+                &lt;r0/&gt;
+                &lt;a1&gt;
+                    &lt;b2&gt;true&lt;/b2&gt;
+                    &lt;r1/&gt;
+                    &lt;b2&gt;false&lt;/b2&gt;
+                    &lt;r1/&gt;
+                    &lt;i2&gt;0&lt;/i2&gt;
+                    &lt;r1/&gt;
+                    &lt;u2&gt;0&lt;/u2&gt;
+                    &lt;r1/&gt;
+                    &lt;s2&gt;Boolean&lt;/s2&gt;
+                &lt;/a1&gt;
+                &lt;r0/&gt;
+                &lt;o1&gt;
+                    &lt;a2&gt;
+                        &lt;s3&gt;name|address|city|country|phone|email|fn&lt;/s3&gt;
+                        &lt;r2/&gt;
+                        &lt;a3&gt;
+                            &lt;s4&gt;Mary Jane&lt;/s4&gt;
+                            &lt;r3/&gt;
+                            &lt;s4&gt;34 More Lane&lt;/s4&gt;
+                            &lt;r3/&gt;
+                            &lt;s4&gt;FL&lt;/s4&gt;
+                            &lt;r3/&gt;
+                            &lt;s4&gt;USA&lt;/s4&gt;
+                            &lt;r3/&gt;
+                            &lt;u4&gt;0&lt;/u4&gt;
+                            &lt;r3/&gt;
+                            &lt;s4&gt;email@mail.com&lt;/s4&gt;
+                            &lt;r3/&gt;
+                            &lt;u4&gt;0&lt;/u4&gt;
+                        &lt;/a3&gt;
+                    &lt;/a2&gt;
+                &lt;/o1&gt;
+            &lt;/a0&gt;
+        &lt;/soda&gt;
+    &lt;/body&gt;
+&lt;/envelope&gt;
+
+</pre>
+<p>&nbsp;
+
+</body>
+
+</html>

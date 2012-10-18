@@ -1,0 +1,41 @@
+<html>
+<head>
+<title>CheckBox - Speed Test</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+	dynapi.library.setPath('../src/');
+	dynapi.library.include('dynapi.api');
+	dynapi.library.include('dynapi.gui.BorderManager');
+</script>
+<script language="JavaScript" src="_xui.packages.js"></script>
+<script>
+	dynapi.library.include('CheckBox');
+</script>
+<script language="Javascript">
+
+var x=0;y=0;
+var d1= new Date;
+for(var i=0;i<100;i++){
+	y+=17;
+	if(i%20==0) {
+		x=x+101;
+		y=16;
+	};
+	chk = new CheckBox('Check #' +i,x,y,100,16);
+	dynapi.document.addChild(chk);
+}
+
+dynapi.onLoad(function(){
+	var d2=new Date;
+	alert(d2-d1);
+});
+
+</script>
+</head>
+<body bgcolor="#FFFFFF">
+<p>&nbsp;</p>
+<script>
+	dynapi.document.insertAllChildren();
+</script>
+</body>
+</html>

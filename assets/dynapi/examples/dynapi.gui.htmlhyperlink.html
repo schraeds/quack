@@ -1,0 +1,42 @@
+<html>
+<head>
+<title>DynAPI Examples - HTML HyperLink</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.api');
+dynapi.library.include('TemplateManager');
+dynapi.library.include('HTMLHyperLink');
+dynapi.library.include('FlashSound');
+</script>
+<script language="Javascript">
+
+fs = new FlashSound();
+fs.setSWF("images/sndfx.swf");
+HTMLComponent.setFlashSound(fs); // Set FlashSound object for all HCs
+
+var tp = new Template('This is the Template:<center><table border="1"><tr><td>{@fld}</td></tr></table></center>',100,100,250,200,'lime');
+hl = new HTMLHyperLink(null,'Click Here',null,'HTML Hyper Link Demo');
+hl.sndOnMouseover = '/click@start';
+hl.sndOnClick = '/check@start';
+hl.startFlash()
+hl.addEventListener({
+	onclick:function(e){
+		var o=e.getSource();
+		o.setURL('dynapi.sf.net'); // jump to url;
+		status = 'Visit DynAPI\'s website at http://'+o.getURL();
+		// o.allowEvent(); // By default HyperLink events are canceled (return false)
+	}
+});
+
+tp.addChild(hl,'fld');
+dynapi.document.addChild(tp);
+
+</script>
+</head>
+<body>
+<script>
+	dynapi.document.insertAllChildren();
+</script>
+</body>
+</html>

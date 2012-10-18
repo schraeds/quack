@@ -1,0 +1,24 @@
+<html>
+<head>
+<title>DynAPI Examples - FileReader</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+	dynapi.library.setPath('../src/');
+	dynapi.library.include('dynapi.api');
+	dynapi.library.include('dynapi.library');
+	dynapi.library.include('dynapi.util.FileReader');
+</script>
+</head>
+<body>
+<script language="Javascript">
+
+	var fl = new FileReader(init);
+	var url = 'dynapi.util.filereader.xml';
+
+	function init(){
+		var str=fl.read(url);
+		alert(str)
+	}
+</script>
+</body>
+</html>

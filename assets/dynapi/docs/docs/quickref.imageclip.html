@@ -1,0 +1,104 @@
+<!doctype html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>DynAPI - Quick Reference</title>
+<link rel="stylesheet" type="text/css" href="../include/quickref.css" media="screen">
+<link rel="stylesheet" type="text/css" href="../include/quickref.css" media="print">
+</head>
+
+<body>
+	<div id="header">
+		<img border="0" src="../images/dynapi.gif">
+		<div>
+			<a href="../index.html"><img src="../images/home.gif" width="22" height="19">Home</a> | <a href="quickref.html">Quick Reference</a>
+		</div>
+	</div>
+    <h1><span class="object">dynapi.gui.ImageClip</span> - Quick Reference</h1>
+	<div id="inherit"><span>Inherit:</span>  <a href="quickref.dynlayer.html">DynLayer</a></div>
+	<h2>Constructor</h2>
+	<dl>
+        <dt>ImageClip(clipImage,x,y,w,h,color,cols,rows,speed)</dt>
+		<dd>clipImage - clipImage can be&nbsp;
+          either a string or an image object
+		<dd>Dictionary Input supported
+	</dl>
+	<h2>Events</h2>
+	<dl>
+		<dt>frameplay</dt>
+		<dd>...</dd>
+
+        <dt>framestop</dt>
+		<dd>...</dd>
+
+		<dt>framechange</dt>
+		<dd>...</dd>
+
+	</dl>
+	<h2>Public Methods</h2>
+	<dl>
+		<dt>Remarks</dt>
+        <dd>The ImageClip widget is used to create canvas animations using a
+          sequence of animated frames from a still image.&nbsp;This widget
+          inherits all methods and properties from DynLayer.</dd>
+        <dt>&nbsp;</dt>
+
+		<dt>addImage(img,col,row)</dt>
+        <dd>...</dd>
+        <dt>getFrame()</dt>
+        <dd>...</dd>
+
+		<dt><b>playAnimation</b>(boolean loop, string sequence)</dt>
+        <dd>...</dd>
+        <dt><b>setClipImage(clipImage, cols, rows)</b></dt>
+		<dd>...</dd>
+
+        <dt><b>setSpeed</b>(int sp)</dt>
+        <dd>...</dd>
+        <dt><b>setFrame</b>(int fn)</dt>
+        <dd>...</dd>
+        <dt><b>setFrameMartix</b>(int col, int row)</dt>
+        <dd>...</dd>
+        <dt><b>stopAnimation</b>()</dt>
+        <dd>...</dd>
+	</dl>
+	<h2>Private Methods</h2>
+	<dl>
+        <dt>nextSEQ</dt>
+		<dd>...</dd>
+
+		<dt>playSEQ</dt>
+		<dd>...</dd>
+
+	</dl>
+	<h2>Static Methods</h2>
+	<p>[none]</p>
+    <b>What is Canvas Animation?<br>
+    </b><br>
+    This means that all the frames used by the animation stored in one image.
+    The frames are separated by rows and columns and must be of the same height
+    and width. Below is an example showing the layout of animated frames (rows
+    by columns):
+    <p>(2x4 layout)<br>
+    <br>
+    [01][03][05][07]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+    [02][04][06][08]<br>
+    <br>
+    Or<br>
+    <br>
+    (1x8 layout)<br>
+    <br>
+    [01][02][03][04][05][06][07][08]&nbsp;<br>
+    <p>Animations are played in sequences starting from the lowest to the
+    highest frames (e.g. 1 to 8). The widget uses a set of commands which tells
+    it how to display the frames:</p>
+    <p>x&gt;y&nbsp; - show frame x to y<br>
+    x&lt;y&nbsp; - show frame y to x<br>
+    x&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - show frame x<br>
+    pN&nbsp;&nbsp;&nbsp; - sleep for N milliseconds</p>
+    <p><b>Example:</b></p>
+    <pre>var img=dynapi.functions.getImage('penguin.gif');
+myclip= new ImageClip(img,10,10,64,64,null,11,2,150)
+myclip.playAnimation(false,'1&gt;22,p500,1&lt;22,11')
+dynapi.document.addChild(myclip)</pre>
+</body>
+</html>

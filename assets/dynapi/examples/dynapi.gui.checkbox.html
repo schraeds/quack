@@ -1,0 +1,32 @@
+<html>
+<head>
+<title>DynAPI Examples - CheckBox</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+	dynapi.library.setPath('../src/');
+	dynapi.library.include('dynapi.api');
+	dynapi.library.include('CheckBox');
+</script>
+<script language="Javascript">
+
+	chk0=new CheckBox('Milo',100,100,100,16,'milo',true)
+	chk1=new CheckBox('Chocolate',100,115,100,16,'choc')
+	chk2=new CheckBox('Milk',100,130,100,16,'milk')
+	chk3=new CheckBox('Bread',0,0,100,16,'brea')
+
+	mylayer=new DynLayer(null,200,200,100,50)
+
+	dynapi.document.addChild(chk0)
+	dynapi.document.addChild(chk1)
+	dynapi.document.addChild(chk2)
+	dynapi.document.addChild(mylayer)
+	mylayer.addChild(chk3)
+
+</script>
+</head>
+<body bgcolor="#ffffff">
+<script>
+	dynapi.document.insertAllChildren();
+</script>
+</body>
+</html>

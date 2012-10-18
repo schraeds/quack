@@ -1,0 +1,52 @@
+<html>
+<head>
+<title>DynAPI Examples - HTML ProgressBar</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.api');
+dynapi.library.include('TemplateManager');
+dynapi.library.include('HTMLProgressBar');
+dynapi.library.include('HTMLButton');
+</script>
+<script language="Javascript">
+
+// Write Style to browser
+HTMLComponent.writeStyle({
+	PBar:		'border: 1px solid #C0C0C0'
+});
+
+var img = dynapi.functions.getImage('images/pbar.gif');
+var t = 'This is the Template:<center><table border="0" width="310"><tr><td width="100%">Progress:<br>{@pbar}<br>{@pbar1}<br><form>{@btnGo}</form></td></tr></table></center>';
+var tp = new Template(t,100,100,350,200,'#EEEEEE');
+tp.addChild(new HTMLProgressBar(null,150,20,10),'pbar');
+tp.pbar.barCol='lime';
+tp.addChild(new HTMLProgressBar('PBar',250,24,10,1,100),'pbar1');
+tp.pbar1.barImage = img;
+tp.addChild(new HTMLButton(null,' Load ','Click here to view site'),'btnGo');
+tp.btnGo.addEventListener({
+	onclick:function(e){
+		startLoop(0);
+	}
+});
+
+dynapi.document.addChild(tp);
+
+var i=0;
+function startLoop(v){
+	if(v!=null) i=v;
+	tp.pbar.setValue(i)
+	tp.pbar1.setValue(i)
+	i++;
+	if(i<=100)setTimeout('startLoop()',100)
+	status=tp.pbar.getValue();
+}
+
+</script>
+</head>
+<body>
+<script>
+	dynapi.document.insertAllChildren();
+</script>
+</body>
+</html>

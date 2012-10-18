@@ -1,0 +1,42 @@
+<html>
+<head>
+<title>DynAPI Examples - FlashSound</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+	dynapi.library.setPath('../src/');
+	dynapi.library.include('dynapi.api');
+	dynapi.library.include('dynapi.functions.Image');
+	dynapi.library.include('dynapi.fx.FlashSound');
+</script>
+<script type="text/javascript" language="JavaScript1.1">
+
+	var myimg = dynapi.functions.getImage('images/eicon1_off.gif',32,32,{
+		border:0,
+		oversrc:'images/eicon1.gif'
+	});
+
+	var uisounds;
+
+	uisounds = new FlashSound();
+	uisounds.setSWF("images/uisounds2.swf");
+
+</script>
+<body bgcolor="#FFFFFF">
+<h2><font face="Arial" color="#3366CC"><b>FlashSound</b></font></h2>
+<hr>
+<p><font face="Arial">
+Move your mouse over the following images to hear a sound</font></p>
+  <table border="0" cellspacing="0" cellpadding="5" width="80%">
+    <tr align="center" valign="middle">
+      <td height="15">&nbsp; &nbsp;<script>document.write(myimg.getHTML({onmouseover:"uisounds.gotoAndPlay('/F#-E','start')",onmouseout:"uisounds.gotoAndPlay('/F#-E','fadetostop')"}))</script></td>
+      <td><script>document.write(myimg.getHTML({onmouseover:"uisounds.gotoAndPlay('/F-G','start')",onmouseout:"uisounds.gotoAndPlay('/F-G','fadetostop')"}))</script></td>
+      <td><script>document.write(myimg.getHTML({onmouseover:"uisounds.gotoAndPlay('/E-D#','start')",onmouseout:"uisounds.gotoAndPlay('/E-D#','fadetostop')"}))</script></td>
+      <td><script>document.write(myimg.getHTML({onmouseover:"uisounds.gotoAndPlay('/C#-F#','start')",onmouseout:"uisounds.gotoAndPlay('/C#-F#','fadetostop')"}))</script></td>
+      <td><script>document.write(myimg.getHTML({onmouseover:"uisounds.gotoAndPlay('/D-E','start')",onmouseout:"uisounds.gotoAndPlay('/D-E','fadetostop')"}))</script></td>
+    </tr>
+  </table>
+
+</body>
+</html>

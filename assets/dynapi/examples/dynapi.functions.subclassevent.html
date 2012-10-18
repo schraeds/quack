@@ -1,0 +1,61 @@
+<html>
+<head>
+<title>DynAPI Examples - Subclassing Events</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+	dynapi.library.setPath('../src/');
+	dynapi.library.include('dynapi.api');
+
+	// note: this library is NOT necessary for subclassing
+	dynapi.library.include('dynapi.functions');
+
+</script>
+<script language="Javascript">
+	var l1,l2;
+
+	l1=new DynLayer('<p align="center"><br>L1</p>',50,50,100,100,'yellow');
+	l2=new DynLayer(null,250,50,100,100,'green');
+	l3=new DynLayer(null,250,200,100,100,'blue');
+
+	// note: click event added to l1
+	l1.addEventListener({
+		onclick:function(e){
+			var o=e.getSource();
+			o.setBgColor(dynapi.functions.getRandomColor());
+		}
+	});
+
+	// note: click event added to l2
+	l2.addEventListener({
+		onclick:function(e){
+			var o=e.getSource();
+			o.setHTML('You can\'t read this message');
+		}
+	});
+
+	dynapi.functions.subClassEvent('click',l1,sbl1);
+	dynapi.functions.subClassEvent('click',l2,sbl2);
+
+	// callback functions
+	function sbl1(e,args){
+		l2.setHTML('<p align="center"><font size="2" face="arial"><br>I am L2 and I\'m in control of L1</font></p>');
+		e.src=l2; // the click event on l1 is now controlled by l2
+	};
+	function sbl2(e,args){
+		var t='<p align="center"><font size="2" face="arial" color="white"><br>I am L3 and I\'m in control of L2<br>'
+		+'X:'+e.x+' Y:'+e.y+'</font></p>'
+		l3.setHTML(t);
+		// stop the event from been passed to l2
+		return false;
+	}
+
+	dynapi.document.addChild(l1)
+	dynapi.document.addChild(l2)
+	dynapi.document.addChild(l3)
+
+</script>
+</head>
+<body>
+Click on the Yellow Layer labeled L1 then click layer labeled L2
+</body>
+</html>

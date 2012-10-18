@@ -1,0 +1,94 @@
+<html>
+<head>
+<title>DynAPI Examples - I/O Element [Upload]</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+    dynapi.library.setPath('../src/');
+    dynapi.library.include('IOElement');
+</script>
+<script language="Javascript">
+
+var ioelement = new IOElement(true);
+
+var fn = function(e, success) {
+    var o = e.getSource();
+    if (!success) {
+        var c,t;
+
+        // IE only - used to display page content of a failed response.
+        var elm=o.getScope();
+        if (!(dynapi.ua.ie && elm.document && !elm.document._tranState)) t='';
+        else t='------\n'+elm.document.body.innerText;
+
+        c=confirm('Would you like to retry the operation?\n\n'+t);
+        if(c) o.retry();
+    }
+    else{
+        var name = o.getVariable('name');
+        var color = o.getVariable('color');
+        var filename = o.getVariable('file');
+        var filesize = o.getVariable('size');
+
+        var t='You\'ve uploaded the following data:\n'
+        +'----------------------------------------\n\n'
+        +'Your name is : ' + name + '\n\n'
+        +'Your favorite color is : ' + color + '\n\n'
+        +'You\'ve uploaded the file : "'  + filename + '" '
+        +'with a size of "' + filesize + '" bytes\n\n';
+        alert(t);
+    }
+};
+
+function uploadtest() {
+    var frm = document.forms.ioupload;
+    var url = frm.url.options[frm.url.selectedIndex].value;
+
+    var result = ioelement.upload(url, frm, fn);
+    result = ( result != '' ) ? true : false;
+    return(result);
+}
+
+</script>
+</head>
+<body bgcolor="#ffffff">
+<form name="ioupload">
+<table border="0">
+  <tr>
+    <td>Select the file to load:</td>
+    <td><select name="url">
+      <option value="dynapi.util.ioelement-upload.asp">dynapi.util.ioelement-upload.asp</option>
+      <option value="dynapi.util.ioelement-upload.php">dynapi.util.ioelement-upload.php</option>
+      <option value="dynapi.util.ioelement-upload.pl">dynapi.util.ioelement-upload.pl</option>
+    </select></td>
+  </tr>
+  <tr>
+    <td>Your Name:&nbsp;</td>
+    <td><input type="text" name="name" size="20" value="My Name"></td>
+  </tr>
+  <tr>
+    <td>Favorite Color:&nbsp;</td>
+    <td><select name="color">
+        <option value="red">red</option>
+        <option value="blue">blue</option>
+        <option value="black">black</option>
+        </select>
+    </td>
+  </tr>
+  <tr>
+    <td>Select the file to upload <sup>*</sup>:</td>
+    <td><input type="file" name="myfile"></td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <input type="button" value="Upload" name="cmd" onclick="return uploadtest();"><br>
+      <br>
+      * Note: For security reasons, actual file upload is disabled<br>
+        (line of code exists in the various language upload scripts<br>
+        but is commented out by default to prevent unrestricted<br>
+        uploads).
+    </td>
+  </tr>
+</table>
+</form>
+</body>
+</html>

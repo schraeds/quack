@@ -1,0 +1,48 @@
+<html>
+
+<head>
+<title>DynAPI Examples - TimerX Class</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.library');
+dynapi.library.include('dynapi.api');
+dynapi.library.include('dynapi.fx.TimerX');
+</script>
+<script language="Javascript">
+
+myLayer=new DynLayer(null,135,100,130,50,'#00A000')
+myClock=new DynLayer(null,270,100,200,50,'#0000A0')
+
+myLayer.addEventListener({
+	ontimer:function(e){
+		var o=e.getSource()
+		var src='<font size=2 face=arial color=#ffffff>&nbsp;Tick @ 200ms <br>&nbsp;Tick count='+o.getTickCount()+'</font>'
+		o.setHTML(src)
+	}
+})
+
+myClock.addEventListener({
+	ontimer:function(e){
+		var o=e.getSource()
+		var src='<font size=2 face=arial color=#ffffff>&nbsp; '+new Date()+'</font>'
+		o.setHTML(src)
+	}
+})
+
+myLayer.startTimer(200)
+myClock.startTimer(1000)
+
+dynapi.document.addChild(myLayer)
+dynapi.document.addChild(myClock)
+
+</script>
+</head>
+
+<body>
+<script>
+dynapi.document.insertAllChildren();
+</script>
+
+</body>
+</html>

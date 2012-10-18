@@ -1,0 +1,109 @@
+<!doctype html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>DynAPI - Quick Reference</title>
+<link rel="stylesheet" type="text/css" href="../include/quickref.css" media="screen">
+<link rel="stylesheet" type="text/css" href="../include/quickref.css" media="print">
+</head>
+
+<body>
+	<div id="header">
+		<img border="0" src="../images/dynapi.gif">
+		<div>
+			<a href="../index.html"><img src="../images/home.gif" width="22" height="19">Home</a> | <a href="quickref.html">Quick Reference</a>
+		</div>
+	</div>
+	<h1><span class="object">dynapi.api.DynDocument</span> - Quick Reference</h1>
+	<div id="inherit"><span>Inherit:</span> <a href="quickref.dynelement.html">DynElement</a></div>
+	<h2>Constructor</h2>
+	<dl>
+		<dt>DynDocument(frame)</dt>
+		<dd>...</dt>
+	</dl>
+	<h2>Events</h2>
+	<dl>
+		<dt>load</dt>
+		<dd>...</dd>
+
+		<dt>resize</dt>
+		<dd>...</dd>
+
+		<dt>precreate?</dt>
+		<dd>...</dd>
+
+		<dt>create?</dt>
+		<dd>...</dd>
+	</dl>
+	<h2>Public Methods</h2>
+	<dl>
+		<dt>addHTML(html)</dt>
+        <dd>.....<br>
+          Before the page loads you can use addHTML to add regular html/text to the document. This will behave similar to the document.write() function in both NS4 and other browsers.	After the page loads the addHTML() function will behave differently in NS4 than in other browsers. All HTML content added after the page has been loaded in NS4 will appear at location 0,0 while in other browsers it will be appended to the end of the document. It's best to use the addHTML() to add inline layers to the document after a page load.</dd>
+		<dt>getBgColor()</dt>
+		<dd>...</dd>
+
+		<dt>getX()</dt>
+		<dt>getY()</dt>
+		<dt>getPageX()</dt>
+		<dt>getPageY()</dt>
+		<dd>dynapi.functions.Zero</dd>
+
+		<dt>getWidth()</dt>
+		<dd>...</dd>
+
+		<dt>getHeight()</dt>
+		<dd>...</dd>
+
+		<dt>findDimensions()</dt>
+		<dd>...</dd>
+
+		<dt>setBgColor(color)</dt>
+		<dd>...</dd>
+
+		<dt>setFgColor(color)</dt>
+		<dd>...</dd>
+
+		<dt>insertChild(c,pos,usebp)</dt>
+        <dd>c -&nbsp; (DynLayer)<br>
+          pos - (String) Position of layer. Values: relative, absolute or fixed
+          (ignored by ns4)<br>
+          usebp - (Boolean) Use Blueprint</dd>
+
+		<dt>insertAllChildren(usebp,bpsrc)</dt>
+		<dd>usebp - (Boolean) Use Blueprint<br>
+          bpsrc - (String) JavaScript source file containing blueprint
+          layers&nbsp;</dd>
+
+		<dt>destroyAllChildren()</dt>
+		<dd>...</dd>
+
+		<dt>getCursor()</dt>
+		<dd>...</dd>
+
+		<dt>setCursor(c)</dt>
+		<dd>...</dd>
+
+        <dt>setTextSelectable(b)</dt>
+        <dd>...</dd>
+
+		<dt>showScrollBars(b)</dt>
+		<dd>...</dd>
+	</dl>
+	<h2>Private Methods</h2>
+	<dl>
+		<dt>_remove()</dt>
+		<dd>...</dd>
+
+		<dt>_create()</dt>
+		<dd>...</dd>
+
+		<dt>_destroy()</dt>
+		<dd>...</dd>
+
+		<dt>_handleResize()</dt>
+		<dd>...</dd>
+	</dl>
+	<h2>Static Methods</h2>
+	<p>[none]</p>
+</body>
+</html>

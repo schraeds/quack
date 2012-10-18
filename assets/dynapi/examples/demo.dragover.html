@@ -1,0 +1,84 @@
+<html>
+<head>
+<title>DynAPI Examples - Drag Over Event</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+	dynapi.library.setPath('../src/');
+	dynapi.library.include('dynapi.api');
+	dynapi.library.include('dynapi.api.ext.DragEvent');
+
+	dynapi.library.include('dynapi.functions.Image');
+	dynapi.library.include('dynapi.functions.Color');
+
+</script>
+<script language="Javascript">
+
+	var l1,l2,l3;
+
+	var wh,lyr=dynapi.document.addChild(new DynLayer(null,500,20,150,150,'yellow'));
+	for(var i=0;i<10;i++){
+		wh=150-(i*2);
+		lyr=lyr.addChild(new DynLayer(null,1,1,wh,wh,dynapi.functions.getRandomColor()));
+	}
+
+	var file = dynapi.functions.getImage('images/file.gif',20,24);
+	var bin_on = dynapi.functions.getImage('images/bin_on.gif',32,32,{text:'Recycle',textdir:'s'});
+	var bin_off = dynapi.functions.getImage('images/bin_off.gif',32,32,{text:'Bin',textdir:'s'});
+	var bin_full = dynapi.functions.getImage('images/bin_full.gif',32,32,{text:'Bin Full',textdir:'s'});
+
+	l1=new DynLayer(file.getHTML(),200,80);
+	l2=new DynLayer('<br><center>'+bin_off.getHTML()+'</center>',250,50,100,100,'#CCFF00');
+	l3=new DynLayer('<br><center>'+bin_off.getHTML()+'</center>',360,50,100,100,'#ffcc00');
+	l4=new DynLayer('<br><center>'+bin_off.getHTML()+'</center>',10,10,100,100,'pink');
+	l5=new DynLayer('<br><center>'+bin_off.getHTML()+'</center>',5,5,120,120,'yellow');
+
+	lyr.addChild(l5);
+
+	lBase = new DynLayer(null,200,200,150,120,'yellow');
+	lBase.addChild(l4);
+
+	l1.setZIndex(100);
+	l1.setDragOverStealthMode(false);
+
+	DragEvent.enableDragEvents(l1)
+
+	var evt={
+		ondrop:function(e){
+			var o=e.getSource();
+			o.setHTML('<br><center>'+bin_full.getHTML()+'</center>');
+			l1.setLocation(200,80)
+		},
+		ondragover: function(e){
+			var o=e.getSource();
+			o.setHTML('<br><center>'+bin_on.getHTML()+'</center>');
+		},
+		ondragout: function(e){
+			var o=e.getSource();
+			o.setHTML('<br><center>'+bin_off.getHTML()+'</center>');
+		}
+	}
+
+	l2.addEventListener(evt);
+	l3.addEventListener(evt);
+	l4.addEventListener(evt);
+	l5.addEventListener(evt);
+
+	dynapi.document.addChild(l2)
+	dynapi.document.addChild(l3)
+	dynapi.document.addChild(lBase)
+
+	dynapi.document.addChild(l1)
+
+</script>
+</head>
+<body>
+Drag & Drop the file over recycle bins<br>
+<script>
+	dynapi.document.insertAllChildren();
+</script>
+<p>
+<a href="javascript:;" onclick="l1.setDragOverStealthMode(true);">Activate Stealth Mode</a><br>
+<a href="javascript:;" onclick="l1.setDragOverStealthMode(false);">Deactivate Stealth Mode</a>
+</p>
+</body>
+</html>

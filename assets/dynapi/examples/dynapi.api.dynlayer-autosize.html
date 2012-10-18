@@ -1,0 +1,52 @@
+<html>
+<head>
+<title>DynAPI Examples - DynLayer auto-resize feature</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+	dynapi.library.setPath('../src/');
+	dynapi.library.include('dynapi.api');
+</script>
+<script language="Javascript">
+
+// Note: this table's width will resize differently when displayed inside Opera
+var t ='<table width="100%" border="1"><tr><td>Test Table</td></tr></table>'
+
+var lyr = new DynLayer('text',110,110,50,30,'yellow');
+dynapi.document.addChild(lyr);
+
+//lyr.enableBlackboard();
+lyr.setAutoSize(true,true)
+
+function changeHTML(){
+	var f=document.forms['frm'];
+	var html = '<nobr>'+f.txt.value+'</nobr>'; // always use <nobr> with plain text to prevent text wrapping in ns4
+	lyr.deleteAllChildren();
+	if(lyr.getHTML()!=html) lyr.setHTML(html);
+};
+
+function removeLayer(){
+	lyr.deleteChild(lyr.children[lyr.children.length-1])
+};
+
+function addLayer(){
+	var x=Math.random()*200;
+	var y=Math.random()*200;
+	var l = new DynLayer(null,x,y,10,10,'green');
+	lyr.addChild(l);
+};
+
+</script>
+</HEAD>
+
+<BODY>
+<script>
+	dynapi.document.insertAllChildren();
+</script>
+<form name="frm">
+	<textarea rows="4" cols="20" name="txt">Enter a very long text here</textarea>
+	<input type="button" onclick="return changeHTML();" value="Set HTML">&nbsp;
+	<input type="button" onclick="return addLayer();" value="Add Layer">&nbsp;
+	<input type="button" onclick="return removeLayer();" value="Remove Layer">
+<form>
+</body>
+</html>

@@ -1,0 +1,169 @@
+<!doctype html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>DynAPI - Quick Reference</title>
+<link rel="stylesheet" type="text/css" href="../include/dynapi.css">
+</head>
+
+<body bgcolor="#FFFFFF">
+
+<table border="0" width="100%">
+  <tr>
+    <td width="38%">
+    <img border="0" src="../images/dynapi.gif" width="200" height="75"></td>
+    <td width="62%" align="right">
+      <p align="right"><a href="../index.html" style="text-decoration:none"><img border="0" src="../images/home.gif" align="absmiddle" width="22" height="19">&nbsp;Home</a> | <a href="quickref.html" style="text-decoration:none">Quick Reference</a>
+    </td>
+  </tr>
+  <tr>
+    <td width="100%" colspan="2" align="left">
+<hr size="1" color="#C0C0C0">
+    </td>
+  </tr>
+  <tr>
+    <td width="100%" colspan="2" align="left">
+
+<h1><font color="#800000">dynapi.gui.TemplateManager - </font>Quick Reference</h1>
+    </td>
+  </tr>
+</table>
+
+<table border="0" width="100%">
+  <tr>
+    <td width="100%"><p align="right"><i><font color="#008000">
+      <b>Inherit: </b></font><a href="quickref.dynlayer.html">DynLayer</a>&nbsp;</i></p>
+    </td>
+  </tr>
+  <tr>
+    <td width="100%">
+      <hr size="1" color="#C0C0C0">
+    </td>
+  </tr>
+</table>
+<p><b>Remarks<br>
+</b>The TemplateManager (TM) Class provides an easy way DynAPI components to be
+embedded within HTML templates. These html templates can be
+create with any WYSIWYG editor and can include fields that are used as place
+holders for the actual object or data.</p>
+<p>Field name Syntax:</p>
+<pre>{@fieldname}
+{@fieldname:[ some text here]}</pre>
+<p>Where &quot;fieldname&quot; should be replaced with a desired name. For
+example {@firstname}. Fields which uses the {@fieldname:[]} syntax are called
+container fields. These fields are used for storing multiple lines of text or
+html inside the template.</p>
+<p>Another feature of the TM is to allow developers to create DynAPI
+Widgets/Components inside the templates with only a few lines of code. This is
+made possible through the use a special set of fields (or tags) called HyperText
+Component (HTC) fields.</p>
+<p>HTC Field Syntax:</p>
+<pre>&lt;htc:DynObject() @fieldname /&gt;</pre>
+<p>Example:</p>
+<pre>var t= 'This is a DynLayer &lt;htc:DynLayer(&quot;HTC&quot;,0,0,30,20,&quot;Yellow&quot;) @lyr1 /&gt;  '
++'This is a Button &lt;htc:HTMLButton(null,&quot;Button&quot;) @btn2 /&gt; ';
+var tp = new Template(t,100,100,100,100,'#EEEEEE');
+tp.lyr1.setHTML('Cool!'); // note the DynLayer object is created automatically
+</pre>
+<p><b><font color="#FF0000">NOTE:</font></b> <font color="#008000">The htc field
+format is in early beta and might change in the future. Do you have any suggestions
+on ways to improve the htc format?</font></p>
+<p>Templates should only contain html codes found between the
+&lt;body&gt;&lt;/body&gt; tags. To convert your html codes to a JavaScript
+String or Array variable use the <a href="../../bin/dynapi.text2var.html">Text2Var
+Converter</a>.</p>
+<hr>
+<h2>Template Constructor</h2>
+<p><b>Template(html,x,y,w,h,color,image)</b> - Used to create template object. The Template object is basically a DynLayer with an
+html template as it's content.&nbsp;&nbsp;</p>
+<hr>
+<h2>Events</h2>
+<p>[none]</p>
+<hr>
+<h2>Public Methods</h2>
+<p><b>addChild(c, fld) </b> - Adds a child object to the template. If no field
+name was specified the child will be added to the base of the Template. If a
+valid field name was specified, the child will be embedded inside the template
+where the field was entered. Fields are basically placeholders and/or containers. Only one
+child object can be added to a field at any one time.</p>
+<pre><u>c</u> 	- (DynElement) Child object to be added to the template
+<u>fld</u> 	- (String) Field name inside template to embed the child object</pre>
+<p>example:</p>
+<pre>var html = 'With TM I can now embed a {@lyr1} inside my html templates';
+var tp = new Template(html,10,10,100,100);
+tp.addChild(new DynLayer('layer',0,0,10,10,'red'), 'lyr1');
+dynapi.document.addChild(tp);
+</pre>
+<p>Layers that are added to the TM will be relatively positioned. To force 
+layers to be absolute do the following:</p>
+<pre>tp.addChild(lyr) // without any field name
+
+or 
+
+tp.addChild(lyr,'fld');
+tp.fld.setPosition('absolute');
+</pre>
+<p> TemplateManager (TM) allows you to replace any child object (e.g. DynLayer)
+associated with a field at any time </p>
+<p>example: </p>
+<pre>var tp = new Template('Some text {@field1}')
+tp.addChild(new DynLayer('Here'),'field1');
+//..... load and display tp .....
+//.... some code here ....
+// to replace the DynLayer in field1 with a new DynLayer do the following
+tp.addChild(new DynLayer('Hello World'),'field1'); // replace exiting child
+tp.generate(); // recreate and display template;
+</pre>
+<p><b>addField(fld,adjFld,content)</b> - Adds a new field to the existing
+template. </p>
+<pre>fld		- (String) Name of new field
+adjFld		- (String) Optional. Name of adjacent field
+content		- (String) Text/HTML content of new field.</pre>
+<p>example: </p>
+<pre>// add a new field3 to existing template
+tp.addField('field3','field1'); // adjacent to field1
+tp.addChild(new DynLayer(),'field3');
+</pre>
+<p><b>cloneField(fld,fld1,fld2,...,fldN)</b> - Clones a field inside the
+template </p>
+<pre>fld		- (String) Name of existing field
+fld1...fldN	- (String) Name of new fields. fld2 to fldN are optional names</pre>
+<p>example: </p>
+<pre>var tp = new Template('Some text {@field1}')
+// clone field1 to create field2 and field3, etc
+tp.cloneField('field1','field2','field3',...'fieldN');
+tp.addChild(new DynLayer(),'field2');
+tp.addChild(new DynLayer(),'field3');
+</pre>
+<p>Note: The cloneField() function will only clone the field and it's text/html content. It will not clone
+the child object (e.g. DynLayer) that's associated with the field. </p>
+<p><b>clearTemplate()</b> - Clears the template </p>
+<p><b>getField(fld)</b> - Returns the value of an embedded field
+</p>
+<p><b>generate()</b> - Generates and display the changes made to the template
+object. Calling setHTML(html) after the template has been created will also
+invoke this function.
+</p>
+<p><b>setDefaultFieldValue(v)</b> - Changes the default value used in unused fields from &lt;!--fieldname--> to
+the specified value.
+</p>
+<p>example:</p>
+<pre>var html = 'This is my first {@field1} template {@field2}';
+var tp = new Template(html,10,10,100,100);
+tp.setField('field1','HTML'); // set field1
+tp.setDefaultFieldValue('???'); // all unused fields (i.e field2) will display ??? 
+dynapi.document.addChild(tp);
+</pre>
+<p><b>setField(fld,value)</b> - Sets the value (or content) of an embedded field.
+</p>
+<hr>
+<h2>Private Methods</h2>
+<p><b>_TemplateSetHTML()</b></p>
+<p><b>_insertField(fld,value)</b></p>
+<p><b>_insertChild(c)</b></p>
+<p><b>_parseFields()</b></p>
+<hr>
+<h2>Static Methods</h2>
+<p><b>TemplateManager.isDynLayer(c)</b></p>
+<p><b>TemplateManager.isLayer(c)</b></p>
+</body>
+</html>

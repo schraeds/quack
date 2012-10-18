@@ -1,0 +1,106 @@
+<html>
+    <head>
+        <style>
+            BODY
+            {
+            	FONT-SIZE: 10px;
+            	COLOR: white;
+            	FONT-FAMILY: Verdana;
+            	TEXT-DECORATION: none
+            }
+            .csscontent
+            {
+                BACKGROUND-COLOR: #326597;
+            	BORDER-RIGHT: #000000 1px solid;
+            	BORDER-LEFT: #000000 1px solid;
+            	BORDER-BOTTOM: #000000 1px solid;
+            	FONT-SIZE: 10px;
+            	FONT-FAMILY: Verdana;
+            	TEXT-DECORATION: none
+            }
+            .cssmenu
+            {
+                BACKGROUND-COLOR: #30557A;
+            	BORDER-TOP: #000000 1px solid;
+            	BORDER-RIGHT: #000000 1px solid;
+            	BORDER-LEFT: #000000 1px solid;
+            	BORDER-BOTTOM: #000000 1px solid;
+            	FONT-SIZE: 10px;
+            	FONT-FAMILY: Verdana;
+            	TEXT-DECORATION: none
+            }
+            td
+            {
+            	FONT-SIZE: 10px;
+            	FONT-FAMILY: Verdana;
+            	TEXT-DECORATION: none
+            }
+        </style>
+        <title>DynAPI Examples - PanelBar & Stacker</title>
+        <script language="JavaScript" src="../src/dynapi.js"></script>
+        <script language="Javascript">
+            dynapi.library.setPath('../src/');
+            dynapi.library.include('dynapi.library');
+            dynapi.library.include('dynapi.api');
+            dynapi.library.include('dynapi.gui.PanelBar');
+            dynapi.library.include('dynapi.gui.Stacker');
+            dynapi.library.include('dynapi.functions.Image');
+            dynapi.library.include('DragEvent');
+        </script>
+        <script language="JavaScript">
+        
+            f=dynapi.functions;
+            var imgmin=f.getImage('images/win_min.gif',15,16);
+            var imgmax=f.getImage('images/win_max.gif',15,16);
+            
+            var lyrMenu = new DynLayer();
+            lyrMenu.setClass ('cssmenu');
+            lyrMenu.setHTML('<table width=100% border=0 ceppadding=0 cellspacing=0><tr><td>My Menu #1</td><td align=right>{@min}</td></tr></table>')
+            var lyrContent = new DynLayer('This PanelBar and the two under are in the stacker, the stacker reacts on sizechanges and moves the layers when the size changes.');
+            lyrContent.setClass ('csscontent');
+            var lyrPanelBar = new PanelBar(lyrMenu,lyrContent,20,50,50,200,100,false);
+            lyrPanelBar.setMinMaxImg(imgmin,imgmax);
+            
+            var lyrMenu1 = new DynLayer();
+            lyrMenu.setClass ('cssmenu');
+            lyrMenu1.setClass ('cssmenu');
+            lyrMenu1.setHTML('<table width=100% border=0 ceppadding=0 cellspacing=0><tr><td>My Menu #2</td><td align=right>{@min}</td></tr></table>')
+            var lyrContent1 = new DynLayer('This PanelBar has been created using a layer for the menu and one for the content.');
+            lyrContent1.setClass ('csscontent');
+            var lyrPanelBar1 = new PanelBar(lyrMenu1,lyrContent1,20,250,50,200,100,true);
+            lyrPanelBar1.setMinMaxImg(imgmin,imgmax);
+            
+            // Create a PanelBar with HTML instead of layers
+            var lyrPanelBar2 = new PanelBar(
+                '<table width=100% border=0 ceppadding=0 cellspacing=0><tr><td>My Menu #3</td><td align=right>{@min}</td></tr></table>',
+                'This PanelBar has been created using simply html-text instead of two layers.',
+                20,250,50,200,100,false);
+            lyrPanelBar2.setMinMaxImg(imgmin,imgmax);
+            
+            // Manipulate the menu- and contentlayer
+            lyrPanelBar2.getContentLayer().setClass ('csscontent');
+            lyrPanelBar2.getMenuLayer().setClass ('cssmenu');
+            
+            // Just test the empty constructor
+            // This is important for subclassing
+            var constructorTest = new PanelBar();
+            
+            dynapi.document.addChild(lyrPanelBar);
+            dynapi.document.addChild(lyrPanelBar1);
+            dynapi.document.addChild(lyrPanelBar2);
+            
+            var objStacker = new Stacker()
+            objStacker.add(lyrPanelBar);
+            objStacker.add(lyrPanelBar1);
+            objStacker.add(lyrPanelBar2);
+        
+        </script>
+    </head>
+    <body>
+        <script>
+        	dynapi.document.insertAllChildren();
+        </script>
+
+    </body>
+</html>
+

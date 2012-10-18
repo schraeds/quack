@@ -1,0 +1,43 @@
+<html>
+<head>
+<title>DynAPI Examples - IOElement Execute in Parent</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.api');
+dynapi.library.include('Color');
+dynapi.library.include('IOElement');
+</script>
+<script language="Javascript">
+
+	var io = dynapi.document.addChild(new IOElement(1));
+
+	function loadElm(){
+		var url = 'dynapi.util.ioelement-dynamic-data.html';
+		io.get(url,null,fn);
+	}
+
+	function fn(e,s){
+		var o=e.getSource();
+		if(!s) {
+			var c,t;
+
+			// IE only - used to display page content of a failed response.
+			var elm=o.getScope();
+			if (!(dynapi.ua.ie && elm.document && !elm.document._tranState)) t='';
+			else t='------\n'+elm.document.body.innerText;
+
+			c=confirm('Would you like to retry the operation?\n\n'+t);
+			if(c) o.retry();
+		}
+	}
+
+</script>
+</head>
+<body>
+<script>
+	dynapi.document.insertAllChildren();
+</script>
+<a href="javascript:;" onclick="loadElm()">Load Page</a>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!doctype html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title> DynAPI Documentation </title>
+<link rel="stylesheet" type="text/css" href="../include/dynapi.css">
+</head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" width="100%">
+  <tr>
+    <td width="38%"><img border="0" src="../images/dynapi.gif"></td>
+    <td width="62%" align="right">
+      <p align="right"><a href="../index.html" style="text-decoration:none"><img border="0" src="../images/home.gif" align="absmiddle" width="22" height="19">&nbsp;Home</a>
+    </td>
+  </tr>
+  <tr>
+    <td width="100%" colspan="2" align="left">
+<hr size="1" color="#C0C0C0">
+    </td>
+  </tr>
+</table>
+
+<h1>System Requirements&nbsp;</h1>
+<p>The DynAPI library files can be grouped into two categories: 1) Dynamic
+and 2) Non-Dynamic. The non-dynamic libraries (in theory) can be used in &quot;Any
+Browser&quot; that supports JavaScript,&nbsp; while dynamic libraries can only
+be used in browsers that support DOM and CSS.</p>
+<p>The recommended browsers for use with DynAPI are as follows:</p>
+<ul>
+  <li><img border="0" src="../images/opera.gif" align="absmiddle" width="33" height="33">
+    Opera 7+</li>
+  <li><img border="0" src="../images/ie.gif" align="absmiddle" width="32" height="32">
+    Internet Explorer 4+</li>
+  <li><img border="0" src="../images/konqueror.gif" align="absmiddle" width="32" height="32">
+    Konqueror 3+</li>
+  <li><img border="0" src="../images/safari.gif" align="absmiddle" width="32" height="32">
+    Safari</li>
+  <li><img border="0" src="../images/ns4.gif" align="absmiddle" width="32" height="32">
+    Netscape 4+</li>
+  <li><img border="0" src="../images/moz.gif" align="absmiddle" width="32" height="32">
+    Mozilla 1+</li>
+  <li><img border="0" src="../images/phoenix.gif" align="absmiddle" width="32" height="32">
+    Phoenix 0.5+&nbsp;</li>
+</ul>
+<p>&nbsp;</p>
+<p><b>Non-Dynamic features:&nbsp;<br>
+</b>
+(dynapi, dynapi.api.events, dynapi.functions, dynapi.debug, dynapi.library,
+dynapi.util.cookie)</p>
+<ul>
+  <li>Brower Sniffing</li>
+  <li>URL Parsing</li>
+  <li>Image Preloading/Roll Over, etc</li>
+  <li>DynAPI functions (dynapi.functions)</li>
+  <li>Cookie Handling</li>
+  <li>Non-GUI widgets&nbsp;</li>
+  <li>Event Handling for Non-GUI widgets</li>
+</ul>
+<p>&nbsp;</p>
+<table border="0" width="100%" bgcolor="#EEEEEE" cellspacing="1">
+  <tr>
+    <th width="38%" bgcolor="#CCCCCC">Browser</th>
+    <th width="22%" bgcolor="#CCCCCC">Non-Dynamic</th>
+    <th width="18%" bgcolor="#CCCCCC">Dynamic</th>
+    <th width="28%" bgcolor="#CCCCCC">Platform</th>
+  </tr>
+  <tr>
+    <td width="38%" bgcolor="#FFFFFF">Internet Explorer 4+</td>
+    <td width="22%" align="center" bgcolor="#FFFFFF"><img border="0" src="../images/tick.gif" width="13" height="13"></td>
+    <td width="18%" align="center" bgcolor="#FFFFFF"><img border="0" src="../images/tick.gif" width="13" height="13"></td>
+    <td width="28%" align="center" bgcolor="#FFFFFF">Win</td>
+  </tr>
+  <tr>
+    <td width="38%" bgcolor="#FFFFFF">Netscape 4+</td>
+    <td width="22%" align="center" bgcolor="#FFFFFF"><img border="0" src="../images/tick.gif" width="13" height="13"></td>
+    <td width="18%" align="center" bgcolor="#FFFFFF"><img border="0" src="../images/tick.gif" width="13" height="13"></td>
+    <td width="28%" align="center" bgcolor="#FFFFFF">Win, Linux?, Mac?</td>
+  </tr>
+  <tr>
+    <td width="38%" bgcolor="#FFFFFF">Mozilla (milestone 16 and higher)</td>
+    <td width="22%" align="center" bgcolor="#FFFFFF"><img border="0" src="../images/tick.gif" width="13" height="13"></td>
+    <td width="18%" align="center" bgcolor="#FFFFFF"><img border="0" src="../images/tick.gif" width="13" height="13"></td>
+    <td width="28%" align="center" bgcolor="#FFFFFF">Win, Linux, Mac</td>
+  </tr>
+  <tr>
+    <td width="38%" bgcolor="#FFFFFF">Phoenix</td>
+    <td width="22%" align="center" bgcolor="#FFFFFF"><img border="0" src="../images/tick.gif" width="13" height="13"></td>
+    <td width="18%" align="center" bgcolor="#FFFFFF"><img border="0" src="../images/tick.gif" width="13" height="13"></td>
+    <td width="28%" align="center" bgcolor="#FFFFFF">Win, Linux?</td>
+  </tr>
+  <tr>
+    <td width="38%" bgcolor="#FFFFFF">Konqueror 3+</td>
+    <td width="22%" align="center" bgcolor="#FFFFFF"><img border="0" src="../images/tick.gif" width="13" height="13"></td>
+    <td width="18%" align="center" bgcolor="#FFFFFF"><img border="0" src="../images/tick.gif" width="13" height="13"></td>
+    <td width="28%" align="center" bgcolor="#FFFFFF">Linux</td>
+  </tr>
+  <tr>
+    <td width="38%" bgcolor="#FFFFFF">Safari</td>
+    <td width="22%" align="center" bgcolor="#FFFFFF"><img border="0" src="../images/tick.gif" width="13" height="13"></td>
+    <td width="18%" align="center" bgcolor="#FFFFFF"><img border="0" src="../images/tick.gif" width="13" height="13"></td>
+    <td width="28%" align="center" bgcolor="#FFFFFF">Mac</td>
+  </tr>
+  <tr>
+    <td width="38%" bgcolor="#FFFFFF">Opera 7+</td>
+    <td width="22%" align="center" bgcolor="#FFFFFF"><img border="0" src="../images/tick.gif" width="13" height="13"></td>
+    <td width="18%" align="center" bgcolor="#FFFFFF"><img border="0" src="../images/tick.gif" width="13" height="13"></td>
+    <td width="28%" align="center" bgcolor="#FFFFFF">Win, Linux?, Mac?</td>
+  </tr>
+  <tr>
+    <td width="38%" bgcolor="#FFFFCC">Standard DOM Browsers</td>
+    <td width="22%" align="center" bgcolor="#FFFFCC"><img border="0" src="../images/tick.gif" width="13" height="13"></td>
+    <td width="18%" align="center" bgcolor="#FFFFCC"><img border="0" src="../images/tick.gif" width="13" height="13"></td>
+    <td width="28%" align="center" bgcolor="#FFFFCC">&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="38%" bgcolor="#FFFFFF">Opera 5.x, *6.x</td>
+    <td width="22%" align="center" bgcolor="#FFFFFF"><img border="0" src="../images/tick.gif" width="13" height="13"></td>
+    <td width="18%" align="center" bgcolor="#FFFFFF">&nbsp;</td>
+    <td width="28%" align="center" bgcolor="#FFFFFF">Win, Linux, Mac</td>
+  </tr>
+  <tr>
+    <td width="38%" bgcolor="#FFFFFF">Netscape 3.0</td>
+    <td width="22%" align="center" bgcolor="#FFFFFF"><img border="0" src="../images/tick.gif" width="13" height="13"></td>
+    <td width="18%" align="center" bgcolor="#FFFFFF">&nbsp;</td>
+    <td width="28%" align="center" bgcolor="#FFFFFF">Win, Linux?</td>
+  </tr>
+  <tr>
+    <td width="38%" bgcolor="#FFFFFF">HotJava 3.0</td>
+    <td width="22%" align="center" bgcolor="#FFFFFF"><img border="0" src="../images/tick.gif" width="13" height="13"></td>
+    <td width="18%" align="center" bgcolor="#FFFFFF">&nbsp;</td>
+    <td width="28%" align="center" bgcolor="#FFFFFF">Java</td>
+  </tr>
+  <tr>
+    <td width="38%" bgcolor="#FFFFFF">Escape 4</td>
+    <td width="22%" align="center" bgcolor="#FFFFFF"><img border="0" src="../images/tick.gif" width="13" height="13"></td>
+    <td width="18%" align="center" bgcolor="#FFFFFF">&nbsp;</td>
+    <td width="28%" align="center" bgcolor="#FFFFFF">Java</td>
+  </tr>
+  <tr>
+    <td width="38%" bgcolor="#FFFFFF">Omniweb 4</td>
+    <td width="22%" align="center" bgcolor="#FFFFFF"><img border="0" src="../images/tick.gif" width="13" height="13"></td>
+    <td width="18%" align="center" bgcolor="#FFFFFF">&nbsp;</td>
+    <td width="28%" align="center" bgcolor="#FFFFFF">Mac OS X</td>
+  </tr>
+  <tr>
+    <td width="38%" bgcolor="#FFFFFF">Ice Storm</td>
+    <td width="22%" align="center" bgcolor="#FFFFFF"><img border="0" src="../images/tick.gif" width="13" height="13"></td>
+    <td width="18%" align="center" bgcolor="#FFFFFF">&nbsp;</td>
+    <td width="28%" align="center" bgcolor="#FFFFFF">Java</td>
+  </tr>
+  <tr>
+    <td width="38%" bgcolor="#FFFFFF">iCab</td>
+    <td width="22%" align="center" bgcolor="#FFFFFF"><img border="0" src="../images/tick.gif" width="13" height="13"></td>
+    <td width="18%" align="center" bgcolor="#FFFFFF">&nbsp;</td>
+    <td width="28%" align="center" bgcolor="#FFFFFF">Mac</td>
+  </tr>
+</table>
+<p>* - Opera v6 is supported (based on the design of DynAPI) in what I would call semi-dynamic mode. This means
+that once the page is loaded the content cannot be changed. So setHTML() and newly created
+DynLayers will not work. Layers created before the page loads will support all the other features of
+DynAPI such as drag-drop, anchoring, etc.</p>
+</body>
+</html>

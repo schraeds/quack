@@ -1,0 +1,195 @@
+<!doctype html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>DynAPI - Quick Reference</title>
+<link rel="stylesheet" type="text/css" href="../include/quickref.css" media="screen">
+<link rel="stylesheet" type="text/css" href="../include/quickref.css" media="print">
+</head>
+
+<body>
+	<div id="header">
+		<img border="0" src="../images/dynapi.gif">
+		<div>
+			<a href="../index.html"><img src="../images/home.gif" width="22" height="19">Home</a> | <a href="quickref.html">Quick Reference</a>
+		</div>
+	</div>
+	<h1><span class="object">dynapi.api.DynLayer</span> - Quick Reference</h1>
+	<div id="inherit"><span>Inherit:</span> <a href="quickref.dynelement.html">DynElement</a></div>
+	<h2>Constructor</h2>
+	<dl>
+		<dt>DynLayer(html,x,y,w,h,color)</dt>
+		<dd>...</dd>
+	</dl>
+	<h2>Events</h2>
+	<p>?</p>
+	<h2>Public Methods</h2>
+	<dl>
+		<dt>enableBlackboard()</dt>
+        <dd>...</dd>
+		<dt>getOuterHTML()</dt>
+		<dd>...</dd>
+
+        <dt>setClass(c,noInlineStyle)</dt>
+        <dd>...</dd>
+
+		<dt>setLocation(x,y)</dt>
+		<dd>...</dd>
+
+		<dt>setPageLocation(x,y)</dt>
+		<dd>...</dd>
+
+		<dt>getPageX()</dt>
+		<dd>...</dd>
+
+		<dt>getPageY()</dt>
+		<dd>...</dd>
+
+        <dt>setPosition(p)</dt>
+        <dd>p&nbsp;&nbsp;&nbsp; -&nbsp;&nbsp;&nbsp; (String) Position of layer.
+          Values: relative, absolute or fixed (ignored by ns4)<br>
+          <br>
+          Used for setting the position of the DynLayer.&nbsp;<br>
+          &nbsp;</dd>
+
+		<dt>setOverflow(s)</dt>
+        <dd>...</dd>
+
+		<dt>setVisible(v)</dt>
+		<dd>...</dd>
+
+		<dt>setSize(w,h)</dt>
+		<dd>...</dd>
+
+        <dt>setMinimumSize(w,h)</dt>
+        <dd>...</dd>
+        <dt>setMaximumSize(w,h)</dt>
+        <dd>...</dd>
+
+		<dt>setHTML(html)</dt>
+		<dd>...</dd>
+
+		<dt>getAnchor()</dt>
+		<dd>...</dd>
+
+		<dt>setAnchor(anchor)</dt>
+		<dd>...</dd>
+
+		<dt>setTextSelectable(b)</dt>
+		<dd>...</dd>
+
+		<dt>setX(x)</dt>
+		<dd>...</dd>
+
+		<dt>setY(y)</dt>
+		<dd>...</dd>
+
+		<dt>getX()</dt>
+		<dd>...</dd>
+
+		<dt>getY()</dt>
+		<dd>...</dd>
+
+		<dt>setPageX(x)</dt>
+		<dd>...</dd>
+
+		<dt>setPageY(y)</dt>
+		<dd>...</dd>
+
+		<dt>getVisible()</dt>
+		<dd>...</dd>
+
+		<dt>setZIndex(z)</dt>
+		<dd>...</dd>
+
+		<dt>getZIndex()</dt>
+		<dd>...</dd>
+
+		<dt>getInnerHTML()</dt>
+		<dd>...</dd>
+
+		<dt>getHTML()</dt>
+		<dd>...</dd>
+
+		<dt>setWidth(w)</dt>
+		<dd>...</dd>
+
+		<dt>setHeight(h)</dt>
+		<dd>...</dd>
+
+		<dt>getWidth()</dt>
+		<dd>...</dd>
+
+		<dt>getHeight()</dt>
+		<dd>...</dd>
+
+		<dt>getBgImage()</dt>
+		<dd>...</dd>
+
+		<dt>getBgColor()</dt>
+		<dd>...</dd>
+
+		<dt>getCursor()</dt>
+		<dd>...</dd>
+
+		<dt>setCursor(c)</dt>
+		<dd>...</dd>
+
+		<dt>setBgColor(c)</dt>
+		<dd>...</dd>
+
+		<dt>setBgImage(path)</dt>
+		<dd>...</dd>
+
+		<dt>getContentWidth()</dt>
+		<dd>...</dd>
+
+		<dt>getContentHeight()</dt>
+		<dd>...</dd>
+
+		<dt>setClip(clip)</dt>
+		<dd>...</dd>
+
+		<dt>getClip()</dt>
+		<dd>...</dd>
+
+        <dt>setAutoSize(w,h)</dt>
+        <dd>Enables/Disables automatic resizing of either the width and/or
+          height of a layer.<br>
+          <br>
+          example:</dd>
+        <dd>
+          <pre>var lyr = new DynLayer('&lt;table&gt;&lt;tr&gt;&lt;td&gt;Hello &lt;br&gt; World&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;');
+lyr.setAutoSize(true,true);
+dynapi.functions.addChild(lyr);</pre>
+        </dd>
+
+		<dt>slideTo(endx,endy,inc,speed)</dt>
+		<dd>...</dd>
+
+		<dt>slideStop()</dt>
+		<dd>...</dd>
+	</dl>
+	<h2>Private Methods</h2>
+	<dl>
+		<dt>_destroy()</dt>
+		<dd>...</dd>
+
+		<dt>_remove()</dt>
+		<dd>...</dd>
+
+		<dt>_create()</dt>
+		<dd>...</dd>
+
+        <dt>_createInserted(div)</dt>
+        <dd>...</dd>
+
+		<dt>_slide(dx,dy,endx,endy,num,x,y,i,speed)</dt>
+		<dd>...</dd>
+	</dl>
+	<h2>Static Methods</h2>
+	<dl>
+		<dt>_assignElement(dlyr,elm,divs)</dt>
+		<dd>...</dd>
+	</dl>
+</body>
+</html>

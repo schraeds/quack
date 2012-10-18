@@ -1,0 +1,44 @@
+<html>
+<head>
+<title>DynAPI Examples - Highlighter</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.api');
+dynapi.library.include('dynapi.functions.Color');
+dynapi.library.include('dynapi.gui.Highlighter');
+</script>
+<script language="Javascript">
+var x=0,y=50,c=0,lyr,clr,inc=1;
+var d1=new Date();
+
+for(var i=0;i<300;i++){
+	y+=inc;
+	if(y>200) inc*=-1;
+	x=50+c*1;
+	c+=1;
+	if (i<=100) clr=dynapi.functions.fadeColor('#0000FF','#FF0000',i);
+	else if (i>100 && i<=200) clr=dynapi.functions.fadeColor('#FF0000','#00FF00',i-100);
+	else clr=dynapi.functions.fadeColor('#00FF00','#FFFFFF',(i-200));
+	lyr=new Highlighter(x,y,1,50,clr);
+	dynapi.document.addChild(lyr);
+}
+
+dynapi.onLoad(init);
+
+function init(){
+	var d2=new Date();
+	document.frm.txt.value = i+' layers in '+(d2-d1)+' milliseconds';
+}
+
+</script>
+</head>
+<body>
+<form name="frm">Speed:
+<input type="text" size="50" name="txt" value="loading...">
+</form>
+<script>
+	dynapi.document.insertAllChildren();
+</script>
+</body>
+</html>

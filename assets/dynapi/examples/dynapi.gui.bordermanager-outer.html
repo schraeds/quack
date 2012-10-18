@@ -1,0 +1,67 @@
+<html>
+<head>
+<title>DynAPI Examples - BorderManager - Outer Border using the Frame Object</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.api');
+dynapi.library.include('dynapi.functions.Image');
+dynapi.library.include('dynapi.gui.Frame');
+</script>
+<script language="Javascript">
+var p='images/';
+var f=dynapi.functions;
+var fn=f.getImage(p+'f1-n.jpg',100,17), fe=f.getImage(p+'f1-e.jpg',17,100), fs=f.getImage(p+'f1-s.jpg',100,17), fw=f.getImage(p+'f1-w.jpg',17,100);
+var simgs=[fn.src,fe.src,fs.src,fw.src];
+var fne=f.getImage(p+'f1-ne.jpg',17,17), fse=f.getImage(p+'f1-se.jpg',17,17), fsw=f.getImage(p+'f1-sw.jpg',17,17), fnw=f.getImage(p+'f1-nw.jpg',17,17);
+var cimgs=[fne.src,fse.src,fsw.src,fnw.src];
+
+var tile=f.getImage(p+'f1-dot.gif');
+var image1=f.getImage(p+'f1-sky.jpg');
+var image2=f.getImage(p+'f1-skyp.jpg');
+var image3=f.getImage(p+'f1-skyl.jpg');
+
+var fa=[ // Array of frame styles to choose from.
+  {w:2, s:'white'},
+  {w:2, s:['white','black','black','white']},
+  {w:2, s:['black','white','white','black']},
+  {w:[20,15,10,5], s:['red','yellow','green','blue']},
+  {w:[2,2,0,0], s:['yellow','blue']},
+  {w:[0,0,2], s:'red'},
+  {w:14, s:tile.src},
+  {w:1},
+  {},
+  {w:17, s:simgs, c:cimgs}
+];
+
+// Frame will take content location.
+var frame1=dynapi.document.addChild(new Frame(17,simgs,cimgs));
+frame1.addContent(new DynLayer(image1.getHTML(),150,60,377,182));
+frame1.setBgColor('#c4c2c7');
+frame1.setSize(440,244); // Content will auto center.
+frame1.addEventListener({
+  onclick:function(e){
+    var o=e.getSource();
+    o._fState=(o._fState<fa.length-1)?o._fState+1:0;
+    o.setBorder(fa[o._fState].w,fa[o._fState].s,fa[o._fState].c);
+  }
+});
+
+var frame2=dynapi.document.addChild(new Frame(14,tile.src));
+frame2.addContent(new DynLayer(image2.getHTML(),10,60,75,100));
+frame2.setBgColor('#c40000');
+frame2.setSize(112,140); // Multiple of tile size.
+
+var frame3=dynapi.document.addChild(new Frame(14,tile.src));
+frame3.addContent(new DynLayer(image3.getHTML(),10,210,100,75));
+frame3.setSize(126,98);
+</script>
+</head>
+<body bgcolor="#cccccc">
+Clicking on the large image will cycle through some frame styles. Click following<br>
+links to <a href="" onclick="frame1.setLocation(200,100); return false;">move</a> or <a href="" onclick="frame1.setLocation(150,60); return false;">return </a> frame location and to <a href="" onclick="frame1.setSize(frame1.w+42,frame1.h+42); return false;">increase</a> or <a href="" onclick="frame1.setSize(frame1.w-42,frame1.h-42); return false;">decrease</a> frame size.
+<script>
+	dynapi.document.insertAllChildren();
+</script>
+</body>
+</html>

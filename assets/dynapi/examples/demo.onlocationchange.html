@@ -1,0 +1,34 @@
+<html>
+<head>
+<title>DynAPI Examples - On Location Change Event</title>
+<script language="Javascript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+<!--
+	dynapi.library.setPath('../src/');
+	dynapi.library.include('dynapi.api');
+//-->
+</script>
+<script language="Javascript">
+<!--
+dynapi.onLoad(function() {
+	lyr = new DynLayer('Hello',300,50,100,100,'yellow');
+	lyr.addEventListener ({
+		onlocationchange : function(e) {
+			var me = e.getSource();
+			me.setHTML('Location Change to:<br> x='+me.getX()+', y='+me.getY());
+		}
+	});
+
+	dynapi.document.addChild(lyr);
+});
+
+//-->
+</script>
+</head>
+
+<body bgcolor="#FFFFFF">
+<table bgcolor="#ffffff" border=0><tr><td>
+<br><a href="javascript:;" onclick="lyr.slideTo(parseInt(Math.random()*450),parseInt(Math.random()*200));return false;">Change Location</a>
+</td></tr></table>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<html>
+<script>
+<!--
+
+var dynapi = parent.dynapi;
+var ioelement;
+if (dynapi) {
+	ioelement = parent.IOElement.notify(this, init);  // run init() when this file loads
+}
+else alert('Error: Missing or invalid DynAPI library');
+
+// you can server-generate js variables and retrieve them in the load handler
+var boolValue = true;
+var randValue = Math.random();
+
+// obtain arguments passed in the url
+if (dynapi) {
+	var args = dynapi.functions.getURLArguments(this);
+	var myValue = args['myvalue'];
+
+	// find the filename to output to the debugger
+	var url = this.src || this.location.href || this.document.location.href;
+	url = url.substring(url.lastIndexOf('/')+1,url.indexOf('?'));
+}
+
+function init() {
+	dynapi.debug.print('loaded '+url);
+}
+
+//-->
+</script>
+
+<body>
+
+<script>
+<!--
+
+if (ioelement) {
+
+	// fix iframe bgcolor to parent IOElement's bgcolor, IE/Moz only
+	if (!dynapi.ua.ns4) this.document.body.style.backgroundColor = ioelement.getBgColor();
+
+	document.write('<b>server-generated values:</b><br>');
+	document.write('boolValue = '+boolValue+'<br>');
+	document.write('randValue = '+randValue+'<br>');
+
+	document.write('<b>value passed in the URL:</b><br>');
+	document.write('myvalue = '+args['myvalue']+'<br>');
+
+	document.write('<b>values used by IOElement:</b><br>');
+	document.write('IORequestID = '+args['IORequestID']+'<br>');
+	document.write('IOElementID = '+args['IOElementID']+'<br>');
+
+}
+
+//-->
+</script>
+
+<p>test<br>test<br>test<br>test<br>test<br>test<br>test<br>test<br>test<br>test<br>test<br>test<br>test<br>test<br>test<br>test<br>test<br>test<br>test<br>test<br>test<br>test<br>test<br>test<br>test<br>
+</body>
+</html>

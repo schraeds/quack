@@ -1,0 +1,42 @@
+<html>
+<head>
+<title>DynAPI Examples - ProgressBar</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+	dynapi.library.setPath('../src/');
+	dynapi.library.include('dynapi.api');
+	dynapi.library.include('ProgressBar');
+</script>
+<script language="Javascript">
+
+	var hpb = new ProgressBar('horz',250,100,200,20,20);
+	var vpb = new ProgressBar('vert',200,100,20,150,20);
+
+	var ipb = new ProgressBar('horz',250,150,200,20,20);
+	ipb.setLocalStyleAttribute('imageBar',dynapi.functions.getImage('images/pbar.gif'));
+
+	dynapi.document.addChild(hpb);
+	dynapi.document.addChild(vpb);
+	dynapi.document.addChild(ipb);
+
+	var i=0;
+	function startLoop(v){
+		if(v!=null) i=v;
+		hpb.setValue(i)
+		vpb.setValue(i)
+		ipb.setValue(i)
+		i++;
+		if(i<=100)setTimeout('startLoop()',100)
+		status=hpb.getValue();
+		return false;
+	}
+
+</script>
+</head>
+<body>
+<a href="javascript:;" onclick="return startLoop(1);">Start</a>
+<script>
+	dynapi.document.insertAllChildren();
+</script>
+</body>
+</html>

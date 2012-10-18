@@ -1,0 +1,83 @@
+<html>
+<head>
+<title>DynAPI Examples - I/O Element SODA-RPC Using Sync</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+	dynapi.library.setPath('../src/');
+	dynapi.library.include('dynapi.api');
+	dynapi.library.include('dynapi.library');
+	dynapi.library.include('dynapi.util.IOElement');
+	dynapi.library.include('dynapi.util.IOElementSync');
+	dynapi.library.include('dynapi.util.IOElementSoda');
+</script>
+</head>
+<body>
+<script language="Javascript">
+	var r, io, url;
+	url='dynapi.util.ioelement-soda-calc-js.asp';
+
+	io=IOElement.getSharedIO();
+
+	io.createWebService('calc',url,fnInit,true,"myname","mypassword",'get')
+
+	function fnInit(calc,s,et) {
+
+		if(!s) {
+			alert('An Error occured while creating web service:'+et)
+			return;
+		}
+
+		if(!calc.importWebMethods()) return;
+
+		// single call using imported function
+		r=calc.add(3,5);
+		if (r.error) alert(r.error.text)
+		else alert(r.value);
+
+		// single call using call
+		r=calc.call('add',[3],false); // use default value on server
+		if (r.error) alert(r.error.text)
+		else alert(r.value);
+
+		// multi call using single object
+		var o={
+			add:[2,null],
+			divide:[60,'@RESULT#0'],
+			multiply:['@RESULT#1','@RESULT#0']
+		};
+		o={
+		    multiply:[5,7],
+		    subtract:['@RESULT#0',6],
+		    divide:['@RESULT#1',2],
+		    add:[23,'@RESULT#2']
+		}
+		r=calc.call(o,null,false);
+		if (r.error) alert(r.error.text)
+		else {
+			alert(r.value);
+			alert(r.value[3]);	// results are returned inside an array
+		}
+
+		// multi call using method array and param arrays
+		var methods='add,divide,multiply,percentage,multiply';
+		var params=[
+			[3,2],
+			[60,'@RESULT#0'],
+			['@RESULT#1','@RESULT#0'],
+			[15],
+			['@RESULT#2','@RESULT#3']
+		]
+
+		r=calc.call(methods,params,false);
+		if (r.error) alert(r.error.text)
+		else {
+			alert(r.value);
+			alert(r.value[1]);	// results are returned inside an array
+
+		}
+	}
+
+</script>
+View the source code to this exmaple
+</body>
+</html>

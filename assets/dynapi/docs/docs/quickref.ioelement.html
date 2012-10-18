@@ -1,0 +1,361 @@
+<!doctype html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>DynAPI - Quick Reference</title>
+<link rel="stylesheet" type="text/css" href="../include/dynapi.css">
+</head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" width="100%">
+  <tr>
+    <td width="38%"><img border="0" src="../images/dynapi.gif"></td>
+    <td width="62%" align="right">
+      <p align="right"><a href="../index.html" style="text-decoration:none"><img border="0" src="../images/home.gif" align="absmiddle" width="22" height="19">&nbsp;Home</a> | <a href="quickref.html" style="text-decoration:none">Quick Reference</a>
+    </td>
+  </tr>
+  <tr>
+    <td width="100%" colspan="2" align="left">
+<hr size="1" color="#C0C0C0">
+    </td>
+  </tr>
+  <tr>
+    <td width="100%" colspan="2" align="left">
+
+<h1> <font color="#800000">dynapi.util.IOElement - </font>Quick Reference</h1>
+    </td>
+  </tr>
+</table>
+
+<table border="0" width="100%">
+  <tr>
+    <td width="100%"><p align="right"><i><font color="#008000"><b>Inherit: </b></font><a href="quickref.dynlayer.html">DynLayer</a>&nbsp;</i></p>
+    </td>
+  </tr>
+  <tr>
+    <td width="100%">
+      <hr size="1" color="#C0C0C0">
+    </td>
+  </tr>
+</table>
+<h2>Add-Ons</h2>
+<blockquote>
+  <p><b>IOElementSoda</b><br>
+  &nbsp;Enable RPC/Web Service connections to the server<br>
+  <br>
+  <b>IOElementSync<br>
+  &nbsp;</b>Enable Synchronous connections&nbsp;</p>
+</blockquote>
+<hr>
+<h2>Constructor</h2>
+<b>IOElement</b>(hiddenThreads,useXFrames);<pre><u>hiddenTbhreads</u>	– total number or threads or ports (0-8);
+<u>useXFrames</u>	– use eXternal Frames for post request in NS4 and other browsers</pre>
+<hr>
+<h2>Events</h2>
+<b>onresponse</b>(e,s) - Triggers
+      after a&nbsp; server response.
+<pre><u>e</u> - (EventObject)
+<u>s</u> - (Boolean) True is request was successful
+&nbsp;</pre>
+<b>onrequest</b>(e) - Triggers after a
+      request has been sent to the server.
+<pre><u>e</u> - (EventObject)&nbsp;</pre>
+<p>example:</p>
+<pre>var url=&quot;ibook.asp&quot;;
+var io=new IOElement(1); // create single threaded ioelm
+&nbsp;
+io.addEventListener({
+&nbsp;onrequest:function(e){
+&nbsp;&nbsp;&nbsp; var o=e.getSource();
+&nbsp;&nbsp; if(o.api.loadmsg) o.api.loadmsg.setVisible(true);
+&nbsp;}
+});
+
+// load app
+io.get(url);
+</pre>
+<hr>
+<h2>Public Methods</h2>
+<p><b>failTime</b> - (Integer) Time in which a server a timeout notification is
+triggered</p>
+<p><b>isSync</b> - (Boolean) True is synchronous mode was activated&nbsp;&nbsp;</p>
+<hr noshade size="1" color="#EEEEEE">
+<p><b>activateSyncMode</b>(fn,useJava) - Activate Synchronous Transfers
+Mode.&nbsp;<span style="background-color: #EEEEEE"><font color="#000080">
+IOElementSync </font></span>&nbsp;</p>
+<pre><u>fn</u> 	– callback or returned function
+useJava	- forces the use of a java applet for synchronous communication
+</pre>
+<p><b>cancel</b>(id) - Cancels the
+      specified request.</p>
+<pre><u>id</u> - (String) request id
+</pre>
+<p>example:</p>
+<pre>var io=new IOElement(1);
+var id=io.get('mypage.html');
+io.cancel(id);
+&nbsp;</pre>
+<b>cancelAll</b>()&nbsp;- Cancel
+      current and pending requests.
+<p>example:</p>
+<pre>var io=new IOElement(1);
+io.get('mypage1.html');
+io.get('mypage2.html');
+io.cancelAll();
+&nbsp;</pre>
+<p><b>createWebService</b>(name, url, fn, useSync, uid, pwd, method) - Creates a
+      connection to a SODA-RPC web service.&nbsp;<span style="background-color: #EEEEEE"><font color="#000080">
+IOElementSoda&nbsp;</font></span></p>
+<pre>name – (String) local name used to identify the service
+url – (String) SODA web service url
+fn - (Function) Callback function
+useSync - (Boolean) Activate Synchronous transfers
+method – method used for request; POST or GET
+uid - user id - for use with server-side login event when
+a connection is created
+pwd - user password - for use with server-side login
+event when a connection is created</pre>
+<p>The following are methods exposed by a the web service object. <font color="#000080"><b>obj</b>
+</font>
+represents the created service</p>
+<blockquote>
+<p>
+<font color="#000080"><b>obj.isConnected</b></font>&nbsp; - (Boolean) True if a
+connection was established with the server.</p>
+<p>
+<b><font color="#000080">obj.call</font></b>(name, params, fn, cargo) -
+      &nbsp;Calls a remote method on the server. This method is available&nbsp;
+to newly create web services.&nbsp;<span style="background-color: #EEEEEE"><font color="#000080">
+IOElementSoda&nbsp;</font></span></p>
+<pre><u>name</u> – name of method(s) on the server
+<u>params</u> – parameters to pass to the method(s);
+multiple params are passed as an array
+<u>fn</u> – callback or returned function.
+When set to false a synchronous call is made.
+ </pre>
+<p>example:
+ </p>
+<pre>io=IOElement.getSharedIO();
+io.createWebService('srv',url,OnWSConnect,false);
+
+function OnWSConnect(ws,s,errorText) {
+   if (s!=true) {
+      alert('An Error occured while creating web service: '+errorText);
+      return;
+   }
+   frm=document.forms['myform'];
+   frm.txtname.value=ws.getWebName()
+   frm.txtcomment.value=ws.getWebComment()
+};</pre>
+  <p><b><font color="#000080">obj.getWebName</font></b>() Returns the name of
+  the web service.</p>
+  <p><b><font color="#000080">obj.getWebCommen</font>t</b>()&nbsp;</p>
+<b><font color="#000080">obj.importWebMethods</font></b>() - Import web methods
+      exposed by a web service. Returns true if successful.<span style="background-color: #EEEEEE"><font color="#000080"><br>
+  </font></span>
+</blockquote>
+<p><b>disconnectWebService</b>(name, fn) - Disconnects the web service object
+band triggers the logout event on the server.&nbsp;<span style="background-color: #EEEEEE"><font color="#000080">
+IOElementSoda&nbsp;</font></span></p>
+<pre>name – (String) local name used to identify the service
+fn - (Function) Callback function
+</pre>
+<p>
+<b>execInParent</b>(fn) - Executes JavaScript codes within the scope of the parent element.</p>
+<pre>fn - (Function/String) JavaScript code to be executed</pre>
+<p>
+example:</p>
+<pre>//from within the requested page
+var io={};
+var dynapi = parent.dynapi;
+if (dynapi) io = parent.IOElement.notify(this);
+else alert('Error: Missing or invalid DynAPI library');
+
+io.execInParent(function(){
+    tpLogin = new parent.Template('This is a test Layer',0,0,0,0);
+    tpLogin.setAnchor({left:100,top:100,bottom:100,right:100});
+    tpLogin.setDefaultFieldValue('&amp;nbsp;');
+    tpLogin.generate();
+    dynapi.document.addChild(tpLogin);
+});
+io.execInParent(&quot;alert('This is executed from within the parent')&quot;);</pre>
+<p>
+<b>get</b>(url, data, fn, cargo)&nbsp;- Submits
+      data to the server using the GET method.</p>
+<pre><u>url</u> - (String) URL to upload the the data to.
+<u>form</u> - (FORM Element)&nbsp;&nbsp;
+<u>fn</u> - (Functions/String) Executed upon server response.
+When set to false a synchronous call is made
+<u>cargo</u> -&nbsp;(Object) An object that's can be used to store values
+that can be accessed upon server response.
+&nbsp;</pre>
+<p>When a response is received from the sever the fn argument is executed. If
+all goes well then a success argument is passed to fn if fn is a Function. After
+each successful response the current Request object is deleted from the Requests
+Collection object and the Request Index counter is incremented.&nbsp;&nbsp;</p>
+<p>There are times when you'll need to preserve the current request object for
+later use. To do this you must return the Boolean &quot;false&quot; from within
+the &quot;fn&quot;&nbsp; callback function:</p>
+<pre>io.get('page.cgi'null,fn);
+function fn(e,s){
+   var o=e.getSource();
+   if(s) {
+      // improper response - display message
+     return;
+   }
+   var r=o.getVariable(&quot;error&quot;); // customer error
+   if(r) {
+      // display custom error message
+      // return false to cancel the request session and
+      // preserve the request object
+      return false;    }
+};</pre>
+<p>The cargo object is very useful when you're working with multiple forms that have to be
+updated separately.</p>
+<p>example:</p>
+<pre>// user clicked on form1
+
+var formid='f1';
+
+// store formid in cargo object
+var cargo={
+   fid:formid
+}
+// this request was sent from form1
+io.get('info.asp',{id:formid},srvResponse,cargo);
+
+:
+:
+
+// user clicked on form2 while waiting for form1 to load
+
+var formid='f2';
+
+// store formid in cargo object
+var cargo={
+   fid:formid
+}
+// this request was sent from form2
+io.get('info.asp',{id:formid},srvResponse,cargo);
+
+
+
+function srvResponse(e,s){
+   var o=e.getSource();
+   var cargo=o.getCargo();
+   // ^ getCargo() should only be called from within the callback function/event
+   // once it is called the cargo will be offloaded
+
+   document.forms[cargo.fid].txtcomment=o.getVariable('comment');
+   // ^ now we now which of the forms to update
+}
+</pre>
+<b>getCargo</b>(dontRemove)&nbsp;- Returns stored
+      cargo.
+<pre><u>dontRemove</u> - This leaves a copy of the cargo in storage for
+later use during a server call</pre>
+<p>The cargo object will allow you to store data when a request is sent to the
+server, and retrieve that data when the server sends back a response.</p>
+<p><b>getCargoID</b>()&nbsp;- Returns
+      the current cargo or request id. Used during server-side responses.</p>
+<p><b>getScope</b>()&nbsp;- Returns
+      the frame or layer or the current calling scope.</p>
+<b>getVariable</b>(name)&nbsp;- Returns a
+      javascript variable returned by the server.
+<pre><u>name</u> - (String) name of variable
+&nbsp;</pre>
+<p><b>getResponse</b>() - Returns a
+response object containing the returned value from the server and and error
+object.&nbsp;<span style="background-color: #EEEEEE"><font color="#000080">
+IOElementSoda&nbsp;</font></span></p>
+<b>isBusy</b>()&nbsp;- Returns
+      true if the calling threads are busy.
+<p><b>post</b>(url, data, fn, cargo)&nbsp;- Submits data to the
+      server using the POST method.</p>
+<pre><u>url</u> - (String) URL to upload the the data to.
+<u>form</u> - (FORM Element)&nbsp;&nbsp;
+<u>fn</u> - (Functions/String) Executed upon server response.
+When set to false a synchronous call is made
+<u>cargo</u> -&nbsp;(Object) An object that can be used to store local values
+that can be retrieved (using getCatrgo()) during a server call.
+</pre>
+<p>Note: See get()&nbsp;&nbsp;function for more details</p>
+<b>retry</b>(id) - Retries
+      a failed <u>asynchronous</u> request. Calling retry() without an id will retry the last failed request. Returns true is retry was successful.
+<pre><u>id</u> - (String) request id&nbsp;
+</pre>
+<b>setTimeout</b>(ms) - Sets the
+      server-response timeout.
+<pre><u>ms</u> - (Integer) Milliseconds&nbsp;
+</pre>
+<b>upload</b>(url, form, fn, cargo) - Uploads
+      a file to the server.
+<pre><u>url</u> - (String) URL to upload the the data to.
+<u>form</u> - (FORM Element)&nbsp;&nbsp;
+<u>fn</u> - (Functions/String) Executed upon server response
+<u>cargo</u> -&nbsp;(Object) An object that's can be used to store values
+that can be accessed upon server response.
+&nbsp;</pre>
+<b>useSingleThread</b>(b) - Switches
+      between multithreaded and single threaded calls.
+<pre><u>b</u> - (Boolean) Enables or disables single threading</pre>
+<hr>
+<h2>Private Methods</h2>
+<p>&nbsp;</p>
+<hr>
+<h2>Static Methods</h2>
+<b>createGUID</b>() - Returns
+      a Globally Unique Identifier string
+<p><b>getSharedIO</b>(useXFrames) - Returns a shared
+      instance of the IOElement object. This is useful when implementing data
+      bounded widgets.</p>
+<pre><u>useXFrames</u> - (Boolean) Enable NS4 Browsers to send data via post methods</pre>
+<p>example:</p>
+<pre>var io=IOElement.getSharedIO();
+io.get('myhtml.html');
+&nbsp;&nbsp;</pre>
+<b>notify</b>(elm,
+      fn)&nbsp; - Notify
+      the IOElement object of a server-side response. This method is normally
+      used inside the html returned from the server.
+<pre><u>elm</u> - (object)&nbsp; frame element
+<u>fn</u> - (Function/String) Executed after the document has loaded
+</pre>
+<p>example:</p>
+<pre>var dynapi = parent.dynapi;
+var ioelement;
+if (!dynapi) alert('Error: no dynapi');
+else {
+   // run init() when this page loads
+   ioelement = parent.IOElement.notify(this, init);
+}
+
+function init(){
+&nbsp;// some code here
+}
+&nbsp;</pre>
+<b>getAbsoluteUrl</b>(url, docUrl)
+<p>&nbsp;</p>
+<hr>
+<h2>Server-Side Scripts</h2>
+<dl>
+  <dt><font size="2" color="#000080"> JScript
+    (ASP)&nbsp;</font></dt>
+  <dd><a href="../../examples/ioelmsrv.jscript.asp">ioelmsrv.jscript.asp</a></dd>
+  <dd><a href="../../examples/ioelmsrv.soda.jscript.asp">ioelmsrv.soda.jscript.asp</a></dd>
+  <dt>&nbsp;</dt>
+  <dt><font color="#000080" size="2">PHP</font></dt>
+  <dd><a href="../../examples/ioelmsrv.php">ioelmsrv.php</a></dd>
+  <dt>&nbsp;</dt>
+  <dt><font color="#000080">Perl</font></dt>
+  <dd><a href="../../examples/ioelmsrv.pm">ioelmsrv.pl<br>
+    ioelmsrv.pm</a></dd>
+  <dt>&nbsp;</dt>
+  <dt><font size="2" color="#000080">
+    VBScript (ASP)</font></dt>
+  <dd><a href="../../examples/ioelmsrv.vbscript.asp">ioelmsrv.vbscript.asp</a></dd>
+  <dd><a href="../../examples/ioelmsrv.soda.vbscript.asp">ioelmsrv.soda.vbscript.asp</a></dd>
+</dl>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</body>
+</html>

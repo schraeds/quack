@@ -1,0 +1,63 @@
+<html>
+<head>
+<title>DynAPI Examples - Speed Test DynLayer CSS Basic - setClass() </title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.api');
+</script>
+<style type="text/css">
+<!--
+body { background:#eeeeee; margin:2px; }
+#yellowbox0 { left:1px; }
+#yellowbox1 { left:32px; }
+#yellowbox2 { left:63px; }
+#yellowbox3 { left:94px; }
+#yellowbox4 { left:125px; }
+#yellowbox5 { left:156px; }
+#yellowbox6 { left:187px; }
+#yellowbox7 { left:218px; }
+#yellowbox8 { left:249px; }
+#yellowbox9 { left:280px; }
+.yellowboxcommon {
+  position:absolute; top:1px;
+  width:30px; height:20px; clip:rect(0px 30px 20px 0px);
+  background-color:yellow; layer-background-color:yellow;
+  text-align:center; overflow:hidden; visibility:inherit;
+}
+.yellowboxnumber { text-align:center; }
+-->
+</style>
+<script>
+var x=1,y=1,c=1,lyr;
+var d1=new Date();
+var box=dynapi.document.addChild(new DynLayer(null,0,0,776,169,'#666666'));
+for(var i=0;i<200;i++){
+	if(i<10) {
+	  lyr=box.addChild(new DynLayer(i,0,0,30,20)); // Preset DynLayer's width/height to avoid auto size
+	  lyr.setID('yellowbox'+i);
+	  lyr.setClass('yellowboxcommon',true);
+	}
+	else {
+	  lyr=box.addChild(new DynLayer(i,x,y,30,20,'yellow'));
+	  lyr.setClass('yellowboxnumber');
+	}
+	x+=31;
+	if(c==25) { y+=21; x=c=1; }
+	else c+=1;
+}
+
+dynapi.onLoad(init);
+function init(){
+	var d2=new Date();
+	document.frm.txt.value = i+' layers in '+(d2-d1)+' milliseconds';
+}
+</script>
+</head>
+<body leftmargin=0 topmargin=0 marginwidth=0 marginheight=0>
+<form name="frm">Speed:
+<input type="text" size="50" name="txt" value="loading...">
+</form>
+<script>dynapi.document.insertChild(box,'relative');</script>
+</body>
+</html>

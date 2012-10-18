@@ -1,0 +1,42 @@
+<html>
+<head>
+<title>ListBox - Speed Test</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+	dynapi.library.setPath('../src/');
+	dynapi.library.include('dynapi.api');
+	dynapi.library.include('dynapi.gui.BorderManager');
+</script>
+<script language="JavaScript" src="_xui.packages.js"></script>
+<script>
+	dynapi.library.include('ListBox');
+</script>
+<script language="Javascript">
+
+var items={
+	item1:'Test items #1',
+	item2:'Test items #2',
+	item3:'Test items #3',
+	item4:'Test items #4'
+}
+
+var d1= new Date;
+for(var i=0;i<20;i++){
+	lst = new ListBox(items,Math.random()*500,Math.random()*400,100,100);
+	dynapi.document.addChild(lst);
+}
+
+dynapi.onLoad(function(){
+	var d2=new Date;
+	alert(d2-d1);
+});
+
+</script>
+</head>
+<body bgcolor="#FFFFFF">
+<p>&nbsp;</p>
+<script>
+	dynapi.document.insertAllChildren();
+</script>
+</body>
+</html>

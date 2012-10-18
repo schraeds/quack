@@ -1,0 +1,37 @@
+<html>
+<head>
+<title>DynAPI Examples - On Content Change Event</title>
+<script language="Javascript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+<!--
+	dynapi.library.setPath('../src/');
+	dynapi.library.include('dynapi.api');
+//-->
+</script>
+<script language="Javascript">
+<!--
+dynapi.onLoad(function() {
+	lyr = new DynLayer('Hello',300,50,100,100,'yellow');
+	lyr.addEventListener ({
+		oncontentchange : function(e) {
+			var me = e.getSource();
+			alert('Content Change to : "'+me.getHTML()+'"');
+		}
+	});
+
+	dynapi.document.addChild(lyr);
+});
+
+//-->
+</script>
+</head>
+
+<body bgcolor="#FFFFFF">
+<table bgcolor="#ffffff" border=0><tr><td>
+
+<br>Conten #1: <a href="javascript:lyr.setHTML('Cool Layer')">Cool Layer</a>
+<br>Conten #2: <a href="javascript:lyr.setHTML('Blueprint - Layers in overdrive!')">Blueprint - Layers in overdrive!</a>
+<br>Conten #3: <a href="javascript:lyr.setHTML('DynAPI is ccool!')">DynAPI is ccool!</a>
+</td></tr></table>
+</body>
+</html>

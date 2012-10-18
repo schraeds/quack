@@ -1,0 +1,83 @@
+* {
+font-family: sans-serif;
+}
+
+h1,h2,h3,h4,h5{
+color: #005A9C;
+font-weight: normal;
+}
+h1{
+font-size: 170%;
+}
+h2{
+font-size: 140%;
+}
+h3{
+font-size: 120%;
+}
+
+body{
+margin: 2em 3em;
+}
+
+#header img {
+float: left;
+}
+#header div {
+margin-top: 1em;
+float: right;
+}
+#header a{
+text-decoration: none;
+}
+#header a img{
+border: 0;
+vertical-align: middle;
+padding-right: 2px;
+}
+#header a:hover, #header a:hover img {
+background-color: #ffa;
+}
+#header {
+height: 3em;
+margin: 0 -1em;
+}
+
+h1 .object{
+color: #800000;
+}
+h1{
+margin-left: -1em;
+}
+
+#require, #inherit{
+float: right;
+font-style: italic;
+letter-spacing: .05em;
+}
+#require span, #inherit span{
+font-weight: bolder;
+color: green;
+}
+
+h2{
+margin-left: -1em;
+}
+
+dl, p{
+padding-bottom: 2em;
+border-bottom: 1px solid black;
+}
+
+dt{
+font-weight: bolder;
+}
+
+dd{
+margin-bottom: 1em;
+}
+
+dl dd dl dd {
+padding-left: 1em;
+margin-top: -1em;
+}

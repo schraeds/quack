@@ -1,0 +1,76 @@
+<html>
+<head>
+<title>DynAPI Examples - ListBox</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+	dynapi.library.setPath('../src/');
+	dynapi.library.include('dynapi.api');
+	dynapi.library.include('ListBox');
+	dynapi.library.include('ButtonFlatStyle'); // (optional)
+</script>
+<script language="Javascript">
+
+dynapi.document.writeStyle({
+	firstline:'font-family:arial;font-weight:bold',
+	specialline:'color:green;font-family:arial;font-weight:bold'
+})
+
+var lb1 = new ListBox(null,100,100,200,200);
+
+// change button up to use flat style
+// lb1.vscBar.btnUp.setStyle('ButtonFlat');
+
+lb1.addItem('firstline','First Line',0)
+for(var i=1;i<=500;i++){
+	if(parseInt(Math.random()*500)==i) lb1.addItem('specialline','<b>Special Item #'+i+'</b>',i);
+	else lb1.addItem(null,'List Item #'+i,i);
+}
+lb1.addItem('specialline','Last Line',0)
+
+lb1.addEventListener({
+	onclick:function(e){
+		var o=e.getSource();
+		//o.removeItem(2)
+	}
+});
+
+var lb2 = new ListBox(null,350,100,270,150);
+lb2.setItemHeight('auto');
+lb2.setAltColors('#FFFFAA','#FFCC00');
+
+lb2.addItem(null,'<h1><img src="images/eicon3.gif">Main Item #1</h1>');
+lb2.addItem(null,'<h2><font color="red">Main Item #2</font></h2>');
+lb2.addItem(null,'<h3><font color="blue">Next Item #3</font></h3>');
+lb2.addItem(null,'<h4>Main Item #4</h4>');
+lb2.addItem(null,'Small Item #5');
+lb2.addItem(null,'<p><font color="maroon">This is a test<br>Message for all to <br>see</font></p>');
+
+dynapi.document.addChild(lb1);
+dynapi.document.addChild(lb2);
+
+var cnt=0;
+function showCheck(lst){
+	lst.b=!lst.b
+	lst.setCheckMode(lst.b)
+};
+
+function add(lst){
+	var d1=new Date;
+	for(var i=0;i<10;i++){
+		cnt++
+		lst.addItem(null,'Item '+cnt)
+	}
+	var d2=new Date;
+	status=d2-d1
+}
+</script>
+</head>
+<body>
+<a href="javascript:;" onclick="add(lb2)">Add 10 items to ListBox #2</a><br>
+<a href="javascript:;" onclick="showCheck(lb1)">Show/Hide CheckMode to ListBox #1</a><br>
+<a href="javascript:;" onclick="showCheck(lb2)">Show/Hide CheckMode to ListBox #2</a><br>
+<script>
+	dynapi.document.insertAllChildren();
+</script>
+</BODY>
+</HTML>

@@ -1,0 +1,173 @@
+<html>
+<head>
+<title>DynAPI Examples - DynLayer Anchor - Anchoring</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.api');
+</script>
+<script language="Javascript">
+cnt=0;
+w = new DynLayer(' ',-10,-10,20,18); // use negative x,y to hide layer during ns4 resize (or reload)
+w.setAnchor({topA:'c',leftA:'c',stretchH:120,stretchV:28});
+w.__a=w.addChild(new DynLayer(null,null,null,null,null,'#000000'));
+w.__b=w.addChild(new DynLayer(null,null,null,null,null,'#000000'));
+w.__c=w.addChild(new DynLayer(null,null,null,null,null,'#000000'));
+w.__d=w.addChild(new DynLayer(null,null,null,null,null,'#000000'));
+w.__a.setAnchor({stretchH:'100%',stretchV:2,top:0})
+w.__b.setAnchor({stretchH:2,stretchV:'100%',right:0})
+w.__c.setAnchor({stretchH:'100%',stretchV:2,bottom:0})
+w.__d.setAnchor({stretchH:2,stretchV:'100%',left:0})
+
+window.setTimeout('setColor()',200);
+dynapi.document.addChild(w);
+
+function setColor() {
+	var color='#ffcc00';
+	cnt++
+	if (cnt>4)cnt=1;
+	if(cnt==1) w.__a.setBgColor(color);
+	else w.__a.setBgColor('#000000');
+	if(cnt==2) w.__b.setBgColor(color);
+	else w.__b.setBgColor('#000000');
+	if(cnt==3) w.__c.setBgColor(color);
+	else w.__c.setBgColor('#000000');
+	if(cnt==4) w.__d.setBgColor(color);
+	else w.__d.setBgColor('#000000');
+	window.setTimeout('setColor()',300);
+}
+function setAnchor(t){
+	if(t=='a') w.setAnchor({topA:'a',leftA:'a',stretchH:90,stretchV:18});
+	if(t=='b') w.setAnchor({topA:'b',leftA:'b',stretchH:100,stretchV:18});
+	if(t=='c') w.setAnchor({topA:'c',leftA:'c',stretchH:120,stretchV:28});
+	if(t=='d') w.setAnchor({topA:'d',leftA:'d',stretchH:120,stretchV:35});
+	if(t=='e') w.setAnchor({topA:'e',leftA:'e',stretchH:80,stretchV:18});
+	if(t=='f') w.setAnchor({topA:'f1',leftA:'f1',bottomA:'f3',rightA:'f2',stretchH:'*',stretchV:'*'});
+}
+</script>
+</head>
+<body bgcolor="#FFFFFF">
+<script>
+dynapi.document.insertAllChildren();
+</script>
+
+
+<p align="center"><b><u><font face="Arial" size="4">&nbsp;Anchoring/Docking</font></u></b></p>
+<table border="1" width="100%">
+  <tr>
+    <td width="16%" valign="top" align="center" rowspan="2"><font face="Arial" size="2"><b>Change Anchor
+      Location</b><br>
+      <br>
+      <a href="javascript:setAnchor('a')">Anchor A</a><br>
+      <a href="javascript:setAnchor('b')">Anchor B</a><br>
+      <a href="javascript:setAnchor('c')">Anchor C</a><br>
+      <a href="javascript:setAnchor('d')">Anchor D</a><br>
+      <a href="javascript:setAnchor('e')">Anchor E</a><br>
+      <a href="javascript:setAnchor('f')">Anchor F</a></font>
+      <p><font face="Arial" size="2">&nbsp;Resize the browser to see the changes</font>
+      <p align="center"><font face="Arial" size="2" color="#000080">
+      topA<br>
+      rightA<br>
+      bottomA<br>
+      leftA<br>
+      </font></td>
+    <td width="84%" valign="top">
+      <p><font face="Arial" size="2">A example of an anchor
+      :</font> <font face="Arial" size="2">&lt;a name=&quot;myname&quot;
+      id=&quot;myname&quot;&gt;&amp;nbsp;&lt;/a&gt;</font>
+      <p><font face="Arial" size="2">Some text here,
+      some more text here some text here, some more text here. some more text here
+      some &nbsp;text here, some more text here.<font color="#008000"> </font> </font>
+      <a id="a" name="a"><font color="#000080" size="3" face="Arial">AnchorHere</font></a>
+      <font face="Arial" size="2">
+      some more text here some text here, some more text here. some more text
+      here some text here, some more text here. some more text here some text
+      here, some more text here. </font>
+      <a id="b" name="b"><font color="#000080" face="Arial" size="3"><b>AnchorHere</b></font></a><p><font face="Arial" size="2">And more text here some text here, some
+      more text here. some more text here some text here, some more text here.
+      some more text here some text here, some more text here. some more text
+      here some text here, some more text here. some more text here&nbsp; some text here, some more text here.
+      </font>some more text here&nbsp;&nbsp;</p>
+      <p align="center"><b><font size="5"><a id="c" name="c">MoreText</a></font></b></p>
+      <p><font face="Arial" size="2"> &nbsp;some text
+      here, some more text here.some more text here some text here, some more
+      text here.some more text here some text here, some more text here.some
+      more text here some text here, some more text here.some more text here
+      some text here, some more text here.some more text here some text here,
+      some more text here.some more text here some text here, some more text
+      here.</font></p>
+    </td>
+  </tr>
+  <tr>
+    <td width="84%" valign="top">
+      <table border="0" width="100%">
+        <tr>
+          <td width="50%" valign="top" colspan="2">some more text here some text
+            here, some more text here. some more text here some text here, some
+            more text here.some more text
+            <table border="0" width="100%" cellspacing="1">
+              <tr>
+                <td width="100%" valign="top">
+                  <p align="center"><b><font size="6"><a id="d" name="d">Testing</a></font></b>
+                  </p>
+                  <p>
+            here some text here, some more text here.some more text here some
+            text here, some more text here.some more text here some text here,
+            some more text here.some more text here some text here, some more
+            text here some more text here some</p>
+                </td>
+              </tr>
+            </table>
+            <p>&nbsp; text here, some more text
+            here.some more text here some text here, some more text here.some
+            more text here some text here, some more text here..</p>
+          </td>
+          <td width="50%" valign="top" rowspan="3">some more text here some text here, some
+            more text here.some more text here some text here, some more text
+            here.
+            <p align="center"><a name="e" id="e"><font size="3" face="Arial" color="#000080">Anchor_here</font></a></p>
+            <p>some more text here some text here, some more text here.some more
+            text here some text here, some more text here.some more text here
+            some text here, some more text here.
+            <p>some more text here some text here, some more text
+            here.some more text here some text here, some more text here. some more text here some text here, some more text
+            here.some more text here some text here, some more text here.some
+            more text here some text here, some more text here.some more text here some text here, some more text
+            here.some more text here some text here, some more text here.some
+            more text here some text here, some more text here.some more text here some text here, some more text
+            here.some more text here some text here, some more text here.some
+            more text here some text here, some more text here.</p>
+          </td>
+        </tr>
+        <tr>
+          <td width="156" valign="top">some more text here some text here, some
+            more text here.</td>
+          <td width="155" valign="middle" align="center">
+            <table border="0" width="100%" height="100%">
+              <tr>
+                <td width="50%"><a id="f1" name="f1">1</a></td>
+                <td width="50%" align="right"><a id="f2" name="f2">2</a></td>
+              </tr>
+              <tr>
+                <td width="50%" valign="bottom">&nbsp;</td>
+                <td width="50%" align="right" valign="bottom">&nbsp;&nbsp;</td>
+              </tr>
+              <tr>
+                <td width="50%" valign="bottom">&nbsp;</td>
+                <td width="50%" align="right" valign="bottom"><a id="f3" name="f3">3</a></td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td width="311" valign="top" colspan="2">some more text here some text
+            here, some more text here.some more text here some text here, some
+            more text here.</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>

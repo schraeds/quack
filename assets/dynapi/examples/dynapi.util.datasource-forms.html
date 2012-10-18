@@ -1,0 +1,335 @@
+<html>
+<head>
+<title>DynAPI Examples - DataSource Advance Form Bounding</title>
+<style>
+A {color:blue;text-decoration:none}
+A:hover {color:red}
+</style>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.api');
+//dynapi.library.include('dynapi.debug');
+dynapi.library.include('dynapi.functions');
+dynapi.library.include('DataSource');
+dynapi.library.include('IOElement');
+dynapi.library.include('IOElementSoda');
+</script>
+<script language="Javascript">
+
+var ds= new DataSource();
+ds.setSource('dynapi.util.datasource-forms.asp','GET');
+ds.connect(OnDSConnect,true,false);
+ds.addEventListener({
+	onalert: function(e,errMsg){
+		var o=e.getSource();
+		if(errMsg.indexOf('DataSource: Server Timeout')>=0) {
+			var c,t;
+
+			// IE only - used to display page content of a failed response.
+			var elm=o.ioelement.getScope();
+			if (!(dynapi.ua.ie && elm.document && !elm.document._tranState)) t='';
+			else t='------\n'+elm.document.body.innerText;
+
+			c=confirm(errMsg+'\n\nWould you like to retry the operation?\n\n'+t);
+			if(c) o.retry();
+		}
+	},
+	onvalidate: function(e,data){
+		var o=e.getSource();
+
+		if(!data.fname||!data.lname){
+			alert("Please entera a valid First & Last Name");
+			o.cancelAction();
+			return;
+		}
+
+		var ar=(data.icon+'').split('/');
+		var ln=ar.length;
+		data.icon=ar[ln-2]+'/'+ar[ln-1];
+	},
+	onsubmit: function(e,state){
+		if(state) alert('Data sucessfully submitted');
+		else alert('Data was not sucessfully submitted');
+	}
+});
+
+
+function OnDSConnect(ds,state,errMsg){
+	if(state!=true) {
+		var c,t;
+
+		// IE only - used to display the page content of a failed response.
+		var elm=ds.ioelement.getScope();
+		if (!(dynapi.ua.ie && elm.document && !elm.document._tranState)) t='';
+		else t='------\n'+elm.document.body.innerText;
+
+		c=confirm(errMsg+'\n\nWould you like to retry the operation?\n\n'+t);
+		if(c) ds.retry();
+		return;
+	}
+
+	DataSource.boundFormElements(document.frmSideA,ds);
+	DataSource.boundFormElements(document.frmSideB,ds);
+
+	var img=document.images['imgIcon'];
+	img=DataSource.createBoundObject(img);
+	img.setDataSource(ds,'icon');
+
+	ds.moveFirst();
+}
+
+function showPic(o){
+	if(!o) return;
+	var src=o.options[o.selectedIndex].value;
+	var img=document.images['imgIcon'];
+	img.src=src;
+};
+
+function doSubmit(){
+	if (!ds.isEditMode()) ds.editRecord();
+	ds.submit()
+}
+</script>
+</head>
+<body>
+<div align="center">
+  <center>
+<table border="0" bgcolor="#000000" cellspacing="1" cellpadding="0">
+  <tr>
+    <td bgcolor="#800000">
+    <b><font face="Arial" size="2" color="#FFFFFF">&nbsp;User
+            Information</font></b>
+    </td>
+  </tr>
+  <tr>
+    <td bgcolor="#FFFFFF" valign="top">
+<table border="0" cellspacing="1" cellpadding="0">
+  <tr>
+    <td bgcolor="#CCCCCC" valign="top">
+    <p align="center"><font size="2" face="Arial"><b>Form A</b></font>
+    </td>
+    <td valign="top" bgcolor="#CCCCCC">
+      <p align="center"><font face="Arial" size="2"><b>Form B</b></font>
+    </td>
+  </tr>
+  <tr>
+    <td bgcolor="#FFFFFF" valign="top">
+    <form name="frmSideA">
+      <table border="0" width="100%">
+        <tr>
+          <td width="30%" nowrap><font size="2" face="Arial" color="#000080">&nbsp;First Name</font></td>
+          <td width="70%"><input type="text" name="fname" size="30"></td>
+        </tr>
+        <tr>
+          <td width="30%" nowrap><font size="2" face="Arial" color="#000080">&nbsp;Last Name</font></td>
+          <td width="70%"><input type="text" name="lname" size="30"></td>
+        </tr>
+        <tr>
+          <td width="30%" nowrap><font size="2" face="Arial">&nbsp;Street</font></td>
+          <td width="70%"><input type="text" name="street" size="30"></td>
+        </tr>
+        <tr>
+          <td width="30%" nowrap><font size="2" face="Arial">&nbsp;Country</font></td>
+          <td width="70%"><input type="text" name="country" size="30"></td>
+        </tr>
+        <tr>
+          <td width="30%" nowrap><font size="2" face="Arial">&nbsp;Zip</font></td>
+          <td width="70%"><input type="text" name="zip" size="30"></td>
+        </tr>
+        <tr>
+          <td width="30%" nowrap><font size="2" face="Arial">&nbsp;State</font></td>
+          <td width="70%"><input type="text" name="state" size="30"></td>
+        </tr>
+        <tr>
+          <td width="30%" nowrap><font size="2" face="Arial">&nbsp;Phone</font></td>
+          <td width="70%"><input type="text" name="phone" size="30"></td>
+        </tr>
+        <tr>
+          <td width="30%" nowrap><font size="2" face="Arial">&nbsp;Email</font></td>
+          <td width="70%"><input type="text" name="email" size="30"></td>
+        </tr>
+        <tr>
+          <td width="30%" nowrap><font face="Arial" size="2">&nbsp;Comment</font></td>
+          <td width="70%">
+            <p align="center">
+              <input type="text" name="comment" size="30">
+          </td>
+        </tr>
+      </table>
+      </form>
+    </td>
+    <td valign="top" bgcolor="#FFFFFF">
+      <form method="POST" action="--WEBBOT-SELF--" name="frmSideB">
+        <table border="0" width="303">
+          <tr>
+            <td width="295">
+              <table border="0">
+                <tr>
+                  <td><font face="Arial" size="2">Emoticon</font></td>
+                  <td><img name="imgIcon" border="0" src="images/pixel.gif" width="32" height="32"></td>
+                  <td>&nbsp;</td>
+                  <td><font face="Arial" size="2"><select size="1" name="icon" onchange="showPic(this);">
+                      <option value="images/eicon1.gif">icon1</option>
+                      <option value="images/eicon2.gif">icon2</option>
+                      <option value="images/eicon3.gif">icon3</option>
+                      <option value="images/pixel.gif">(none)
+                      ...................................</option>
+                    </select> </font></td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td width="295">
+              <table border="0">
+                <tr>
+                  <td valign="middle"><font face="Arial" size="2">Hobby:</font></td>
+                  <td><font face="Arial" size="2"><select size="1" name="hobby">
+                      <option value="cook">Cooking</option>
+                      <option value="swim">Swiming</option>
+                      <option value="dance">Dancing</option>
+                      <option value="sing">Singing</option>
+                      <option value="read">Reading</option>
+                      <option value="othr">Other...</option>
+                    </select> <input type="text" name="otherhobby" size="20"></font></td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td width="295">
+              <table border="0">
+                <tr>
+                  <td valign="top" rowspan="2">
+                    <table border="0" width="100%" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td width="100%" nowrap><font face="Arial" size="2">Hair
+                          &amp; Eye Color</font></td>
+                      </tr>
+                    </table>
+                    <table border="0">
+                      <tr>
+                        <td><font face="Arial" size="2"><input type="radio" value="red" name="haircolor"></font></td>
+                        <td nowrap><font face="Arial" size="2">Red</font></td>
+                        <td nowrap><font face="Arial" size="2">&nbsp;<input type="checkbox" name="eyecolor" value="black"></font></td>
+                        <td nowrap><font face="Arial" size="2">Black</font></td>
+                      </tr>
+                      <tr>
+                        <td><font face="Arial" size="2"><input type="radio" value="black" name="haircolor"></font></td>
+                        <td nowrap><font face="Arial" size="2">Black&nbsp;</font></td>
+                        <td nowrap><font face="Arial" size="2">&nbsp;<input type="checkbox" name="eyecolor" value="green"></font></td>
+                        <td nowrap><font face="Arial" size="2">Green</font></td>
+                      </tr>
+                      <tr>
+                        <td><font face="Arial" size="2"><input type="radio" value="grey" name="haircolor"></font></td>
+                        <td nowrap><font face="Arial" size="2">Grey</font></td>
+                        <td nowrap><font face="Arial" size="2">&nbsp;<input type="checkbox" name="eyecolor" value="blue"></font></td>
+                        <td nowrap><font face="Arial" size="2">Blue</font></td>
+                      </tr>
+                      <tr>
+                        <td><font face="Arial" size="2"><input type="radio" value="blonde" name="haircolor"></font></td>
+                        <td nowrap><font face="Arial" size="2">Blonde</font></td>
+                        <td nowrap><font face="Arial" size="2">&nbsp;<input type="checkbox" name="eyecolor" value="other"></font></td>
+                        <td nowrap><font face="Arial" size="2">Other</font></td>
+                      </tr>
+                      <tr>
+                        <td><font face="Arial" size="2"><input type="radio" value="other" name="haircolor"></font></td>
+                        <td nowrap><font face="Arial" size="2">Other</font></td>
+                        <td nowrap><font face="Arial" size="2">&nbsp;</font></td>
+                        <td nowrap></td>
+                      </tr>
+                    </table>
+                  </td>
+                  <td valign="top" rowspan="2">
+                    <font face="Arial" size="2">&nbsp;</font>
+                  </td>
+                  <td valign="top">
+                    <font face="Arial" size="2">Sport</font>
+                  </td>
+                </tr>
+                <tr>
+                  <td valign="top">
+                    <select size="6" name="sport" multiple>
+                      <option value="fball">Foot ball</option>
+                      <option value="vball">Volley Ball</option>
+                      <option value="nball">Net Ball</option>
+                      <option value="crick">Cricket</option>
+                      <option value="hock">Hockey</option>
+                      <option value="tenn">Tennis</option>
+                      <option value="othr">Other......................</option>
+                    </select>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </form>
+    </td>
+  </tr>
+  <tr>
+    <td bgcolor="#FFFFFF" valign="top" colspan="2">
+    <table border="0" width="100%">
+      <tr>
+        <td width="100%">
+          <hr>
+        </td>
+      </tr>
+      <tr>
+        <td width="100%" bgcolor="#EEEEEE" align="right">
+          <table border="0">
+            <tr>
+              <td><font face="arial" size="2">
+<a href="javascript:void(null)" onclick="ds.moveFirst()"><img border="0" src="images/btn_first.gif" width="25" height="22" alt="First Record"></a></font></td>
+              <td><font face="arial" size="2"><a href="javascript:void(null)" onclick="ds.movePrev()"><img border="0" src="images/btn_prev.gif" width="25" height="22"
+<b &nbsp; alt="Previous Record"> </a> </font></td>
+              <td><font face="arial" size="2">&nbsp;<a href="javascript:void(null)" onclick="ds.addRecord()"><img border="0" src="images/btn_new.gif" width="25" height="22" alt="Add Record"></a></font>
+
+              </td>
+              <td><font face="arial" size="2"> <a href="javascript:void(null)" onclick="doSubmit()"><img border="0" src="images/btn_save.gif" width="25" height="22" alt="Save Record"></a>
+                </font>
+
+              </td>
+              <td><font face="arial" size="2"><a href="javascript:void(null)" onclick="ds.cancelAction()"><img border="0" src="images/btn_undo.gif" width="25" height="22" alt="Cancel/Refresh"></a>
+                </font>
+
+              </td>
+              <td>&nbsp;
+
+              </td>
+              <td><font face="arial" size="2">
+          <a href="javascript:void(null)" onclick="ds.deleteRecord()"><img border="0" src="images/btn_delete.gif" width="25" height="22" alt="Delete Record"></a></font>
+
+              </td>
+              <td>
+
+              </td>
+              <td><font face="arial" size="2">&nbsp;</font></td>
+              <td><font face="arial" size="2"> <a href="javascript:void(null)" onclick="ds.moveNext()"><img border="0" src="images/btn_next.gif" width="25" height="22" alt="Next Record"></font></td>
+                <td><font face="arial" size="2"><a href="javascript:void(null)" onclick="ds.moveLast()"><img border="0" src="images/btn_last.gif" width="25" height="22" alt="Last Record"></font></td>
+                </tr>
+              </table>
+
+        </td>
+      </tr>
+    </table>
+    </td>
+  </tr>
+</table>
+
+    </td>
+  </tr>
+</table>
+  </center>
+</div>
+<p align="center">
+<font face="Arial" size="2">This example requires a web server. <a href="dynapi.util.datasource-forms.asp">Click
+here</a> to view/debug Web Service Methods</font>
+<p>
+<script>
+	dynapi.document.insertAllChildren();
+</script>
+
+</body>
+</html>

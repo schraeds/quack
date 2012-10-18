@@ -1,0 +1,25 @@
+<html>
+<head>
+<title>DynAPI Examples - Marquee</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+	dynapi.library.setPath('../src/');
+	dynapi.library.include('dynapi.api');
+	dynapi.library.include('Marquee');
+</script>
+<script language="Javascript">
+
+var html  = 'Hello World<br><font face="arial" size="6"><b>DynAPI Marquee </b></font></h2>';
+var x = new Marquee(html,100,100,250,60);
+x.setLocalStyleAttribute('backColor','yellow');
+x.start()
+dynapi.document.addChild(x);
+
+</script>
+</head>
+<body>
+<script>
+	dynapi.document.insertAllChildren();
+</script>
+</body>
+</html>

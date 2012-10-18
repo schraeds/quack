@@ -1,0 +1,62 @@
+<html>
+<head>
+<title>DynAPI Examples - Text Animation</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">dynapi.library.setPath('../src/');dynapi.library.include('dynapi.api');
+dynapi.library.include('Fader');
+</script>
+<script language="JavaScript" src="../src/fx/textanim.js"></script>
+<script language="Javascript">
+var ta = new TextAnimation(200,200,'In the Beginning was the Browser','letter');ta.setVisible(false);
+ta.addEventListener({
+	onanimstart:function(e){
+		if(!ta._stage)ta._stage=0;
+		ta._stage++;
+	},
+	onanimfinish:function(e){
+		if(ta._stage==1){
+			ta.fadeOut(5);
+		}else if(ta._stage==2){
+			ta.setText('And the Browser was with DynAPI','letter')
+			ta.fadeIn();
+		}else if(ta._stage==3){
+			ta.fadeOut();
+		}else if(ta._stage==4){
+			ta.setText('And the Browser was DynAPI','letter')
+			ta.fadeIn();
+			ta.flyFrom(250,250);
+		}else if(ta._stage==6){
+			ta.setVisible(false);
+			ta.setText('The same was in the beginning with DynAPI','letter');
+			ta.appear();
+		}else if(ta._stage==7){
+			ta.setVisible(false);
+			ta.setText('Got DynAPI?','word');
+			ta.appear();
+		}else if(ta._stage==8){
+			ta.setVisible(false);
+			ta.animateBy('letter');
+			ta.zoomText(20,100,5,10)
+		}else if(ta._stage==9){
+			ta.setVisible(false);
+			ta.setText('DynAPI 3.0 Is Here!','letter');
+			ta.zoomText(100,20,20,10)
+		}else if(ta._stage==10){
+			ta.setVisible(false);
+			ta.bounce(100,1)
+		}
+	}
+})
+
+dynapi.onLoad(function(){
+	ta.bounce(100,-1)
+});
+</script>
+</head>
+
+<body scroll="no">
+<script>
+	dynapi.document.insertAllChildren();
+</script>
+</body>
+</html>

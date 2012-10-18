@@ -1,0 +1,54 @@
+<html>
+<head>
+<title>DynAPI Examples - BorderManager - Inner Border</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.api');
+dynapi.library.include('dynapi.functions.Color');
+dynapi.library.include('dynapi.gui.BorderManager');
+</script>
+<script language="Javascript">
+
+var box1 = dynapi.document.addChild(new DynLayer(null,100,100,100,100,'yellow'));
+var box2 = dynapi.document.addChild(new DynLayer(null,210,100,100,100,'#EFEBD7'));
+
+box1.setInnerBorder(1,'blue');
+box1.addEventListener({
+	onclick : function(e){
+		var o=e.getSource();
+		if(!o.__state) {
+			o.__state=1;
+			o.setInnerBorder(1,{top:'black',right:'white',bottom:'white',left:'black'})
+		}
+		else{
+			o.__state=0;
+			o.setInnerBorder(1,{top:'white',right:'black',bottom:'black',left:'white'})
+		}
+	}
+});
+
+box2.setInnerBorder(2,{top:'white',right:'silver',bottom:'silver',left:'white'});
+box2.addEventListener({
+	onclick : function(e){
+		var o=e.getSource();
+		if(!o.__state) {
+			o.__state=1;
+			o.setInnerBorder(2,{top:'silver',right:'white',bottom:'white',left:'silver'})
+		}
+		else{
+			o.__state=0;
+			o.setInnerBorder(2,{top:'white',right:'silver',bottom:'silver',left:'white'})
+		}
+	}
+});
+
+</script>
+</head>
+<body bgcolor="#e0e0e0">
+Click on the Layers
+<script>
+	dynapi.document.insertAllChildren();
+</script>
+</body>
+</html>

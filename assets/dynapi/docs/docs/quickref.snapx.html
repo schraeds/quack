@@ -1,0 +1,245 @@
+<!doctype html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>DynAPI - Quick Reference</title>
+<link rel="stylesheet" type="text/css" href="../include/dynapi.css">
+</head>
+<body bgcolor="#FFFFFF">
+<table border="0" width="100%">
+  <tr>
+    <td width="38%"><img border="0" src="../images/dynapi.gif"></td>
+    <td width="62%" align="right">
+      <p align="right"><a href="../index.html" style="text-decoration:none"><img border="0" src="../images/home.gif" align="absmiddle" width="22" height="19">&nbsp;Home</a> | <a href="quickref.html" style="text-decoration:none">Quick Reference</a>
+    </td>
+  </tr>
+  <tr>
+    <td width="100%" colspan="2" align="left"><hr size="1" color="#C0C0C0" /></td>
+  </tr>
+  <tr>
+    <td width="100%" colspan="2" align="left"><h1><font color="#800000">dynapi.fx.SnapX - </font>Quick Reference</h1></td>
+  </tr>
+</table>
+<table border="0" width="100%">
+  <tr>
+    <td width="100%"><p align="right"><i><font color="#008000"><b>Extends: </b></font><a href="quickref.dynlayer.html">DynLayer</a></i></p></td>
+  </tr>
+  <tr>
+    <td width="100%"><hr size="1" color="#C0C0C0" /></td>
+  </tr>
+</table>
+<p><font face="Arial"><b>Remarks</b><br />
+  SnapX is an extension to the DynLayer API which is used to make a layer snap to other snappable layers, and will trigger the onsnap() event whenever a snap occurs.
+</font></p>
+<hr />
+<h2>Constructor</h2>
+<p>[none]</p>
+<hr />
+<h2>Events</h2>
+<font face="Arial"><b>onsnap</b>(e)</font><br />
+<br />
+<hr />
+<h2>Public Properties</h2>
+<p><font face="Arial"><b>isSnapEnabled</b> - Boolean flag used to determine if layer is snap enabled.</p>
+<p><font face="Arial"><b>isStickySnapEnabled</b> - Boolean flag used to determine if layer is sticky snap enabled.</p>
+<p><font face="Arial"><b>isGridSnapEnabled</b> - Boolean flag used to determine if layer is grid snap enabled.</p>
+<p><font face="Arial"><b>x</b> - Number value representing the X coordinate of a layer's upper-left corner.</p>
+<p><font face="Arial"><b>y</b> - Number value representing the Y coordinate of a layer's upper-left corner.</p>
+<p><font face="Arial"><b>w</b> - Number value representing the width of a layer.</p>
+<p><font face="Arial"><b>h</b> - Number value representing the height of a layer.</p>
+<hr />
+<h2>Private Properties</h2>
+<p><font face="Arial"><b>_snapX</b> - Number value used primarily for calculation of direction of movement when compared to DynLayer's x.</p>
+<p><font face="Arial"><b>_snapY</b> - Number value used primarily for calculation of direction of movement when compared to DynLayer's y.</p>
+<p><font face="Arial"><b>_snapDirection</b> - String value used to hold the current direction of movement of a snap enabled layer.</p>
+<p><font face="Arial"><b>_snapStickyX</b> - Number value used primarily for sticky snap enabled calculations.  Currently not used; reserved for possible future use.</p>
+<p><font face="Arial"><b>_snapStickyY</b> - Number value used primarily for sticky snap enabled calculations.  Currently not used; reserved for possible future use.</p>
+<p><font face="Arial"><b>_snapGridX</b> - Number value used primarily for grid snap enabled calculations.  Currently not used; reserved for possible future use.</p>
+<p><font face="Arial"><b>_snapGridY</b> - Number value used primarily for grid snap enabled calculations.  Currently not used; reserved for possible future use.</p>
+<p><font face="Arial"><b>_snapType</b> - String value representing the layer's snap type (normal or null, sticky or grid).</p>
+<p><font face="Arial"><b>_snapBoundaryType</b> - String value representing the layer's snap boundary type (inner, outer or both).</p>
+<p><font face="Arial"><b>_snapGridSize</b> - Number value representing the granularity of snapping to imaginary grid lines of grid snap enabled dragged (source) layers.</p>
+<p><font face="Arial"><b>_snapBndTi</b> - Number value representing layer's inner-top boundary.</p>
+<p><font face="Arial"><b>_snapBndRi</b> - Number value representing layer's inner-right boundary.</p>
+<p><font face="Arial"><b>_snapBndBi</b> - Number value representing layer's inner-bottom boundary.</p>
+<p><font face="Arial"><b>_snapBndLi</b> - Number value representing layer's inner-left boundary.</p>
+<p><font face="Arial"><b>_snapBndTo</b> - Number value representing layer's outer-top boundary.</p>
+<p><font face="Arial"><b>_snapBndRo</b> - Number value representing layer's outer-right boundary.</p>
+<p><font face="Arial"><b>_snapBndBo</b> - Number value representing layer's outer-bottom boundary.</p>
+<p><font face="Arial"><b>_snapBndLo</b> - Number value representing layer's outer-left boundary.</p>
+<p><font face="Arial"><b>DynLayer._snapBoundaryTypeDefault</b> - String value representing the snap boundary type (inner, outer, or both) to be used as a default by other SnapX methods.  DynLayer global scope.</p>
+<p><font face="Arial"><b>DynLayer._snapBoundaryDefault</b> - Number value representing the snap boundary size to be used as a default by other SnapX methods.  DynLayer global scope.</p>
+<p><font face="Arial"><b>DynLayer._snapGridSizeDefault</b> - Number value representing the snap grid size to be used as a default by other SnapX methods.  DynLayer global scope.</p>
+<hr />
+<h2>Public Methods</h2>
+<p><font face="Arial">[null] <b>enableSnap</b>() - Enables snap checks, sets snap type and borders to the default.  Both dragged (source) and other static or draggable (target) layers must be snap enabled.  Normal snap occurs when either upper-left or lower-right source corners are within snap border, and direction of motion is towards (not parallel or away from) target's real layer edge.<br />
+<br />
+Can be used in five different ways:<br />
+<br />
+<blockquote>
+  <table border="0" cellpadding="0" cellspacing="0">
+    <tr bgcolor="#CCCCCC" valign="top">
+      <td><font face="Arial"><b>#&nbsp;args</b></font></td>
+      <td width="20"><font face="Arial">&nbsp;</font></td>
+      <td><font face="Arial"><b>arg&nbsp;types</b></font></td>
+    </tr>
+    <tr valign="top">
+      <td align="right"><font face="Arial">0</font></td>
+      <td rowspan="5" width="20"><font face="Arial">&nbsp;</font></td>
+      <td><font face="Arial">use defaults</font></td>
+    </tr>
+    <tr valign="top">
+      <td align="right"><font face="Arial">1</font></td>
+      <td><font face="Arial">snap type [normal|null|sticky|grid]</font></td>
+    </tr>
+    <tr valign="top">
+      <td align="right"><font face="Arial">2</font></td>
+      <td><font face="Arial">snap type [normal|null|sticky|grid],<br />
+        boundary type [inner|outer|both]</font></td>
+    </tr>
+    <tr valign="top">
+      <td align="right"><font face="Arial">3</font></td>
+      <td><font face="Arial">snap type [normal|null|sticky|grid],<br />
+        boundary type [inner|outer|both],<br />
+        boundary</font></td>
+    </tr>
+    <tr valign="top">
+      <td align="right"><font face="Arial">4</font></td>
+      <td><font face="Arial">snap type [normal|null|sticky|grid],<br />
+        boundary type [inner|outer|both],<br />
+        boundary,<br />
+        grid size (if applicable)</font></td>
+    </tr>
+  </table>
+</blockquote>
+<p><font face="Arial">[null] <b>disableSnap</b>() - Disables all snap checking.  Does not modify the sticky or grid snap enabled flags.</p>
+<p><font face="Arial">[null] <b>setSnapType</b>([normal|null|sticky|grid]) - Allows you to set a snap type.  Does not enable snap, as it is primarily called from enable snap.  Enables sticky and grid snap flags.  Snap types can be normal or null, sticky or grid.</p>
+<p><font face="Arial">[null] <b>setSnapBoundaryTypeDefault</b>([inner|outer|both]) - Allows you to set a default snap boundary type so you don't have to keep specifying the snap boundary type of newly created snap-enabled DynLayers.  Snap boundary types can be inner, outer or both.</p>
+<p><font face="Arial">[inner|outer|both] <b>getSnapBoundaryTypeDefault</b>() - Returns the current snap boundary type default, either inner, outer, or both.</p>
+<p><font face="Arial">[null] <b>setSnapBoundaryType</b>([inner|outer|both]) - Allows you to set the snap boundary type of the snap-enabled DynLayer.  Snap types can be inner, outer, or both.</p>
+<p><font face="Arial">[inner|outer|both] <b>getSnapBoundaryType</b>() - Returns the current snap boundary type of the layer, either inner, outer, or both.</p>
+<p><font face="Arial">[null] <b>setSnapBoundaryDefault</b>(b) - Allows you to set a default snap boundary so you can later call setSnapBoundary() with no arguments to set to the default boundary value.  Snap boundary is a number.</p>
+<p><font face="Arial">[b] <b>getSnapBoundaryDefault</b>() - Returns the current snap boundary default.  Snap boundary is a number.</p>
+<p><font face="Arial"><b>setSnapBoundary</b>() - Can be used in many different ways:
+<blockquote>
+  <table border="0" cellpadding="0" cellspacing="0">
+    <tr bgcolor="#CCCCCC" valign="top">
+      <td><font face="Arial"><b>#&nbsp;args</b></font></td>
+      <td width="20"><font face="Arial">&nbsp;</font></td>
+      <td><font face="Arial"><b>arg&nbsp;types</b></font></td>
+    </tr>
+    <tr valign="top">
+      <td align="right"><font face="Arial">0</font></td>
+      <td rowspan="7" width="20"><font face="Arial">&nbsp;</font></td>
+      <td><font face="Arial">[null] setSnapBoundary() - Set snapBoundaryType to snapBoundaryTypeDefault, set boundary for all sides to snapBoundaryDefault.</font></td>
+    </tr>
+    <tr valign="top">
+      <td align="right"><font face="Arial">1</font></td>
+      <td><font face="Arial">[null] setSnapBoundary([inner|outer|both]) - If snapBoundaryType, set boundary for all sides to snapBoundaryDefault.</font></td>
+    </tr>
+    <tr valign="top">
+      <td align="right"><font face="Arial">1</font></td>
+      <td><font face="Arial">[null] setSnapBoundary(b) - If boundary, set all sides to boundary, and snapBoundaryType to snapBoundaryTypeDefault.</font></td>
+    </tr>
+    <tr valign="top">
+      <td align="right"><font face="Arial">2</font></td>
+      <td><font face="Arial">[null] setSnapBoundary([inner|outer|both],b) - If snapBoundaryType and boundary, set snap boundary type and set boundary for all sides.</font></td>
+    </tr>
+    <tr valign="top">
+      <td align="right"><font face="Arial">2</font></td>
+      <td><font face="Arial">[null] setSnapBoundary(number,number) - If N1,N2 set all inner boundaries to N1 and all outer boundaries to N2 and set snapBoundaryType to both.</font></td>
+    </tr>
+    <tr valign="top">
+      <td align="right"><font face="Arial">5</font></td>
+      <td><font face="Arial">[null] setSnapBoundary([inner|outer|both],t,r,b,l) -  Set snapBoundaryType, set top, right, bottom and left boundaries (either inner, outer, or both, as specified).</font></td>
+    </tr>
+    <tr valign="top">
+      <td align="right"><font face="Arial">8</font></td>
+      <td><font face="Arial">[null] setSnapBoundary(ti,ri,bi,li,to,ro,bo,lo) - Set snap boundary type to both, set top-inner, right-inner, bottom-inner, left-inner, top-outer, right-outer, bottom-outer and left-outer as specified.</font></td>
+    </tr>
+  </table>
+</blockquote>
+<p><font face="Arial"><b>getSnapBoundary</b>() - Can be used in two different ways:
+<ul>
+  <li>[Array (t,r,b,l)] getSnapBoundary([inner|outer]) - Takes Returns an array of four elements corresponding to the top, right, bottom and left of the snap border type specified.</li>
+  <li>[Array (ti,ri,bi,li,to,ro,bo,lo)] getSnapBoundary(both) - Returns an array of eight elements corresponding to the top-inner, right-inner, bottom-inner, left-inner, top-outer, right-outer, bottom-outer and left-outer.</li>
+</ul>
+<p><font face="Arial">[null] <b>enableStickySnap</b>() - Enables sticky snap.  Both dragged (source) and other static or draggable (target) layers must be snap enabled.  Only dragged (source) layer need be sticky snap enabled.  Sticky snap occurs when either upper-left or lower-right source corners are within snap border, regardless of direction of motion with respect to target layer's real edge.  The intended effect is that while the dragged (source) layer is within the other (target) layer's border, the dragged (source) layer 'sticks' to the other (target) layer's real edge.</p>
+<p><font face="Arial">[null] <b>disableStickySnap</b>() - Disables sticky snap.  Turns off sticky snap behaviour.  Doesn't enable or disable regular or grid snap behaviour.</p>
+<p><font face="Arial">[null] <b>enableGridSnap</b>() - Enables grid snap.  Both dragged (source) and other static or draggable (target) layers must be snap enabled.  Only dragged (source) layer need be grid snap enabled.  Grid snap occurs when either upper-left or lower-right source corners are within snap border, regardless of direction of motion with respect to target layer's real edge.  The intended effect is that while the dragged (source) layer is within the other (target) layer's border, the dragged (source) layer snaps to imaginary grid lines whose distance can be set with setGridSnapSize(b).</p>
+<p><font face="Arial">[null] <b>disableGridSnap</b>() - Disables grid snap.  Turns off grid snap behaviour.  Doesn't enable or disable regular or sticky snap behaviour.</p>
+<p><font face="Arial">[null] <b>setGridSnapSizeDefault</b>(g) - Allows you to set the default grid snap size, so that further enabling of grid snap features will automatically set the grid snap size to the value specified.</p>
+<p><font face="Arial">[g] <b>getGridSnapSizeDefault</b>() - Returns the current default grid snap size.</p>
+<p><font face="Arial">[null] <b>setGridSnapSize</b>(g) - Allows you to set the grid snap size of individual layers.  Only the dragged (source) layer's grid snap size will be used, not the other static or draggable (target) layer's grid snap size (if applicable).</p>
+<p><font face="Arial">[g] <b>getGridSnapSize</b>() - Returns the current grid snap size.</p>
+<p><font face="Arial">[null] <b>setLocation</b>(x,y) - Calls DynLayer's setLocation method, but if snap is enabled, this augmented version will also calculate the direction of movement and check for a snap condition.</p>
+<p><font face="Arial">[string] <b>getSnapDirection</b>() - Returns a string representing the general direction in which the layer is moving.  The following are all the possible directions returned by the getSnapDirection() method:<br />
+</font>
+<blockquote>
+  <table border="0" CELLPADDING="0" CELLSPACING="0">
+    <tr>
+      <td><font face="Arial">N</font></td>
+      <td width="20" rowspan="8">&nbsp;</td>
+      <td><font face="Arial">North</font></td>
+    </tr>
+    <tr>
+      <td><font face="Arial">S</font></td>
+      <td><font face="Arial">South</font></td>
+    </tr>
+    <tr>
+      <td><font face="Arial">E</font></td>
+      <td><font face="Arial">East</font></td>
+    </tr>
+    <tr>
+      <td><font face="Arial">W</font></td>
+      <td><font face="Arial">West</font></td>
+    </tr>
+    <tr>
+      <td><font face="Arial">NE</font></td>
+      <td><font face="Arial">North East</font></td>
+    </tr>
+    <tr>
+      <td><font face="Arial">NW</font></td>
+      <td><font face="Arial">Noth West</font></td>
+    </tr>
+    <tr>
+      <td><font face="Arial">SE</font></td>
+      <td><font face="Arial">South East</font></td>
+    </tr>
+    <tr>
+      <td><font face="Arial">SW</font></td>
+      <td><font face="Arial">South West</font></td>
+    </tr>
+  </table>
+</blockquote>
+</font>
+<hr />
+<h2>Private Methods</h2>
+<p><font face="Arial">[null] <b>_snapSetLocation</b>(x,y) - Backup copy of DynLayer's setLocation.</p>
+[null] <b>_checkForSnap</b>() - Checks for both inner and outer snap conditions.
+<p><font face="Arial">[null] <b>_checkForSnapInner</b>() - Checks for a snap condition, i.e. if the dragged (source) layer moves within the inner top, right, bottom and left boundaries of the other static or draggable (target) layer.  Moves dragged (source) layer to correct position depending on result of check.</p>
+<p><font face="Arial">[null] <b>_checkForSnapOuter</b>() - Checks for a snap condition, i.e. if the dragged (source) layer moves within the outer top, right, bottom and left boundaries of the other static or draggable (target) layer.  Moves dragged (source) layer to correct position depending on result of check.</p>
+<hr />
+<h2>Static Methods</h2>
+<p>[none]</p>
+<hr />
+<h2>Bugs &amp; known issues</h2>
+<p><font face="Arial">
+  <ul>
+    <li>Dragging a grid snap layer over a sticky snap layer acts like grid snap when it should not.</li>
+    <li>Double check & clean up inner & outer corner grid snapping code.</li>
+    <li>Add sticky snap support for both sides of the target layer's border (currently inner or outer only).</li>
+    <li>Add sticky snap support for upper-right and lower-left corners (i.e. reflective w.r.t. real edge).</li>
+    <li>Find a way to make the snapping/resnapping less jittery (i.e. sticky & grid are options).</li>
+  </ul>
+</font>
+<hr />
+<h2>TODO</h2>
+<p><font face="Arial">
+  <ul>
+    <li>Add argument passing to enableSnap() for more compact way to specify snap type [normal|sticky|grid], boundary type [inner|outer|both], grid size (if applicable) and boundary sizes.</li>
+    <li>Add a dockable feature.</li>
+    <li>Add a "ghost" feature.</li>
+  </ul>
+</font>
+</body>
+</html>

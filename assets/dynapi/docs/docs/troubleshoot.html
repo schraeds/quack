@@ -1,0 +1,84 @@
+<!doctype html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title> DynAPI - Testing &amp; Troubleshooting </title>
+<link rel="stylesheet" type="text/css" href="../include/dynapi.css">
+</head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" width="100%">
+  <tr>
+    <td width="38%"><img border="0" src="../images/dynapi.gif"></td>
+    <td width="62%" align="right">
+      <p align="right"><a href="../index.html" style="text-decoration:none"><img border="0" src="../images/home.gif" align="absmiddle" width="22" height="19">&nbsp;Home</a>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="100%" colspan="2" align="left">
+<hr size="1" color="#C0C0C0">
+    </td>
+  </tr>
+  <tr>
+    <td width="100%" colspan="2" align="left">
+
+<h1> Testing &amp; Troubleshooting</h1>
+    </td>
+  </tr>
+</table>
+<p>Some of the following test pages where ported from dynapi 2.5 and are not
+working as they should. They'll have to be modified to fully support DynAPI
+3.0&nbsp;</p>
+<ul>
+  <li>01) <a href="../../tshoot/10_deep_nesting.html">Return False/True on
+    Link (nested layers)</a>&nbsp; - Mainly NS4</li>
+  <li>02) <a href="../../tshoot/background_image.html">Background Color</a>
+    - NS4</li>
+  <li>03) <a href="../../tshoot/precreation_speedtest.html">Pre-creation
+    Speed test</a></li>
+  <li>04) <a href="../../tshoot/multiple_precreate_events.html">Multiple Precreate Events</a></li>
+  <li>05) <a href="../../tshoot/link_and_form_events_NS4.html">Links and
+    Form Events</a> - Mainly NS4</li>
+  <li>06) <a href="../../tshoot/inflow_scrollbar.html">Inflow ScrollBars</a>
+    *</li>
+  <li>07) <a href="../../tshoot/drag_frames.html">Dragging inside a Frame</a>
+    *</li>
+  <li>08) <a href="../../tshoot/drag_forms.html">Dragging Forms &amp; Layers</a>
+    - Mainly IE</li>
+  <li>09) <a href="../../tshoot/doctype_clientHeight.html">IE6 + doctype</a></li>
+  <li>10) <a href="../../tshoot/cancel_navigation.html">Cancel navigation Link</a></li>
+  <li>11) <a href="../../tshoot/secondary_inheritance.html">Secondary
+    Inheritance</a> *</li>
+  <li>12) <a href="../../tshoot/z_index_bug.html">Z-Index</a></li>
+  <li>14) <a href="../../tshoot/click_event_%20sethtml.html">Click Event &amp;
+    setHTML()</a></li>
+  <li>15) <a href="../../tshoot/mouse_over_out_events.html">Mouse Over/Out Events</a></li>
+  <li>16) <a href="../../tshoot/contentwidth_height.html">Content Width/Height</a></li>
+  <li>17) <a href="../../tshoot/destroy_layer.html">Destroy Layer</a></li>
+  <li>18) <a href="../../tshoot/htmlmenu_ns4_long_js.html">Long JS &amp;
+    HTMLMenu&nbsp; in NS4</a></li>
+  <li>19) <a href="../../tshoot/memory_leak_test.html">Memory Leak Test</a></li>
+  <li>20) <a href="../../tshoot/click_speed.html">Mouse Click Speed Test</a></li>
+  <li>21) <a href="../../tshoot/drag_large_layer.html">Dragging Large Child
+    Layer</a> within small parent</li>
+  <li>22) <a href="../../tshoot/drag_mouse_button_test.html">Get Mouse Button</a>
+    while dragging</li>
+</ul>
+<p>* - Not fully ported to DynAPI 3.0<br>
+&nbsp;</p>
+<h2>Known Issues</h2>
+<hr>
+<ul>
+  <li>KB001 - Whenever an &lt;ilayer> containing an XImage (dynapi.functions.getImage())
+    is placed inside a &lt;table> the rollover effects will not work. This seems to be a bug in
+    NS4<br>
+    &nbsp;</li>
+  <li>KB002 - When using TemplateManager Mozilla will collapse/expand table cells whenever the content of the layer changes. To solve this,
+    specify a width for your table cells<br>
+    &nbsp;</li>
+  <li>KB003 - Molliza 1.4 generates a Pemission Denied error whenever the
+    MouseEvent Class is included. This is caused by bug inside the Molliza
+    Browser. The Molliza group is aware of this bug. This problem does NOT exist
+    in Molliza 1.0 to 1.3<br>
+    &nbsp;</li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,331 @@
+<html>
+<head>
+<title>DynAPI Examples - ViewPane</title>
+<script language="JavaScript" src="../src/dynapi.js" type="text/javascript"></script>
+<script language="JavaScript" type="text/javascript">
+
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.api');
+dynapi.library.include('ViewPane');
+
+</script>
+<script language="JavaScript" type="text/javascript">
+
+var html_content = new Array();
+
+html_content[0] = '<table border="1" width="400" height="400">\n' +
+                  '  <tr>\n' +
+                  '    <td valign="top">\n' +
+                  '      <h1>Content #1</h1>\n' +
+                  '      This is test messaage<br>\n' +
+                  '      <font face="arial" size="6"><b>DynAPI\n' +
+                  '        ViewPane</b></font>\n' +
+                  '      Sub Menu\n' +
+                  '      Some Text Some Text Some Text Some Text\n' +
+                  '      Some Text Some Text Some Text Some Text\n' +
+                  '      Some Text Some Text Some Text Some Text\n' +
+                  '    </td>\n' +
+                  '  </tr>\n' +
+                  '</table>\n';
+
+html_content[1] = '<table border="1" width="100" height="100">\n' +
+                  '  <tr>\n' +
+                  '    <td valign="top">\n' +
+                  '      <h1>Content #2</h1>\n' +
+                  '      Some Text Some Text Some Text Some Text\n' +
+                  '      Some Text Some Text Some Text Some Text\n' +
+                  '      Some Text Some Text Some Text Some Text\n' +
+                  '      Some Text Some Text Some Text Some Text\n' +
+                  '    </td>\n' +
+                  '  </tr>\n' +
+                  '</table>';
+
+html_content[2] = '<table border="1" width="300" height="100">\n' +
+                  '  <tr>\n' +
+                  '    <td valign="top">\n' +
+                  '      <h1>Content #3</h1>\n' +
+                  '      Some Text Some Text Some Text Some Text\n' +
+                  '      Some Text Some Text Some Text Some Text\n' +
+                  '      Some Text Some Text Some Text Some Text\n' +
+                  '      Some Text Some Text Some Text Some Text\n' +
+                  '    </td>\n' +
+                  '  </tr>\n' +
+                  '</table>';
+
+html_content[3] = '<table border="1" width="100" height="300">\n' +
+                  '  <tr>\n' +
+                  '    <td valign="top">\n' +
+                  '      <h1>Content #4</h1>\n' +
+                  '      Some Text Some Text Some Text Some Text\n' +
+                  '      Some Text Some Text Some Text Some Text\n' +
+                  '      Some Text Some Text Some Text Some Text\n' +
+                  '      Some Text Some Text Some Text Some Text\n' +
+                  '    </td>\n' +
+                  '  </tr>\n' +
+                  '</table>';
+
+html_content[4] = '<table border="1" width="200" height="200">\n' +
+                  '  <tr>\n' +
+                  '    <td valign="top">\n' +
+                  '      <h1>Content #5</h1>\n' +
+                  '      Some Text Some Text Some Text Some Text\n' +
+                  '      Some Text Some Text Some Text Some Text\n' +
+                  '      Some Text Some Text Some Text Some Text\n' +
+                  '      Some Text Some Text Some Text Some Text\n' +
+                  '    </td>\n' +
+                  '  </tr>\n' +
+                  '</table>';
+
+
+var vp = new Array();
+vp[0] = new ViewPane(null,200,25,200,160);
+vp[1] = new ViewPane(null,450,25,200,160);
+vp[2] = new ViewPane(null,200,225,200,160);
+vp[3] = new ViewPane(null,450,225,200,160);
+
+vp[0].setContent(new DynLayer('Test Layer1',10,10,250,250,'yellow'));
+vp[1].setContent(new DynLayer('Test Layer2',10,10,250,250,'yellow'));
+vp[2].setContent(new DynLayer('Test Layer3',10,10,250,250,'yellow'));
+vp[3].setContent(new DynLayer('Test Layer4',10,10,250,250,'yellow'));
+
+changeContent(0,0);
+changeContent(1,0);
+changeContent(2,0);
+changeContent(3,0);
+
+dynapi.document.addChild(vp[0]);
+dynapi.document.addChild(vp[1]);
+dynapi.document.addChild(vp[2]);
+dynapi.document.addChild(vp[3]);
+
+function changeContent (vp_inx,html_inx)
+{
+    vp[vp_inx||0].setContent( html_content[html_inx||0] );
+};
+
+var rand_timer = 0;
+var rand_interval = 1000;
+var rand_n = 1;
+var rand_n_rand = false;
+
+function rand_start (n)
+{
+    rand_n = n || rand_n;
+
+    if ( rand_n_rand == true )
+    {
+        rand_n = getRandomInt( 0, vp.length - 1 );
+    }
+
+    switch ( rand_n )
+    {
+        case 1:
+            var vp_inx = getRandomInt( 0, vp.length - 1 );
+            var html_inx = getRandomInt( 0, html_content.length - 1 );
+            changeContent( vp_inx, html_inx );
+            break;
+
+        case 2:
+            var vp_inxs = new Array();
+            var html_inxs = new Array();
+
+            while ( vp_inxs.length < rand_n )
+            {
+                var vp_inx = getRandomInt( 0, vp.length - 1 );
+
+                var found = false;
+
+                for ( var i = 0; i < vp_inxs.length; i++ )
+                {
+                    if ( vp_inxs[i] == vp_inx )
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+
+                if ( ! found )
+                {
+                    vp_inxs[vp_inxs.length] = vp_inx;
+                    html_inxs[html_inxs.length] = getRandomInt( 0, html_content.length - 1 );
+                }
+
+                continue;
+            }
+
+            for ( var i = 0; i < vp_inxs.length; i++ )
+            {
+                changeContent( vp_inxs[i], html_inxs[i] );
+            }
+
+            break;
+
+        case 3:
+            var vp_inx = getRandomInt( 0, vp.length - 1 );
+
+            for ( var i = 0; i < vp.length; i++ )
+            {
+                var html_inx = getRandomInt( 0, html_content.length - 1 );
+
+                if ( i != vp_inx )
+                {
+                    changeContent( i, html_inx );
+                }
+            }
+
+            break;
+
+        case 4:
+            for ( var i = 0; i < vp.length; i++ )
+            {
+                var html_inx = getRandomInt( 0, html_content.length - 1 );
+
+                changeContent( i, html_inx );
+            }
+
+            break;
+
+        default:
+            rand_stop();
+    }
+
+    rand_timer = window.setTimeout( 'rand_start()', rand_interval );
+}
+
+function rand_stop ()
+{
+    window.clearTimeout( rand_timer );
+    rand_timer = 0;
+}
+
+function rand_reset ( )
+{
+    rand_n = 1;
+    rand_interval = 1000;
+    rand_n_rand = false;
+
+    if ( rand_timer == 0 )
+    {
+        rand_start();
+    }
+}
+
+function set_rand_interval ( n )
+{
+    rand_interval = n || 1000;
+
+    if ( rand_timer == 0 )
+    {
+        rand_start();
+    }
+}
+
+function rand_mult (n)
+{
+    rand_n = n || 1;
+
+    if ( rand_timer == 0 )
+    {
+        rand_start();
+    }
+}
+
+function set_rand_n_rand ( b )
+{
+    rand_n_rand = b;
+
+    if ( rand_timer == 0 )
+    {
+        rand_start();
+    }
+}
+
+function getRandomInt ( min, max )
+{
+    return Math.floor( min + Math.random() * ( max - min + 1 ) );
+}
+
+</script>
+</head>
+<body>
+<TABLE BORDER="0" CELLPADDING="3" CELLSPACING="0">
+  <TR>
+    <TD>&nbsp;</TD>
+    <TD ALIGN="center" BGCOLOR="#000000" COLSPAN="5" VALIGN="center"><FONT COLOR="#FFFFFF" FACE="Verdana, Arial" SIZE="2"><B>ViewPane</B></FONT></TD>
+  </TR>
+  <TR>
+    <TD ALIGN="center" BGCOLOR="#000000" ROWSPAN="6" VALIGN="center"><FONT COLOR="#FFFFFF" FACE="Verdana, Arial" SIZE="2"><B>C<BR>
+      o<BR>
+      n<BR>
+      t<BR>
+      e<BR>
+      n<BR>
+      t</B></FONT></TD>
+    <TD>&nbsp;</TD>
+    <TD BGCOLOR="#9999CC"><FONT FACE="Verdana, Arial" SIZE="1">VP1</FONT></TD>
+    <TD BGCOLOR="#AAAADD"><FONT FACE="Verdana, Arial" SIZE="1">VP2</FONT></TD>
+    <TD BGCOLOR="#BBBBEE"><FONT FACE="Verdana, Arial" SIZE="1">VP3</FONT></TD>
+    <TD BGCOLOR="#CCCCFF"><FONT FACE="Verdana, Arial" SIZE="1">VP4</FONT></TD>
+  </TR>
+  <TR>
+    <TD BGCOLOR="#CCCC33"><FONT FACE="Verdana, Arial" SIZE="1">C1</FONT></TD>
+    <TD ALIGN="center" BGCOLOR="#99CC33"><a href="javascript:changeContent(0,0)"><FONT FACE="Verdana, Arial" SIZE="1">x</FONT></a></TD>
+    <TD ALIGN="center" BGCOLOR="#99CC55"><a href="javascript:changeContent(1,0)"><FONT FACE="Verdana, Arial" SIZE="1">x</FONT></a></TD>
+    <TD ALIGN="center" BGCOLOR="#88CC66"><a href="javascript:changeContent(2,0)"><FONT FACE="Verdana, Arial" SIZE="1">x</FONT></a></TD>
+    <TD ALIGN="center" BGCOLOR="#88CC88"><a href="javascript:changeContent(3,0)"><FONT FACE="Verdana, Arial" SIZE="1">x</FONT></a></TD>
+  </TR>
+  <TR>
+    <TD BGCOLOR="#DDDD66"><FONT FACE="Verdana, Arial" SIZE="1">C2</FONT></TD>
+    <TD ALIGN="center" BGCOLOR="#99DD66"><a href="javascript:changeContent(0,1)"><FONT FACE="Verdana, Arial" SIZE="1">x</FONT></a></TD>
+    <TD ALIGN="center" BGCOLOR="#98DD73"><a href="javascript:changeContent(1,1)"><FONT FACE="Verdana, Arial" SIZE="1">x</FONT></a></TD>
+    <TD ALIGN="center" BGCOLOR="#98EE85"><a href="javascript:changeContent(2,1)"><FONT FACE="Verdana, Arial" SIZE="1">x</FONT></a></TD>
+    <TD ALIGN="center" BGCOLOR="#97EE97"><a href="javascript:changeContent(3,1)"><FONT FACE="Verdana, Arial" SIZE="1">x</FONT></a></TD>
+  </TR>
+  <TR>
+    <TD BGCOLOR="#EEEE99"><FONT FACE="Verdana, Arial" SIZE="1">C3</FONT></TD>
+    <TD ALIGN="center" BGCOLOR="#88EE88"><a href="javascript:changeContent(0,2)"><FONT FACE="Verdana, Arial" SIZE="1">x</FONT></a></TD>
+    <TD ALIGN="center" BGCOLOR="#99EE99"><a href="javascript:changeContent(1,2)"><FONT FACE="Verdana, Arial" SIZE="1">x</FONT></a></TD>
+    <TD ALIGN="center" BGCOLOR="#99FF99"><a href="javascript:changeContent(2,2)"><FONT FACE="Verdana, Arial" SIZE="1">x</FONT></a></TD>
+    <TD ALIGN="center" BGCOLOR="#AAFFAA"><a href="javascript:changeContent(3,2)"><FONT FACE="Verdana, Arial" SIZE="1">x</FONT></a></TD>
+  </TR>
+  <TR>
+    <TD BGCOLOR="#F7F7AA"><FONT FACE="Verdana, Arial" SIZE="1">C4</FONT></TD>
+    <TD ALIGN="center" BGCOLOR="#99EE99"><a href="javascript:changeContent(0,3)"><FONT FACE="Verdana, Arial" SIZE="1">x</FONT></a></TD>
+    <TD ALIGN="center" BGCOLOR="#AAEEAA"><a href="javascript:changeContent(1,3)"><FONT FACE="Verdana, Arial" SIZE="1">x</FONT></a></TD>
+    <TD ALIGN="center" BGCOLOR="#AAFFAA"><a href="javascript:changeContent(2,3)"><FONT FACE="Verdana, Arial" SIZE="1">x</FONT></a></TD>
+    <TD ALIGN="center" BGCOLOR="#BBFFBB"><a href="javascript:changeContent(3,3)"><FONT FACE="Verdana, Arial" SIZE="1">x</FONT></a></TD>
+  </TR>
+  <TR>
+    <TD BGCOLOR="#FFFFCC"><FONT FACE="Verdana, Arial" SIZE="1">C5</FONT></TD>
+    <TD ALIGN="center" BGCOLOR="#AAEEAA"><a href="javascript:changeContent(0,4)"><FONT FACE="Verdana, Arial" SIZE="1">x</FONT></a></TD>
+    <TD ALIGN="center" BGCOLOR="#B7EEB7"><a href="javascript:changeContent(1,4)"><FONT FACE="Verdana, Arial" SIZE="1">x</FONT></a></TD>
+    <TD ALIGN="center" BGCOLOR="#C0FFC0"><a href="javascript:changeContent(2,4)"><FONT FACE="Verdana, Arial" SIZE="1">x</FONT></a></TD>
+    <TD ALIGN="center" BGCOLOR="#CCFFCC"><a href="javascript:changeContent(3,4)"><FONT FACE="Verdana, Arial" SIZE="1">x</FONT></a></TD>
+  </TR>
+</TABLE>
+<BR>
+<FONT FACE="Verdana, Arial" SIZE="2">
+  <UL>
+    <LI><a href="javascript:rand_start()">Start random</a></LI>
+    <LI><a href="javascript:rand_stop()">Stop random</a></LI>
+    <LI><a href="javascript:rand_reset()">Reset random</a></LI>
+    <LI><a href="javascript:rand_mult(1)">1-up random</a></LI>
+    <LI><a href="javascript:rand_mult(2)">2-up random</a></LI>
+    <LI><a href="javascript:rand_mult(3)">3-up random</a></LI>
+    <LI><a href="javascript:rand_mult(4)">4-up random</a></LI>
+    <LI><a href="javascript:set_rand_n_rand(true)">?-up random (on)</a></LI>
+    <LI><a href="javascript:set_rand_n_rand(true)">?-up random (off)</a></LI>
+    <LI><a href="javascript:set_rand_interval(250)">0.25s interval</a></LI>
+    <LI><a href="javascript:set_rand_interval(500)">0.5s interval</a></LI>
+    <LI><a href="javascript:set_rand_interval(1000)">1s interval</a></LI>
+    <LI><a href="javascript:set_rand_interval(5000)">5s interval</a></LI>
+    <LI><a href="javascript:set_rand_interval(10000)">10s interval</a></LI>
+  </UL>
+</FONT>
+<script language="JavaScript" type="text/javascript">
+
+dynapi.document.insertAllChildren();
+
+</script>
+</body>
+</html>

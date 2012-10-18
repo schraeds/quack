@@ -1,0 +1,34 @@
+<html>
+<head>
+<title>DynAPI Examples - ViewPane and LoadPanel</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+	dynapi.library.setPath('../src/');
+	dynapi.library.include('dynapi.api');
+	dynapi.library.include('dynapi.gui.LoadPanel');
+	dynapi.library.include('ViewPane');
+</script>
+<script language="Javascript">
+
+	var lp = new LoadPanel('loadpanel/file1.html');
+	lp.setSize(300,300);
+	lp.setBgColor('#C0C0C0');
+
+	var vp = new ViewPane(null,250,100,200,200);
+	vp.setContent(lp)
+
+	dynapi.document.addChild(vp);
+
+</script>
+</head>
+<body>
+<p>
+<a href="javascript:lp.setURL('loadpanel/file1.html')">file 1</a><br>
+<a href="javascript:lp.setURL('loadpanel/file2.html')">file 2</a><br>
+<a href="javascript:lp.setURL('loadpanel/file3.html')">file 3</a>
+</p>
+<script>
+	dynapi.document.insertAllChildren();
+</script>
+</body>
+</html>

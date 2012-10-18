@@ -1,0 +1,55 @@
+<html>
+<head>
+<title>DynAPI Examples - Drag Drop /w Collision Detection</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+	dynapi.library.setPath('../src/');
+	dynapi.library.include('dynapi.api');
+	dynapi.library.include('dynapi.api.ext.DragEvent');
+	dynapi.library.include('dynapi.fx.MotionX');
+
+	dynapi.library.include('dynapi.functions.Color');
+
+</script>
+<script language="Javascript">
+	var l1,l2,l3;
+
+	l1=new DynLayer(null,50,50,50,50,'yellow');
+	l2=new DynLayer(null,250,50,100,100,'green');
+	l3=new DynLayer(null,250,200,100,100,'blue');
+
+	l1.makeSolid();
+	l2.makeSolid();
+	l3.makeSolid();
+
+	l1.setZIndex(100);
+
+	DragEvent.enableDragEvents(l1)
+
+	// note: click event added to l1
+	l1.addEventListener({
+		oncollide:function(e){
+			var o=e.getSource();
+			var c=o.getObstacle();
+			c.setBgColor(dynapi.functions.getRandomColor());
+		},
+		ondragend:function(e){
+			var o=e.getSource();
+			var c=o.getObstacle();
+			if(c) c.setHTML(new Date());
+		}
+	});
+
+	dynapi.document.addChild(l1)
+	dynapi.document.addChild(l2)
+	dynapi.document.addChild(l3)
+
+</script>
+</head>
+<body>
+Drag & Drop the Yellow Layer over the Red and Green layers
+<script>
+	dynapi.document.insertAllChildren();
+</script>
+</body>
+</html>

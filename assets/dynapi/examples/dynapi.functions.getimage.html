@@ -1,0 +1,25 @@
+<html>
+<head>
+<title>DynAPI - Image Rollover</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+	dynapi.library.setPath('../src/');
+	dynapi.library.include('dynapi.functions.Image');
+</script>
+<script language="Javascript">
+	var p =	 {
+			oversrc:'images/eicon3.gif',
+			downsrc:'images/eicon2.gif'
+		}
+
+	var myImage = dynapi.functions.getImage('images/eicon1.gif',32,32,p);
+</script>
+</head>
+<body>
+Press move your mouse over the image below and click on it<br><br>
+<script>
+	document.write(myImage.getHTML());
+</script>
+
+</body>
+</html>

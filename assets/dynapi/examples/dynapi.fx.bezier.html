@@ -1,0 +1,111 @@
+<html>
+<head>
+<title>DynAPI Examples - Bezier Path Animation</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.api');
+dynapi.library.include('dynapi.debug');
+dynapi.library.include('dynapi.fx.Thread');
+dynapi.library.include('dynapi.fx.Bezier');
+</script>
+<script language="Javascript">
+
+var path;
+
+var dots = [];
+var cps = [];
+
+function drawBezier() {
+	clearPage();
+
+	var controlPoints = eval(document.b.cp.value);
+	var steps = parseInt(document.b.steps.value);
+
+	// the path includes starting and ending points
+	// results in total of steps+1 points along path
+	path = Bezier(controlPoints, steps);
+
+	for (var i=0;i<controlPoints.length/2;i++) {
+		var x = controlPoints[i*2];
+		var y = controlPoints[i*2+1];
+		var color = 'red';
+		if (i==0 || i==controlPoints.length/2-1) color = 'yellow'
+		if (!cps[i]) cps[i] = dynapi.document.addChild(new DynLayer('',x-2,y-2,5,5,color));
+		else {
+			cps[i].setLocation(x-2,y-2);
+			cps[i].setBgColor(color);
+		}
+		cps[i].setVisible(true);
+	}
+
+	for (var i=0;i<path.length/2;i++) {
+		var x = path[i*2];
+		var y = path[i*2+1];
+		if (!dots[i]) dots[i] = dynapi.document.addChild(new DynLayer('',x,y,2,2,'black'));
+		else {
+			dots[i].setLocation(x-2,y-2);
+		}
+		dots[i].setVisible(true);
+	}
+}
+
+var playblock = dynapi.document.addChild(new DynLayer('',0,0,15,15,'red'));
+playblock.setVisible(false);
+var pathanim = new Thread(playblock);
+pathanim.loop = true;
+
+function startAnim() {
+	if (path) {
+		playblock.setVisible(true);
+
+		var speed = parseInt(document.b.speed.value);
+		pathanim.sleep(speed);
+		pathanim.play(path);
+	}
+}
+function stopAnim() {
+	playblock.setVisible(false);
+	pathanim.stop();
+}
+
+function clearPage() {
+	for (var i=0;i<dynapi.document.children.length;i++) {
+		var c = dynapi.document.children[i];
+		if (c!=playblock) c.setVisible(false);
+	}
+}
+
+function setCP(cp) {
+	document.b.cp.value = cp;
+	drawBezier();
+	startAnim();
+}
+
+var t="drawBezier();\nstartAnim();\nthis.watch('playblock.getX()');\n"
++"this.watch('playblock.getY()');\n"
++"this.switchMode('watch');";
+dynapi.debug.setEvaluate(t);
+
+
+</script>
+</head>
+<body bgcolor="#999999">
+
+<form name=b>
+Control Points: <input type=text name="cp" value="[200,150, 200,400, 250,100, 500,300]" size=50>
+try these <input type=button value="1" onclick="setCP('[200,150, 200,150, 200,150, 400,150, 400,150, 400,150]');">
+<input type=button value="2" onclick="setCP('[200,150, 200,150, 400,300]');">
+<input type=button value="3" onclick="setCP('[200,200, 400,200, 400,400, 200,400, 200,200]');">
+<input type=button value="4" onclick="setCP('[200,200, 200,300, 300,100, 500,200, 300,400, 500,300]');">
+<br>
+Steps: <input type=text name="steps" value="25" size=4><br>
+Speed: <input type=text name="speed" value="40" size=4>ms<br>
+<input type=button value="Draw" onclick="drawBezier()"><br>
+<input type=button value="Clear Page" onclick="clearPage()"><br>
+<input type=button value="Start Animation" onclick="startAnim()"><br>
+<input type=button value="Stop Animation" onclick="stopAnim()"><br>
+</form>
+
+</body>
+</html>

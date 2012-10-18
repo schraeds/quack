@@ -1,0 +1,31 @@
+<html>
+<head>
+<script>
+<!--
+	var io;
+	var dynapi = parent.dynapi;
+	if (!dynapi) alert('Error: Missing or invalid DynAPI library');
+	else {
+		io = parent.IOElement.notify(this);
+
+		io.execInParent("if(!self.firstRun) alert('This messaged was generated from within the parent window');");
+		io.execInParent(function(){
+			var d;
+			for(var i=0;i<5;i++){
+				d = new DynLayer();
+				d.setBgColor(dynapi.functions.getRandomColor());
+				d.setSize(10+80*Math.random(),10+80*Math.random());
+				d.setLocation(130+500*Math.random(),300*Math.random());
+				dynapi.document.addChild(d);
+			}
+			self.firstRun = true;
+		});
+
+	}
+
+-->
+</script>
+
+</head>
+<body></body>
+</html>

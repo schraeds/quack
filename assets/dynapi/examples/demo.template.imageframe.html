@@ -1,0 +1,98 @@
+<html>
+<head>
+<title>DynAPI - Image Frame</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.api');
+dynapi.library.include('dynapi.functions.Image');
+dynapi.library.include('dynapi.gui.Frame');
+dynapi.library.include('dynapi.gui.BorderManager');
+dynapi.library.include('dynapi.gui.TemplateManager');
+</script>
+<script language="Javascript">
+var doc=dynapi.document;
+
+var p='images/';
+var f=dynapi.functions;
+var fN=f.getImage(p+'f1-n.jpg',100,17), fE=f.getImage(p+'f1-e.jpg',17,100), fS=f.getImage(p+'f1-s.jpg',100,17), fW=f.getImage(p+'f1-w.jpg',17,100);
+var fNE=f.getImage(p+'f1-ne.jpg',17,17), fSE=f.getImage(p+'f1-se.jpg',17,17), fSW=f.getImage(p+'f1-sw.jpg',17,17), fNW=f.getImage(p+'f1-nw.jpg',17,17);
+
+var fa=[ // Array of frame styles to choose from.
+  {w:2, s:'red'},
+  {w:2, s:['white','black','black','white']},
+  {w:2, s:['black','white','white','black']},
+  {w:[1,0,3,4], s:['red','yellow','green','blue']},
+  {w:[2,2,0,0], s:['yellow','blue']},
+  {w:2, s:['red','green']},
+  {w:[2,0,0,2], s:'blue'},
+  {w:[0,2,4,0], s:'red'},
+  {w:[0,0,2,2], s:'blue'},
+  {w:[0,0,2], s:'red'},
+  {w:1},
+  {}
+];
+
+// Frame style with image sides and corners.
+var albumFrame=doc.addChild(new Frame(17,[fN.src,fE.src,fS.src,fW.src],[fNE.src,fSE.src,fSW.src,fNW.src]));
+albumFrame.setBgColor('#c4c2c7');
+
+var albumHTML=[
+'<table width=250 height=220 border=0 cellspacing=0 cellpadding=0>',
+'<tr><td height=20 align="center" valign="middle" colspan=5><b>Click on an image to cycle it\'s frame.</b></td></tr>',
+'<tr><td width=50 height=50 align="center" valign="middle">{@thumb0}</td><td width=50 align="center" valign="middle">{@thumb1}</td><td width=50 align="center" valign="middle">{@thumb2}</td><td width=50 align="center" valign="middle">{@thumb3}</td><td width=50 align="center" valign="middle">{@thumb4}</td></tr>',
+'<tr><td height=50 align="center" valign="middle">{@thumb5}</td><td align="center" valign="middle">{@thumb6}</td><td align="center" valign="middle">{@thumb7}</td><td align="center" valign="middle">{@thumb8}</td><td align="center" valign="middle">{@thumb9}</td></tr>',
+'<tr><td height=50 align="center" valign="middle">{@thumb10}</td><td align="center" valign="middle">{@thumb11}</td><td align="center" valign="middle">{@thumb12}</td><td align="center" valign="middle">{@thumb13}</td><td align="center" valign="middle">{@thumb14}</td></tr>',
+'<tr><td height=50 align="center" valign="middle">{@thumb15}</td><td align="center" valign="middle">{@thumb16}</td><td align="center" valign="middle">{@thumb17}</td><td align="center" valign="middle">{@thumb18}</td><td align="center" valign="middle">{@thumb19}</td></tr>',
+'</table>'
+];
+
+var albumTemplate=new Template(albumHTML.join(''),10,10,250,220);
+albumFrame.addContent(albumTemplate);
+albumFrame.setSize(300,270);
+
+var album=[
+{thumb:p+'arrowdown.gif',tw:9,th:5}, {thumb:p+'arrowleft.gif',tw:5,th:9}, {thumb:p+'arrowright.gif',tw:5,th:9}, {thumb:p+'arrowup.gif',tw:9,th:5}, {thumb:p+'left.gif',tw:20,th:22},
+{thumb:p+'btn_delete.gif',tw:25,th:22}, {thumb:p+'btn_first.gif',tw:25,th:22}, {thumb:p+'btn_last.gif',tw:25,th:22}, {thumb:p+'btn_new.gif',tw:25,th:22}, {thumb:p+'btn_next.gif',tw:25,th:22},
+{thumb:p+'btn_prev.gif',tw:25,th:22}, {thumb:p+'btn_save.gif',tw:25,th:22}, {thumb:p+'btn_undo.gif',tw:25,th:22}, {thumb:p+'calc.gif',tw:32,th:32}, {thumb:p+'eicon1.gif',tw:32,th:32},
+{thumb:p+'eicon2.gif',tw:32,th:32}, {thumb:p+'eicon3.gif',tw:32,th:32}, {thumb:p+'bin_full.gif',tw:32,th:32}, {thumb:p+'bin_off.gif',tw:32,th:32}, {thumb:p+'bin_on.gif',tw:32,th:32}
+];
+
+var n, a, img, frame, length=album.length;
+for(n=0;n<length;n++) {
+  a=album[n];
+  img=f.getImage(a.thumb,a.tw,a.th);
+  frame = albumTemplate.addChild(new Frame(fa[0].w,fa[0].s),'thumb'+n)
+  frame.addContent(new DynLayer(img.getHTML(),null,null,img.w,img.h));
+  frame._fImage=img;
+  img._fFrame=frame;
+  a.frame=frame;
+  frame.addEventListener({
+    onclick:function(e){
+      var o=e.getSource();
+      o._fState=(o._fState<fa.length-1)?o._fState+1:0;
+      o.setBorder(fa[o._fState].w,fa[o._fState].s);
+    }
+  });
+}
+
+function futureSetBorder(frame,style) {
+  frame._fState=style;
+  var rand=Math.floor(100+Math.random()*(500-101)); // 100ms to 500ms
+  setTimeout(frame+'.setBorder(fa['+style+'].w,fa['+style+'].s)',rand);
+};
+dynapi.onLoad(function() {
+  for(n=0;n<length;n++) {
+    a=album[n]; frame=a.frame; img=frame._fImage;
+    if(img.complete) futureSetBorder(frame,1);
+    else img.onload=function() { futureSetBorder(this._fFrame,2); };
+  }
+});
+</script>
+</head>
+<body bgcolor="#cccccc">
+<script>
+	dynapi.document.insertAllChildren();
+</script>
+</body>
+</html>

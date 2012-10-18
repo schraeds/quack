@@ -1,0 +1,149 @@
+<html>
+
+<head>
+<title>DynAPI Examples - DynLayer Anchor</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.debug');
+dynapi.library.include('dynapi.library');
+dynapi.library.include('dynapi.api');
+dynapi.library.include('DragEvent');
+</script>
+<script language="Javascript">
+
+var bb = new DynLayer();
+bb.setBgColor('black');
+bb.setAnchor({left:1,right:1,top:1,bottom:1});
+
+var main = new DynLayer();
+main.setBgColor('#999999');
+main.setAnchor({left:1,right:1,top:1,bottom:1});
+bb.addChild(main);
+
+var anchorlayer = new DynLayer();
+anchorlayer.setBgColor('black');
+anchorlayer.setSize(200,100);
+anchorlayer.setLocation(100,100);
+
+var nw = anchorlayer.addChild( new DynLayer() );
+nw.setBgColor('yellow');
+nw.setSize(15,15);
+nw.setAnchor({left:0,top:0});
+
+var ne = anchorlayer.addChild( new DynLayer() );
+ne.setBgColor('yellow');
+ne.setSize(15,15);
+ne.setAnchor({right:0,top:0, bottom:0});
+
+var sw = anchorlayer.addChild( new DynLayer() );
+sw.setBgColor('yellow');
+sw.setSize(15,15);
+sw.setAnchor({left:0,bottom:0});
+
+var se = anchorlayer.addChild( new DynLayer() );
+se.setBgColor('yellow');
+se.setSize(15,15);
+se.setAnchor({right:0,bottom:0});
+
+var n = anchorlayer.addChild( new DynLayer() );
+n.setHeight(5);
+n.setBgColor('green');
+n.setAnchor({left:20,top:5,right:20});
+
+var s = anchorlayer.addChild( new DynLayer() );
+s.setHeight(5);
+s.setBgColor('green');
+s.setAnchor({left:20,bottom:5,right:20});
+
+var e = anchorlayer.addChild( new DynLayer() );
+e.setWidth(5);
+e.setBgColor('green');
+e.setAnchor({right:5,top:20,bottom:20});
+
+var w = anchorlayer.addChild( new DynLayer() );
+w.setWidth(5);
+w.setBgColor('green');
+w.setAnchor({left:5,top:20,bottom:20});
+
+var cn = anchorlayer.addChild( new DynLayer() );
+cn.setSize(20,10);
+cn.setBgColor('red');
+cn.setAnchor({top:15,centerH:0});
+
+var cn = anchorlayer.addChild( new DynLayer() );
+cn.setSize(20,10);
+cn.setBgColor('red');
+cn.setAnchor({top:15,centerH:0});
+
+var cs = anchorlayer.addChild( new DynLayer() );
+cs.setSize(20,10);
+cs.setBgColor('red');
+cs.setAnchor({bottom:15,centerH:0});
+
+var ce = anchorlayer.addChild( new DynLayer() );
+ce.setSize(10,20);
+ce.setBgColor('red');
+ce.setAnchor({right:15,centerV:0});
+
+var cw = anchorlayer.addChild( new DynLayer() );
+cw.setSize(10,20);
+cw.setBgColor('red');
+cw.setAnchor({left:15,centerV:0});
+
+var chv = anchorlayer.addChild( new DynLayer() );
+chv.setSize(20,20);
+chv.setBgColor('blue');
+chv.setAnchor({centerH:0,centerV:0});
+
+
+var box = new DynLayer();
+box.setBgColor('white');
+box.setSize(100,100);
+box.setAnchor({right:10,bottom:10});
+
+var bluesquare = new DynLayer();
+bluesquare.setBgColor('blue');
+bluesquare.setSize(10,10);
+bluesquare.setAnchor({left:0,top:0});
+box.addChild(bluesquare);
+
+main.addChild(box);
+
+main.addChild(anchorlayer)
+
+dynapi.document.addChild(bb);
+
+dynapi.onLoad(init);
+function init() {
+	str = '// Try these tests:\n\n'+
+	'anchorlayer.setLocation(50,50);\n'+
+	'anchorlayer.setSize(300,200);\n'+
+	'//anchorlayer.setAnchor({left:0,right:0,top:0,bottom:0});\n\n'+
+
+	'bluesquare.setSize(10,10);  // must reset size if it is no longer 10x10\n\n'+
+	'// Align:\n'+
+	'bluesquare.setAnchor({right:0,bottom:0});\n'+
+	'//bluesquare.setAnchor({right:0,top:0});\n'+
+	'//bluesquare.setAnchor({left:0,top:0});\n'+
+	'//bluesquare.setAnchor({left:0,bottom:0});\n'+
+	'// Strech:\n'+
+	'//bluesquare.setAnchor({left:0,right:0,bottom:0});\n'+
+	'//bluesquare.setAnchor({left:0,right:0,top:0});\n'+
+	'//bluesquare.setAnchor({left:0,top:0,bottom:0});\n'+
+	'//bluesquare.setAnchor({right:0,top:0,bottom:0});\n'+
+	'// Center:\n'+
+	'//bluesquare.setAnchor({centerV:0,centerH:0});\n';
+	dynapi.debug.setEvaluate(str);
+}
+
+</script>
+</head>
+<body bgcolor="white">
+
+<script>
+dynapi.document.insertAllChildren();
+</script>
+
+</body>
+</html>

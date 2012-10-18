@@ -1,0 +1,53 @@
+<html>
+<head>
+<title>DynAPI Examples - Functions</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.library');
+dynapi.library.include('dynapi.functions');
+dynapi.library.include('dynapi.api');
+</script>
+</head>
+<body>
+<font face="arial" size="2">
+<script>
+var doc=document;
+f=dynapi.functions;
+
+// very simple mouse down & over setup
+var params={};
+params.tooltip="Click here";
+params.oversrc="images/oversrc.gif";
+params.downsrc="images/downsrc.gif";
+params.onclick=function(){alert('Hello!')};
+params.onmouseover="status='Over!'";
+params.onmouseout="status='Out!'";
+params.onmousedown="status='Down!'";
+params.onmouseup="status='Up!'";
+var img=f.getImage('images/src.gif',95,15,params)
+doc.write('getImage: '+img.getHTML());
+doc.write(' '+img.getHTML({tooltip:"Another Image",onclick:"alert('Hello Again!')"})+'<br><br>');
+
+doc.write('formatNumber: '+f.formatNumber('-5353535.56363','$#,##0.00')+'<br><br>');
+doc.write('dateDiff: '+f.dateDiff('day','1/1/2002 12:00','4/21/2002 12:00:00')+'<br><br>');
+doc.write('dateAdd: '+f.dateAdd('year',2.25,'1/1/2002 12:00')+'<br><br>');
+doc.write('isDate: '+f.isDate('2002 12 21','yyyy-mm-dd')+'<br><br>');
+doc.write('strStuff: '+f.strStuff('My string',' cool',2)+'<br><br>');
+doc.write('strReverse: '+f.strReverse('this is a test')+'<br><br>');
+doc.write('strRepeat: '+f.strRepeat('x',10)+'<br><br>');
+doc.write('trim: '+'['+f.trim(' ff ','<>')+']<br><br>');
+doc.write('isFloat: '+f.isFloat(324.56)+'<br><br>');
+doc.write('isInteger: '+f.isInteger(324.56)+'<br><br>');
+doc.write('toBoolean: '+f.toBoolean('true')+'<br><br>');
+doc.write('choose: '+f.choose(0,'red','blue')+'<br><br>');
+doc.write('coalesce: '+f.coalesce('ok','ok2')+'<br><br>');
+doc.write('nullIf: '+f.nullIf('','is null')+'<br><br>');
+doc.write('isNull: '+f.isNull('not null','is null')+'<br><br>');
+doc.write('toFloat: '+f.toFloat('20,000.53')+'<br><br>');
+doc.write('toInteger: '+f.toInteger('110,013.53')+'<br><br>');
+doc.write('formatDate: '+f.formatDate(new Date(),'dddd, mmmm dd, yyyy'));
+</script>
+</font>
+</body>
+</html>

@@ -1,0 +1,169 @@
+<html>
+<head>
+<title>DynAPI Examples - MotionX Class</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.library');
+dynapi.library.include('dynapi.api');
+dynapi.library.include('dynapi.api.ext.DynKeyEvent');
+dynapi.library.include('dynapi.fx.TimerX');
+dynapi.library.include('dynapi.fx.MotionX');
+</script>
+<script language="Javascript">
+
+var score,hits=0
+
+h = dynapi.functions.getImage('images/f1-dot.gif',14,14);
+ball= new DynLayer(h.getHTML(),350,100,14,14)
+ball.setID('ball');
+score= new DynLayer("Score:0",490,65,70,20)
+score.setID('score')
+
+pad=new DynLayer("<font face=arial size=3><b>=====</b></font>",155,242,60,20)
+pad.setID('p');
+
+blockT=new DynLayer(null,105,60,465,5,'#c0c0c0');
+blockT.setID('t');
+blockL=new DynLayer(null,105,60,5,205,'#c0c0c0');
+blockL.setID('l');
+blockB=new DynLayer(null,105,265,465,10,'#c0c0c0');
+blockB.setID('b');
+blockR=new DynLayer(null,565,60,5,205,'#c0c0c0');
+blockR.setID('r')
+
+blockA=new DynLayer(null,140,90,40,30,'#c0c0c0');
+blockA.setID('a');
+blockC=new DynLayer(null,125,195,80,20,'#c0c0c0');
+blockC.setID('c');
+blockD=new DynLayer(null,470,190,40,30,'#c0c0c0');
+blockD.setID('d');
+blockE=new DynLayer(null,440,90,80,20,'#c0c0c0');
+blockE.setID('e');
+
+blockT.makeSolid()
+blockL.makeSolid()
+blockB.makeSolid()
+blockR.makeSolid()
+
+blockA.makeSolid()
+blockC.makeSolid()
+blockD.makeSolid()
+blockE.makeSolid()
+
+pad.makeSolid()
+
+evn={}
+evn.oncollide=function(e) {
+	var me=e.getSource();
+	var blocks="adce"
+
+	if (blocks.indexOf(me.id)>=0) {
+		me.setBgColor('#FFCC00')
+		setTimeout(me+'.setBgColor("#c0c0c0");',500)
+	}else if (me.id=="p") {
+		me.setHTML('<font color="red" face=arial size=3><b>=====</b></font>')
+		setTimeout(me+'.setHTML("<font face=arial size=3><b>=====</b></font>");',500)
+	}else {
+		me.setBgColor('#0000FF')
+		setTimeout(me+'.setBgColor("#c0c0c0");',500)
+		if (me.id=="b") {
+			hits--
+			score.setHTML("Score:"+hits)
+		}
+	}
+}
+blockT.addEventListener(evn)
+blockL.addEventListener(evn)
+blockB.addEventListener(evn)
+blockR.addEventListener(evn)
+
+
+blockA.addEventListener(evn)
+blockC.addEventListener(evn)
+blockD.addEventListener(evn)
+blockE.addEventListener(evn)
+
+pad.addEventListener(evn)
+
+evn={}
+evn.onkeydown=function(e) {
+	var me=DynObject.all['p']
+	if ((e.which==39||e.charKey=='6') && (me.x+me.w+20)<=575) {
+		me.setLocation(me.x+20);return true
+	}else if ((e.which==37||e.charKey=='4')){
+		if (me.x-20>=125) {
+			me.setLocation(me.x-20);
+			return true;
+		}else{
+			me.setLocation(125)
+		}
+	}
+
+}
+
+dynapi.document.addEventListener(evn);
+
+
+//------- Add Listener to ball ------------------
+evn={}
+evn.ontimer=function(e){
+	var me=e.getSource();
+
+	var x=me.x
+	var y=me.y
+
+	x=x+me.fx
+	y=y+me.fy
+	if(x>575){x=150;y=80}
+
+	me.setLocation(x,y)
+}
+evn.oncollide=function(e){
+	var me=e.getSource();
+	var obs=me.getObstacle()
+
+	xx="EW";yy="NS"
+	if (xx.indexOf(me.getImpactSide())>=0) me.fx=me.fx*-1
+	if (yy.indexOf(me.getImpactSide())>=0) me.fy=me.fy*-1
+
+	status = me.id +" collides with "+obs.id
+	setTimeout("status=''",1500)
+
+	xx="adce"
+	if (xx.indexOf(obs.id)>=0) {hits++}
+	score.setHTML("Score:"+hits)
+}
+
+ball.addEventListener(evn)
+ball.makeSolid()
+ball.fx=10;ball.fy=10
+ball.startTimer(60)
+
+dynapi.document.addChild(blockT)
+dynapi.document.addChild(blockL)
+dynapi.document.addChild(blockB)
+dynapi.document.addChild(blockR)
+
+dynapi.document.addChild(blockA)
+dynapi.document.addChild(blockC)
+dynapi.document.addChild(blockD)
+dynapi.document.addChild(blockE)
+
+dynapi.document.addChild(ball)
+dynapi.document.addChild(pad)
+dynapi.document.addChild(score)
+
+</script>
+</head>
+
+<body bgcolor="#FFFFFF">
+<script>
+dynapi.document.insertAllChildren();
+</script>
+<font face="arial" size="2">To play the game above use the left and right arrow keys (or the numbers 4
+&amp; 6 when using NS4) to prevent the ball from touching the base line.
+<i>Note: The game has some minor flaws, but works great for a demonstration. Enjoy!</i></font>
+
+</body>
+</html>

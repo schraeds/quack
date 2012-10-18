@@ -1,0 +1,53 @@
+<html>
+<head>
+<title>DynAPI Examples - DynLayer Anchor - Stretching</title>
+<script language="JavaScript" src="../src/dynapi.js"></script>
+<script language="Javascript">
+dynapi.library.setPath('../src/');
+dynapi.library.include('dynapi.library');
+dynapi.library.include('dynapi.api');
+</script>
+<script language="Javascript">
+
+var back=new DynLayer(null,null,null,null,null,'#eeeeee');
+back.setAnchor({left:'10%',top:'10%',stretchH:'80%',stretchV:'80%'})
+
+var nw = back.addChild(new DynLayer(null,null,null,null,null,'blue'))
+nw.setAnchor({left:'1%',top:'1%',stretchH:'5%',stretchV:'5%'});
+
+var ne = back.addChild(new DynLayer(null,null,null,null,null,'blue'))
+ne.setAnchor({right:'1%',top:'1%',stretchH:'5%',stretchV:'5%'});
+
+var se = back.addChild(new DynLayer(null,null,null,null,null,'blue'))
+se.setAnchor({right:'1%',bottom:'1%',stretchH:'5%',stretchV:'5%'});
+
+var sw = back.addChild(new DynLayer(null,null,null,null,null,'blue'))
+sw.setAnchor({left:'1%',bottom:'1%',stretchH:'5%',stretchV:'5%'});
+
+var b1 = back.addChild(new DynLayer(null,null,null,null,null,'yellow'))
+b1.setAnchor({left:'20%',top:'40%',stretchH:'15%',stretchV:'40%'});
+
+var b2 = back.addChild(new DynLayer(null,null,null,null,null,'red'))
+b2.setAnchor({left:'36%',top:'30%',stretchH:'15%',stretchV:'50%'});
+
+var b3 = back.addChild(new DynLayer(null,null,null,null,null,'navy'))
+b3.setAnchor({left:'52%',top:'20%',stretchH:'15%',stretchV:'60%'});
+
+var b4 = back.addChild(new DynLayer(null,null,null,null,null,'lime'))
+b4.setAnchor({left:'68%',top:'10%',stretchH:'15%',stretchV:'70%'});
+
+var b5 = back.addChild(new DynLayer(null,null,null,null,null,'black'))
+b5.setAnchor({left:'15%',top:'81%',stretchH:'75%',stretchV:1});
+
+dynapi.document.addChild(back);
+
+</script>
+</head>
+<body bgcolor="white">
+<b>Resize your browser to stretch the layers below:</b>
+<script>
+dynapi.document.insertAllChildren();
+</script>
+
+</body>
+</html>

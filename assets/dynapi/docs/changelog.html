@@ -1,0 +1,708 @@
+<html>
+<head>
+<title>DynAPI 2.9 ChangeLog</title>
+<link rel="stylesheet" type="text/css" href="include/dynapi.css">
+</head>
+
+<body>
+
+<table border="0" width="100%">
+  <tr>
+    <td width="38%"><img border="0" src="images/dynapi.gif" width="200" height="75"></td>
+    <td width="62%" align="right">
+      <p align="right"><a href="index.html" style="text-decoration:none"><img border="0" src="images/home.gif" align="absmiddle" width="22" height="19">&nbsp;Home</a>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="100%" colspan="2" align="left">
+<hr size="1" color="#C0C0C0">
+    </td>
+  </tr>
+  <tr>
+    <td width="100%" colspan="2" align="left">
+
+<h1>ChangeLog</h1>
+
+      <p>Dan Steinman (dan@dansteinman.com)</td>
+  </tr>
+</table>
+
+<p>&nbsp;
+
+<P><b>Contents:</b>
+<ul>
+<li><a href="#Introduction">Introduction</a>
+<li><a href="#File">File and Object Structure</a>
+<li><a href="#DynAPI">DynAPI Object</a>
+<li><a href="#DynObject">DynObject</a>
+<li><a href="#Library">DynAPI Library System</a>
+<li><a href="#Loading">Dynamic Library Loading System</a>
+<li><a href="#Debugger">Debugger</a>
+<li><a href="#Events">Events and EventListeners</a>
+<li><a href="#DynDocument">DynDocument</a>
+<li><a href="#DynLayer">DynLayer</a>
+<ul>
+	<li><a href="#Syntax">Syntax Changes</a>
+	<li><a href="#BeforeLoad">BeforeLoad Creation</a>
+	<li><a href="#Create">Create Event</a>
+	<li><a href="#Resize">Resize Event</a>
+	<li><a href="#Anchoring">Anchoring</a>
+</ul>
+<li><a href="#DragEvent">DragEvent</a>
+<li><a href="#Anim">Path, Slide, and Glide Animation</a>
+<li><a href="docs/revision.html">Revision History</a>
+</ul>
+
+&nbsp;
+
+<h2><a name="Introduction">Introduction</a></h2>
+
+<p>DynAPI version 3.0 is my long since due rewrite of the dynapi.  This version is a code fork from DynAPI 2.54, so some features and bug fixes in later versions may not be included in this version.  This is definately not a drop in replacement for DynAPI 2.5x, a large amount of syntax has changed.  The widgets in 2.5x have not yet been converted to this new version.  Some things not listed in this document may work different or not be available, so if you have problems refer to the source code and examples provided.  Or join the <a href="http://dynapi.sourceforge.net/doccenter/index.php?MailingLists">DynAPI Mailing Lists</a>.
+
+<h2><a name="File">File and Object Structure</a></h2>
+
+<p>Due to object reorganizations and the sake of consistancy, the file structure has changed:
+
+<ul>
+<li>Removed /api/browser.js, it's included in dynapi.js in the form of <b>dynapi.ua</b> which replaces both the "is" and "dynapi.browser" syntax
+<li>Removed /event/ directory:
+	<ul>
+	<li>/event/listeners.js has been replaced with /api/event.js which <u>must</u> be included before dyndocument.js and dynlayer.js
+	<li>/event/mouse.js is moved to /api/mouse.js
+	<li>/event/dragevent.js is moved to /api/ext/dragevent.js
+	<li>/event/keyboard.js is moved to /api/ext/dynkeyevent.js
+	</ul>
+<li>/ext/inline.js renamed to /api/ext/dynlayer_inline.js
+<li>Animation/Effects files are now in a new /fx/ directory:
+	<ul>
+	<li>/fx/circleanim.js
+	<li>/fx/hoveranim.js
+	<li>/fx/imganim.js
+	<li>/fx/pathanim.js
+	<li>/fx/glideanim.js  // DynLayer.glideTo() based on PathAnim
+	<li>/fx/slideanim.js  // DynLayer.slideTo() based on PathAnim
+	<li>/fx/thread.js	// note: DynLayer may include a less sophisticated slide mechanism by default so path and thread won't be required for widgets that need to use simple slide animation
+	</ul>
+</ul>
+
+<h2><a name="DynAPI">DynAPI Object</a></h2>
+
+<p>The master "DynAPI" object is now lowercase, this change is merely for convenience and a duplicate pointer for "DynAPI" is provided for backward compatibility.
+
+<p>The "Methods" object that contained various functions that were needed has been renamed to <b>dynapi.functions</b>.  There is a new function called dynapi.functions.getURLArguments().  It will return the arguments passed in a URL, and can be used in 3 ways:
+
+<pre>
+dynapi.functions.getURLArgument(urlString);   // full filename
+dynapi.functions.getURLArgument(iframeObject);  // IE/Moz only
+dynapi.functions.getURLArgument(layerObject);  // NS4 only
+</pre>
+
+<p>If your file is loaded as "file.html?iam=dynapi&amp;hello=world" and you can find the values easily with:
+
+<pre>
+var args = dynapi.functions.getURLArguments('file.html?iam=dynapi&amp;hello=world');
+alert(args['iam']);  // returns &quot;dynapi&quot;
+alert(args['hello']);  // returns &quot;world&quot;
+</pre>
+
+<p>A default <b>dynapi.documentArgs</b> property is included for the document that DynAPI is loaded into.
+
+<p>There are also some functions that will be of use in special cases:
+
+<pre>
+dynapi.functions.True();   // returns true
+dynapi.functions.False();   // returns false
+dynapi.functions.Null();   // returns null
+</pre>
+
+<p>These should be used whenever you need to assign a blank function:
+
+<pre>
+MyObject.prototype.mymethod = dynapi.functions.Null;
+this.elm.onmousedown = dynapi.funtions.False;
+</pre>
+
+<h2><a name="DynObject">DynObject</a></h2>
+
+<p>Most duties of DynObject have been delegated to a subobject DynElement in /api/event.js.  DynObject no longer contains any child/parent or event listener methods.  It now has only these methods:
+
+<pre>
+String getClassName()  // returns the className
+Function getClass()  // returns constructor (class) of the object
+boolean isClass(sClassName) // returns true if the object is inherited from, or of the type sClassName
+void addMethod(sMethodName, function)
+void removeMethod(sMethodName)
+void setID(id)
+String toString() // returns [ClassName]
+</pre>
+
+<p>These methods create a standard class structure to all objects within the DynAPI.  It is used in tandem with a function <b>dynapi.setPrototype()</b> to assign the class name and the parent class name.  To extend DynObject do the following:<pre>
+function MyObject() {
+	this.DynObject = DynObject;
+	this.DynObject();
+}
+var p = dynapi.setPrototype('MyObject','DynObject');  // returns the prototype object
+p.methodName = function() {};
+</pre>
+
+<p>Some examples of how to use the new methods:
+
+<pre>
+m = new MyObject();
+m.addMethod('method2', function() {
+	alert('method2');
+});
+m.removeMethod('method2');
+
+alert(m.isClass('DynObject'));  // returns true
+alert(m.getClass());  // returns MyObject
+
+// a private property that may be of use:
+alert(m._pClassName);  //returns &quot;DynObject&quot;
+</pre>
+
+<p><b>dynapi.onLoad</b> works differently now.  Instead of using it as the master loading point you now must use it as a method to add "load" functions to the browser onLoad sequence:
+
+<pre>
+dynapi.onLoad(init);
+function init() {
+	alert('loaded');
+}
+</pre>
+
+<p>This replaces the previous DynAPI.addLoadFunction(function() {}) command.  If you have a DynAPI.onLoad = function(){} assigned in your page you will get errors.  Similarly, there is a dynapi.onUnload(function() {}) which you can add code that is performed when leaving the page.  There is some IE garbage collection that is done at onUnload, it is not complete though.  When complete DynAPI will (hopefully) not leak memory like it does currently.
+
+<h2><a name="Library">DynAPI Library System</a></h2>
+
+<p>I have replaced the previous DynAPI.include() system with a more flexible name-based library system.  It can be used to include scripts by name, and automatically handles depencies.  There is an optional dynamic loader extension explained below which allows you to load up objects dynamically.  The library system is created as an object called <b>dynapi.library</b>.
+
+<p>The way it works is you first add an object to the library, and assign which objects must be loaded before it.
+
+<pre>
+dynapi.library.setPath('path');  // path to dynapi library (eg &quot;dynapi/src/lib&quot;);
+dynapi.library.add('objectName', '../file.js', 'dependentObject');
+</pre>
+
+<p>In that case, dependentObject will always be loaded/included before objectName.
+
+<p>You can also assign groups of objects by assigning a package:
+
+<pre>
+dynapi.library.addPackage('packageName', 'packagePath');
+
+// to add an object to a package, include the package name in front
+// the source then becomes relative to the packagePath
+dynapi.library.add('packageName.objectName','src');
+</pre>
+
+<p>Here's a full example:
+
+<pre>
+dynapi.library.setPath('/dynapi/src/lib/');
+dynapi.library.addPackage('mypackage','/my/package/path/');
+dynapi.library.add('mypackageName.DependentObject','depobject.js');
+dynapi.library.add('mypackageName.MyObject','sourcefile.js','DependentObject');
+</pre>
+
+<p>When it comes time to include the files in the page you can do it by calling dynapi.library.include('objectName') or dynapi.library.include('packageName.objectName')
+
+<pre>
+dynapi.library.include('mypackage');  // includes all objects in that package (DependentObject, MyObject)
+dynapi.library.include('MyObject');  // automatically includes DependentObject beforehand
+dynapi.library.include('mypackage.MyObject');  // same as above
+</pre>
+
+<p>Default library associations are already made for the files within DynAPI.  You only have to set dynapi.libary.setPath() (which replaces DynAPI.setLibraryPath) in order include the files by name.
+
+<p>You will see in the example scripts the following script commands:
+
+<pre>
+&lt;script language=&quot;JavaScript&quot; src=&quot;../src/dynapi.js&quot;&gt;&lt;/script&gt;
+&lt;script language=&quot;Javascript&quot;&gt;
+dynapi.library.setPath('../src/lib/');
+// includes...
+&lt;/script&gt;
+</pre>
+
+<p>The full list of possible object names for DynAPI objects is:
+
+<pre>
+dynapi.library.include('dynapi');  // includes debug and library functions
+dynapi.library.include('dynapi.debug');
+dynapi.library.include('dynapi.library');
+
+dynapi.library.include('dynapi.functions'); // includes all dynapi.functions
+dynapi.library.include('dynapi.functions.Color');
+dynapi.library.include('dynapi.functions.Date');
+dynapi.library.include('dynapi.functions.Image');
+dynapi.library.include('dynapi.functions.Math');
+dynapi.library.include('dynapi.functions.Numeric');
+dynapi.library.include('dynapi.functions.String');
+dynapi.library.include('dynapi.functions.System');
+
+dynapi.library.include('dynapi.api');  // includes all dynapi.api objects
+dynapi.library.include('dynapi.api.DynEvent');
+dynapi.library.include('dynapi.api.EventObject');
+dynapi.library.include('dynapi.api.DynElement');
+dynapi.library.include('dynapi.api.DynDocument');
+dynapi.library.include('dynapi.api.DynLayer');
+dynapi.library.include('dynapi.api.MouseEvent');
+
+dynapi.library.include('dynapi.api.ext');  // includes all api extentions
+dynapi.library.include('dynapi.api.ext.DragEvent');
+dynapi.library.include('dynapi.api.ext.DynKeyEvent');
+dynapi.library.include('dynapi.api.ext.DynLayerInline');
+dynapi.library.include('dynapi.api.ext.TabManager');
+
+dynapi.library.include('dynapi.fx');  // includes all dynapi.fx objects
+dynapi.library.include('dynapi.fx.Thread');
+dynapi.library.include('dynapi.fx.PathAnimation');
+dynapi.library.include('dynapi.fx.CircleAnimation');
+dynapi.library.include('dynapi.fx.HoverAnimation');
+dynapi.library.include('dynapi.fx.GlideAnimation');
+dynapi.library.include('dynapi.fx.SlideAnimation');
+dynapi.library.include('dynapi.fx.TextAnimation');
+dynapi.library.include('dynapi.fx.FlashSound');
+dynapi.library.include('dynapi.fx.Fader');
+dynapi.library.include('dynapi.fx.Swiper');
+dynapi.library.include('dynapi.fx.MotionX');
+dynapi.library.include('dynapi.fx.SnapX');
+dynapi.library.include('dynapi.fx.TimerX');
+dynapi.library.include('dynapi.fx.Beizer');
+
+dynapi.library.include('dynapi.gui');  // includes all dynapi.gui objects
+dynapi.library.include('dynapi.gui.LoadPanel');
+dynapi.library.include('dynapi.gui.Graphics');
+dynapi.library.include('dynapi.gui.Highlighter');
+dynapi.library.include('dynapi.gui.ImageClip');
+dynapi.library.include('dynapi.gui.GroupManager');
+dynapi.library.include('dynapi.gui.FocusManager');
+dynapi.library.include('dynapi.gui.BorderManager');
+
+
+dynapi.library.include('dynapi.util');  // includes all dynapi.util objects
+dynapi.library.include('dynapi.util.Cookie');
+dynapi.library.include('dynapi.util.DataSource');
+dynapi.library.include('dynapi.util.IOElement');
+dynapi.library.include('dynapi.util.IOElementSync'); // includes Sync functions
+dynapi.library.include('dynapi.util.IOElementSoda'); // includes SODA functions
+dynapi.library.include('dynapi.util.StringBuffer');
+</pre>
+
+<p>Any of those objects can be included without their package names defined, eg.
+dynapi.library.include('MouseEvent').
+
+<p>Note: The file ext/packages.js contains all the package names used by the
+API. You can modify this file were necessary.
+
+<h2><a name="Loading">Dynamic Library Loading System</a></h2>
+
+<p>The library loading extention to dynapi.library allows you to load scripts on the fly.  When you include 'dynapi.library' in your page you are including the dynamic load system which will add these methods:
+
+<pre>
+dynapi.library.load('objectName', handler);
+dynapi.library.reload('objectName', handler);
+dynapi.library.loadScript('file.js', handler);
+</pre>
+
+<p>When you perform a load() the script will be inserted into the page on the fly, and then the function passed as the handler will be called.
+
+<h2><a name="Debugger">The DynAPI Debugger</a></h2>
+
+<p>When <b>dynapi.debug</b> is included or loaded with the library system it will open the Debugger window.  This is a handly tool to help in the debugging process.  It captures the browser syntax errors and routes them to it's print output.  You can use this output for your own debugging purposes to find logic errors by calling:
+
+<pre>
+dynapi.debug.print('my error string');
+</pre>
+
+<p>The Status field is meant for debugging values that change rapidly, such as for handling mousemove events.  It is updated with <b>dynapi.debug.status('error string')</b>.
+
+<p>The Evaluate field can be used for real-time debugging of your code.  Enter javascript code and it will be evaluated in the scope of the frame that opened it (presumably the document where all your objects are located).  You could use it to test creation of DynLayers, resizing them, and method
+testing.
+
+<p>The debugger can also be used in what is called an Integrated Debugging
+Environment (IDE). This is where the debugger is opened inside a same window as
+the call script. To activate the IDE mode use the following:
+
+<p>dynapi.library.include('dynapi.api');<br>
+<br>
+// with IDE mode these two lines must be executed after dynapi.api (or DynLayer)
+has been included&nbsp;<br>
+dynapi.debug.setIntegrated(true);<br>
+dynapi.library.include('dynapi.debug');
+
+<p>If the DragEvent library is included then you will be able to drag the
+debugger window. To minimize the Intergrated Debugger double click the title
+section of the window. See the <a href="../examples/dynapi.api.dynlayer-anchor.html">Set
+Anchor</a> example
+
+<p>Note: IDE mode currently does not work in NS4 due to a bug. NS4 crashes when
+IDE is loaded. The system will switch to non-IDE mode if NS4 is detected (dynapi.js;
+line 240)
+
+<p>&nbsp;
+
+<p>&nbsp;
+
+<h2><a name="Events">Events and EventListeners</a></h2>
+<P>The EventListener object has been deprecated.  Replace all instances with a blank object like so:
+
+<pre>
+var eventlistener = {
+	onmousedown : function(e) {
+
+	},
+	onmouseup : function(e) {
+
+	}
+}
+</pre>
+
+<p>With this change also comes the removal of the DynEvent.getTarget() method (it was the only reason for having an EventListener object).  For events that are created by the widget DynLayer itself, you can merely replace instances of e.getTarget() with e.getSource.  But for events that are attached to it's children (eg. an object that listens to a mousedown on a child layer) you can replace e.getTarget() in 2 possible ways.
+
+<p>1) Use <b>e.getSource().parent</b>.  This works only when the DynLayer receiving the event is a direct child of the widget object.
+
+<p>2) If you need to attach an event to a sub-child (child of a child), and need a pointer back to the widget you can make a variable which points to "this":
+
+<pre>
+function MyWidget() {
+	this.DynLayer = DynLayer;
+	this.Dynlayer();
+
+	this.pdlyr = new Dynlayer();
+	this.dlyr = this.pdlyr.addChild(new DynLayer());
+	this.dlyr.widget = this;
+	this.dlyr.addEventListener(MyWidget.childEvents);
+}
+MyWidget.childEvents = {
+	oncreate : function(e) {
+		e.getSource().widget.update();
+	}
+};
+MyWidget.prototype = new DynLayer;
+MyWidget.prototype.update = function() {};
+</pre>
+
+<p>Optionally, you can create the event listener in the constructor and use a local variable:
+
+<pre>
+function MyWidget() {
+	this.DynLayer = DynLayer;
+	this.Dynlayer();
+
+	this.pdlyr = new Dynlayer();
+	this.dlyr = this.pdlyr.addChild(new DynLayer());
+
+	var widget = this;
+
+	var el = {
+		oncreate : function(e) {
+			widget.update();
+		}
+	}
+	this.dlyr.addEventListener(el);
+}
+MyWidget.prototype = new DynLayer;
+MyWidget.prototype.update = function() {};
+</pre>
+
+<p>The need to include event.js before dyndocument and dynlayer comes from the fact that both objects inherit from a common DynElement object.  A new EventObject handles event listeners.  You can now create an object that does nothing but listens/invokes events if you inhert from EventObject.  DynElement object adds the addChild/removeChild methods that was previously a part of DynObject.
+
+<ul>
+<li>DynObject
+	<ul>
+	<li>EventObject
+		<ul>
+		<li>DynElement
+			<ul>
+			<li>DynDocument
+			<li>DynLayer
+			</ul>
+		</ul>
+	</ul>
+</ul>
+
+<p>There are 2 new Event methods which are of value when using complex bubbling:
+
+<p><b>e.getOrigin()</b> - returns the DynObject that first recieved the event
+<p><b>e.getBubbleChild()</b> - returns the child DynLayer that the event bubbled from.  This is not the same as getOrigin.  For example, when you mousedown on DynLayerB which is a child of DynLayerA, DynLayerB will recieve a mousedown event, bubble up to DynLayerA, and bubble again to dynapi.document.  In a listener attached to DynDocument, e.getSource() will return dynapi.document, e.getBubbleChild() will return DynLayerB, and e.getOrigin() will return DynLayerA.
+
+<p>Any object that inherits from EventObject (DynLayer) will use itself as an event listener if an event is invoked and such an event handler is defined:
+
+<pre>
+dlyr = new DynLayer(...);
+dlyr.onmousedown = function(e) {
+   // code
+};
+</pre>
+
+<p>This is meant as a convenience when implementing the objects.  You should never attach events within a widget in this manner.
+
+<p>&nbsp;
+
+<h2><a name="DynLayer">DynLayer</a></h2>
+
+<h3><a name="Syntax">Syntax Changes</a></h3>
+
+<p>These changes weren't altogether necessary except for making things consistant.
+
+<p>DynLayer() Constructor
+<br>There were too many arguments getting into the constructor.  I'm now restricting it to the following:
+
+<p><b>new DynLayer(html, x, y, width, height, bgColor)</b>
+
+<p>The first argument used to be the ID.  In practice its extremely rare that you need to set any ID's manually.  Setting the HTML content is very common, and so it is now the first argument.  This won't lead to much problems if you have a lot of code already created using previous versions because they'll probably set the first argument to null or "" anyway.
+
+<p><b>setLocation(x,y)</b> - replaces <b>moveTo</b>
+
+<p><b>moveBy()</b> - has been removed, you can perform this operation manually where needed
+
+<p><b>setCursor("cursor-type")</b> - to set the IE cursor for the div ("hand", "stop", etc).  Ignored by Netscape 4/Mozilla.  This is also available to DynDocument.
+
+<p><b>setZIndex({above:<i>[DynLayer]</i>})</b> - sets zIndex one above the given DynLayer object<br>
+<b>setZIndex({below:<i>[DynLayer]</i>})</b> - sets zIndex one below the given DynLayer object<br>
+<b>setZIndex({topmost:true})</b> - sets zIndex above all other sibling layers<br>
+
+<p><b>setPageLocation(x,y)</b> - performs both setPageX() and setPageY()
+
+<p>There is now a built-in <b>slideTo()</b> method in DynLayer that is compatible with <a href="#Anim">PathAnimation</a>
+
+<h3><a name="BeforeLoad">BeforeLoad Creation</a></h3>
+
+<p>The <b>dynapi.document</b> object is now always present instead of being created after onLoad.  This change was necessary in order to allow adding DynLayers to the document before the page loads.
+
+<p>You can now create DynLayer objects and insert their layer/div elements at any time.  In order to insert the elements before load you must call <b>dynapi.document.insertAllChildren()</b> inside the body:
+
+<pre>
+&lt;script&gt;
+var dlyr = new DynLayer(...);
+dynapi.document.addChild(d);
+&lt;/script&gt;
+
+&lt;body&gt;
+
+&lt;script&gt;
+dynapi.document.insertAllChildren();
+&lt;/script&gt;
+
+&lt;/body&gt;
+</pre>
+
+<p>This will do one massive document.write() inserting all the layer/div tags at once and makes a large impact on how the layers are rendered.  If you only add DynLayers to the document and do not call dynapi.document.insertAllChildren() the layer elements will be created after onLoad, but before any dynapi.document.onLoad handlers are called.
+
+<p>If you want to insert a single DynLayer object into the page instead call dynapi.document.insertChild(dlyr).
+
+<h3><a name="Create">Create Event</a> - Create/PreCreate Callback Functions</h3>
+
+<p>The new onCreate/onPrecreate functions where added to improve
+create/precreate event system. These two functions operates similarly to the
+dynapi.onLoad() function with the exception that the
+callback function will operate as part of the parent object.&nbsp;
+
+<pre>lyr = new DynLayer();
+lyr.onPreCreate(function(){
+    this.addChild(new DynLayer,'lyrChild'); // add child layer to lyr
+});
+lyr.onCreate(function(){
+    this.css.border=&quot;1px solid #FFFF00&quot;; // set lyr css border
+});</pre>
+
+<p>The "create" event that DynLayer invokes works notably different now.  Previously children DynLayers called the create event <b>before</b> their parents did.  At the time we made this decision it made sense, but since we're moving ahead now I've put this back to what it should be.  This does impact widget creation in some manners.  In cases where a child layer is resized to it's content size during the create sequence this information is no longer available to the parent DynLayer (where previously it was).  If your parent DynLayer/widget needs to know the size of its children a recommended workaround is to add a "precreate" event listener which attaches a "create" event to the last child for use in the widget.<pre>
+function MyWidget() {
+	this.DynLayer = DynLayer;
+	this.DynLayer();
+
+	this.dlyr = new DynLayer('hi');
+
+	this.onCreate(function(e) {
+		e.getSource().parent.update();
+	});
+}
+MyWidget.prototype = new DynLayer;
+MyWidget.prototype.update = function() {
+	alert('child done');
+}
+</pre>
+
+<pre>
+</pre>
+
+<h3><a name="Resize">Resize Event</a></h3>
+
+<p>I've decided to scrap the use of a "resize" event to handle resizing of widgets, it made things unnecessarily cumbersome.  When you perform setSize(), setWidth(), or setHeight() no event will be called.  For widgets this means if you need to build in resizing functionality of your own you have to overwrite the setSize method:
+
+<pre>
+MyWidget.prototype._DynLayer_setSize = DynLayer.prototype.setSize;
+MyWidget.prototype.setSize = function(w,h) {
+	var r = this._DynLayer._setSize(w,h);  // returns true if the layer has changed size
+	if (r) {
+		// resize children
+	}
+}
+</pre>
+
+<h3><a name="Anchoring">Anchoring</a></h3>
+
+<p>You may not need to overwrite the setSize() method because there is a built-in anchoring system in DynLayer that will automatically handle many common resizing tasks.  Anchoring provides an automatic way to align, stretch, or center layer/divs in an absolute position environment.  It calculates the positions based on it's parent's size, and <u>updates the dimensions when the parent resizes</u>.  It does not update the anchor position when the layer itself is changed though.
+
+<p>It all works through a single <b>setAnchor()</b> method that you pass an "anchor" property object.  Depending on what you pass, and what the width/height of the layer is will determine what happens to size and location of the layer.
+
+<P><b>setAnchor(anchor)</b>
+
+<p>The anchor object can have a combination of the following properties:
+
+<ul>
+<li><b>top</b> [int]
+<li><b>bottom</b> [int]
+<li><b>left</b> [int]
+<li><b>right</b> [int]
+<li><b>centerH</b> [int]
+<li><b>centerV</b>  [int]
+<li><b>stretchH</b> [int | string]
+<li><b>stretchV</b> [int | string]
+<li><b>topA</b> [string]
+<li><b>bottomA</b> [string]
+<li><b>leftA</b> [string]
+<li><b>rightA</b> [string]
+</ul>
+
+<b>Aligning</b>
+
+<p>Aligning a layer to it's parent's edges is a common task.  If you assign one of left or right, and one of top or bottom anchor properties then it will align the layer accordingly.  The setAnchor() method should only be called once, you can pass multiple properties if you need.
+
+<p>Given these 2 layers:
+
+<pre>
+var A = new DynLayer('', 10, 10, 100, 100, 'red');
+var B = new DynLayer('', 10, 10, 50, 50, 'blue');
+
+// anchor commands go here
+
+A.addChild(B);
+dynapi.document.addChild(A);
+</pre>
+
+<p>You could do one of the following anchor commands:
+
+<pre>
+B.setAnchor({top:0});   // top align, essentially do the same as setY(0)
+B.setAnchor({left:0});   // left align, essentially do the same as setX(0)
+
+B.setAnchor({bottom:0});   // bottom align, will set the Y position so that the bottom edge of this layer is always at the bottom edget of it's parent
+B.setAnchor({right:0});   // right align, will set the X position so that the right edge of this layer is always at the right edget of it's parent
+
+B.setAnchor({top:10});   // same as setY(10)
+B.setAnchor({top:-10});   // same as setY(-10)
+
+B.setAnchor({bottom:10});   // bottom align, but offset 10px from the bottom edge
+B.setAnchor({bottom:-10});   // bottom align, but overlapping by 10px
+
+B.setAnchor({left:10});   // same as setX(10)
+B.setAnchor({left:-10});   // same as setX(-10)
+
+B.setAnchor({right:10});   // right aligned, but offset 10px from the right edge
+B.setAnchor({right:-10});   // right aligned, but overlapping by 10px
+
+B.setAnchor({top:0,left:0});   // top/left align
+B.setAnchor({top:0,right:0});   // top/right align
+B.setAnchor({bottom:0,left:0});   // bottom/left align
+B.setAnchor({bottom:0,right:0});   // bottom/left align
+</pre>
+
+<b>Stretching</b>
+
+<p>Stretching works the same way except you only have to set both the left and right, or both the top and bottom anchor values.  This will overwrite any width or height you have assigned to the DynLayer.
+
+<pre>
+B.setAnchor({top:0,bottom:0});   // stretch vertically - performs setY(0), setHeight(parent.h) automatically
+B.setAnchor({left:0,right:0});   // stretch horizontally
+
+B.setAnchor({top:0,bottom:0; right:10});   // stretch vertically, right aligned 10px from the right edge
+B.setAnchor({left:0,right:0, bottom:0});   // stretch horizontally, bottom aligned
+
+B.setAnchor({left:0,right:0,top:0,bottom:0});   // stretch both vertically and horizontally - similar to doing width=100% and height=100% in a relative position environment
+
+B.setAnchor({left:0,right:0,top:20,bottom:0});  // leaves 20 pixels at the top
+
+B.setAnchor({stretchH:100,stretchV:100});  // stretch layer 100x100 pixels
+B.setAnchor({stretchH:'50%',stretchV:'50%});  // stretch layer 50% by 50% of it's parent
+B.setAnchor({stretchH:'*',stretchV:'50%});  // stretch layer 100% horizontally will 50% vertically of it's parent
+
+</pre>
+
+<b>Centering</b>
+
+<p>Centering is mutually exclusive to the align/stretch features.  If you horizontally center you can only vertically align/stretch, and vica-versa.
+
+<pre>
+B.setAnchor({centerV:0}) // vertically center
+B.setAnchor({centerH:0}) // horizontally center
+
+B.setAnchor({centerV:10}) // vertically center, but offset 10px down
+B.setAnchor({centerV:-10}) // vertically center, but offset 10px up
+B.setAnchor({centerH:10}) // horizontally center, but offset 10px right
+B.setAnchor({centerH:-10}) // horizontally center, but offset 10px left
+
+B.setAnchor({centerV:0,left:0,right:0}) // vertically center, stretch horizontally
+B.setAnchor({centerH:0,top:0,bottom:0}) // horizontally center, stretch vertically
+
+B.setAnchor({centerV:0,right:0}) // vertically center, right align
+B.setAnchor({centerH:0,bottom:0}) // horizontally center, bottom align
+
+B.setAnchor({centerV:0,top:0,bottom:0}) // center overrides stretch/align
+</pre>
+
+<b>Docking</b><p>Docking uses the anchor tag to embed layers within a document.
+Each anchor tag must be given an name. See <a href="../examples/dynapi.api.dynlayer-anchor-anchoring.html">example</a>
+for more details
+
+<pre>
+B.setAnchor({leftA:'myAnchor',topA:'myAnchor'}) // position the layer at an anchor called myAnchor
+
+B.setAnchor({topA:'anc1',bottomA:'anc2'}) // stretches the layer between anchors anc1 and anc2
+</pre>
+
+<p>As mentioned these values will hold true when the DynLayer's parent resizes.  So if after these layers are created DynLayer A is resized, the anchored position will be updated automatically.  However if the need arises where the DynLayer itself (DynLayer B in this case) is resized you will need to manually call the <b>DynLayer.updateAnchor()</b> method.
+
+<h3><a name="DragEvent">DragEvent</a></h3>
+
+<p>DragEvent has a new option in DragEvent.setBoundary(), there are 3 possible uses:
+
+<pre>
+DragEvent.setDragBoundary(dlyr);  // boundary is it's parent;
+
+DragEvent.setDragBoundary(dlyr, {left:10,right:10,top:10,bottom:10});  // boundary is it's parent with 10pixel inset on all edges, this changes with it's parent
+
+DragEvent.setDragBoundary(dlyr, top, right, bottom, left);  // static boundary, same as dynapi 2.5x
+</pre>
+
+<h3><a name="Anim">Path, Slide, and Glide Animation</a></h3>
+
+<p>As meantioned, DynLayer now includes a slideTo() method that is compatible with PathAnimation's slideTo.  So any widgets that require slide animation do not require Path and Thread anymore.
+
+<p>PathAnimation used to only invoke a "pathstop" event.  This was undescernable between when the path finishes on it's on, and when it was cancelled manually.  At one point I need to know the difference and so I have differentiated the two.  So instead of calling "pathstop", it now calls "pathfinish" and "pathcancel".
+
+<p>The Slide animation that is based on PathAnimation is a separate file which can be included by dynapi.library.include('SlideAnimation').  But these no longer add a prototype onto DynLayer.  The slideTo, and slideStop method (used to be named stopSlide) must now be added manually to any objects that require it:
+
+<pre>
+dlyr.setMethod(&quot;slideTo&quot;,PathAnimation.slideTo);  // will overwrite the built in DynLayer.slideTo()
+dlyr.setMethod(&quot;slideStop&quot;,PathAnimation.slideStop);
+dlyr.slideTo(x,y,5,10);
+dlyr.slideStop();
+</pre>
+
+<p>The GlideAnimation code from DynAPI1 has now been ported to a PathAnimation extension.  Use dynapi.library.include('GlideAnimation'), and similarly add the methods manually:
+
+<pre>
+dlyr.setMethod(&quot;glideTo&quot;,PathAnimation.glideTo);
+dlyr.setMethod(&quot;glideStop&quot;,PathAnimation.glideStop);
+dlyr.slideTo(x,y,5,10);
+dlyr.slideStop();
+</pre>
+
+<p>
+&nbsp;
+</p>
+
+</body>
+</html>
+

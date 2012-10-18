@@ -1,0 +1,74 @@
+<html>
+<head>
+<title>DynAPI Examples - Fader</title>
+<script language="JavaScript" src="../src/dynapi.js"></script><script language="Javascript">dynapi.library.setPath('../src/');dynapi.library.include('dynapi.api');
+dynapi.library.include('Fader');
+</script>
+<script language="Javascript">
+var lyr1=new DynLayer('<h1><font color="blue">This</font></h1>',0,0,100,100);
+var lyr2=new DynLayer('<h1><font color="green">Is</font></h1>',300,200,100,100);
+var lyr3=new DynLayer('<h1><font color="red">Not</font></h1>',0,50,100,100);
+var lyr4=new DynLayer('<h1><font color="navy">Flash!</font></h1>',400,250,100,100);
+var lyr5=new DynLayer('<h1><font color="navy"><b>DynAPI <font color="green">3.0</font> Rulez!</b></font></h1>',100,300,300,100);
+var lyr6=new DynLayer('<h1><font color="black"><b>Got DynAPI?</b></font></h1>',400,100,200,100);
+
+dynapi.document.addChild(lyr1);
+dynapi.document.addChild(lyr2);
+dynapi.document.addChild(lyr3);
+dynapi.document.addChild(lyr4);
+dynapi.document.addChild(lyr5);
+dynapi.document.addChild(lyr6);
+
+lyr1.setVisible(false);
+lyr2.setVisible(false);
+lyr3.setVisible(false);
+lyr4.setVisible(false);
+lyr5.setVisible(false);
+lyr6.setVisible(false);
+
+dynapi.onLoad(function(){
+	lyr1.fadeIn(); lyr1.slideTo(100,100);
+	lyr1.addEventListener({
+		onfadein:function(e){
+			lyr2.fadeIn(); lyr2.slideTo(170,100);
+		}
+	});
+	lyr2.addEventListener({
+		onfadein:function(e){
+			lyr3.fadeIn(); lyr3.slideTo(200,100);
+		}
+	});
+	lyr3.addEventListener({
+		onfadein:function(e){
+			lyr4.fadeIn();lyr4.slideTo(260,100);
+		}
+	});
+	lyr4.addEventListener({
+		onfadein:function(e){
+			lyr1.fadeOut();
+			lyr2.fadeOut();
+			lyr3.fadeOut();
+			lyr4.fadeOut();
+		},
+		onfadeout:function(e){
+			window.setTimeout('lyr5.fadeIn();lyr5.slideTo(null,100);',600);
+		}
+	});
+	lyr5.addEventListener({
+		onfadein:function(e){
+			window.setTimeout('lyr5.fadeOut();lyr5.slideTo(400,100);',600);
+		},
+		onfadeout:function(e){
+			window.setTimeout('lyr6.fadeIn();lyr6.slideTo(150,100);',100);
+		}
+	});
+});
+
+</script></head>
+
+<body>
+<script>
+	dynapi.document.insertAllChildren();
+</script>
+</body>
+</html>

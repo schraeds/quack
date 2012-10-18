@@ -1,0 +1,89 @@
+<!doctype html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>DynAPI - Quick Reference</title>
+<link rel="stylesheet" type="text/css" href="../include/dynapi.css">
+</head>
+
+<body bgcolor="#FFFFFF">
+
+<table border="0" width="100%">
+  <tr>
+    <td width="38%"><img border="0" src="../images/dynapi.gif"></td>
+    <td width="62%" align="right">
+      <p align="right"><a href="../index.html" style="text-decoration:none"><img border="0" src="../images/home.gif" align="absmiddle" width="22" height="19">&nbsp;Home</a> | <a href="quickref.html" style="text-decoration:none">Quick Reference</a>
+    </td>
+  </tr>
+  <tr>
+    <td width="100%" colspan="2" align="left">
+<hr size="1" color="#C0C0C0">
+    </td>
+  </tr>
+  <tr>
+    <td width="100%" colspan="2" align="left">
+
+<h1><font color="#800000">dynapi.fx.TimerX - </font>Quick Reference</h1>
+    </td>
+  </tr>
+</table>
+
+<table border="0" width="100%">
+  <tr>
+    <td width="100%">
+      <p align="right"><i><font color="#008000"><b>Extends: </b></font><a href="quickref.dynlayer.html">DynLayer</a></i></p>
+    </td>
+  </tr>
+  <tr>
+    <td width="100%">
+      <hr size="1" color="#C0C0C0">
+    </td>
+  </tr>
+</table>
+
+<p><font face="Arial"><b>Remarks</b><br>
+The TimerX Class is a simple extension to the DynLayer Class which is used to
+trigger timer events at set intervals.</font></p>
+<font face="Arial">Example:</font>
+          <pre><font face="Arial">myLayer=new DynLayer(null,135,70,100,50);
+myLayer.setBgColor('#000000');
+
+var e={};
+e.ontimer=function(e){
+&nbsp;&nbsp; var o=e.getSource();
+&nbsp;&nbsp; var src='&lt;font size=2 color=#ffffff&gt;';
+&nbsp;&nbsp; src+='o.getTickCount()+'&lt;/font&gt;';
+&nbsp;&nbsp; o.setHTML(src);
+}
+myLayer.addEventListener(e);
+myLayer.startTimer(1000);
+dynapi.document.addChild(myLayer);</font></pre>
+
+<p>&nbsp;</p>
+<hr>
+<h2>Constructor</h2>
+<p>[none]</p>
+<hr>
+<h2>Events</h2>
+<p><font face="Arial"><b>ontimer</b>(e)</font></p>
+<p>&nbsp;
+<hr>
+<h2>Public Methods</h2>
+<font face="Arial"> <b>startTimer</b>( interval) - <font color="#333333">Enable timer and set the interval</font></font>
+<pre><font face="Arial"><u>interval</u> - (int) Milliseconds between calls</font></pre>
+<font face="Arial"> <b>stopTimer</b>() - <font color="#333333">Disable timer</font></font>
+<p><font face="Arial"> <b>setTimerInterval</b>(interval) Sets the number of
+milliseconds between calls to the timer event</font>
+<pre><font face="Arial"><u>interval</u> - (int) Milliseconds between calls</font></pre>
+<font face="Arial"> <b>getTimerInterval</b>() - (int)</font>
+<p><font face="Arial"> <b>getTickCount</b>() - (int) <font color="#333333">Returns total number of ticks since the last
+startTimer() call&nbsp;</font></font>
+<p><font face="Arial"> <b>resetTickCount</b>() - (int) <font color="#333333">Resets the tick count to 0<br>
+</font></font>
+<hr>
+<h2>Private Methods</h2>
+<p>[none]</p>
+<hr>
+<h2>Static Methods</h2>
+<p>[none]</p>
+</body>
+</html>
