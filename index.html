@@ -9,6 +9,7 @@
 	<link rel="stylesheet" href="assets/style.css"/>
 	<link href='http://fonts.googleapis.com/css?family=Carme' rel='stylesheet' type='text/css'>
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <script src="assets/bigtext.js"></script>
 	<script language="JavaScript" src="assets/src/dynapi.js"></script>
 	<script language="JavaScript">
 	dynapi.library.setPath('assets/src/');
@@ -77,24 +78,26 @@
 <body>
 
 <div id="container">
-	<div id="header">
-		<img src="assets/logo.png"/>
-		<span id="eventname">The Revolution of Software Defined Networks</span>
-		<span id="eventsub">Audience Q&A</span>
-		<div id="sendinfo">
-			<span id="prompt">Text questions to:</span><br/>
-			<span id="number">650.308.8522</span>
-		</div>
+<div id="header">
+	<div id="logo"><img src="assets/logo.png"/></div>
+	<div id="headercontent">
+		<span id="eventname">The Revolution of Software Defined Networks</span><br>
+		<span id="eventsub">Audience Q&A</span><br>
+		<span id="prompt">Text questions to: 650.308.8522</span><br>
 	</div>
+</div>
 	<div id="main">
-		<div id="item1">&nbsp;</div>
+		<div id="dropcap">Q:</div>
+		<div id="item1">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.&nbsp;</div>
 		<div id="item2">&nbsp;</div>
 		<div id="item3">&nbsp;</div>
 		<div id="item4">&nbsp;</div>
 	</div>
 </div>
 <div id="footer"></div>
-
+<script>
+$('#headercontent').bigtext();
+</script>
 </body>
 </html>
 
